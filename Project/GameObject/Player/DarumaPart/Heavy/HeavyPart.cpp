@@ -1,15 +1,11 @@
-#include "LightPart.h"
-#include "../Foot/FootCollider.h"
-#include "ModelManager.h"
-#include "ImGuiManager.h"
+#include "HeavyPart.h"
 
-void LightPart::Initialize(CollisionManager* manager)
+void HeavyPart::Initialize(CollisionManager* manager)
 {
-	// 生成
 	object3D_ = std::make_unique<Object3D>();
 	object3D_->Initialize();
 	object3D_->worldTransform.translate = Vector3(0.0f, 0.0f, 0.0f);
-	object3D_->worldTransform.scale = Vector3(1.0f, 1.0f, 1.0f);
+	object3D_->worldTransform.scale = Vector3(3.0f, 3.0f, 3.0f);
 	object3D_->worldTransform.rotate = Vector3(0.0f, 0.0f, 0.0f);
 	// コライダー登録
 	SetCollisionPrimitive(kCollisionOBB);
@@ -22,10 +18,9 @@ void LightPart::Initialize(CollisionManager* manager)
 
 	// USER
 	isGround_ = false;
-
 }
 
-void LightPart::Update()
+void HeavyPart::Update()
 {
 	if (!isGround_) {
 		object3D_->worldTransform.translate.y -= 9.8f * (1.0f / 60.0f);
@@ -36,15 +31,15 @@ void LightPart::Update()
 	footCollider_->Update();
 }
 
-void LightPart::Draw()
+void HeavyPart::Draw()
 {
 	// 描画
 	object3D_->Draw();
 }
 
-void LightPart::ImGuiDraw()
+void HeavyPart::ImGuiDraw()
 {
-	ImGui::Begin("LightPart");
+	ImGui::Begin("HeavyPart");
 
 	ImGui::DragFloat3("Position", &object3D_->worldTransform.translate.x, 0.01f);
 	ImGui::DragFloat3("Rotate", &object3D_->worldTransform.rotate.x, 0.01f);
@@ -53,11 +48,9 @@ void LightPart::ImGuiDraw()
 	ImGui::End();
 }
 
-void LightPart::OnCollision(Collider* collider)
+void HeavyPart::OnCollision(Collider* collider)
 {
 	if (collider->GetCollisionAttribute() == kCollisionAttributePlayer) {
 
 	}
-
-
 }

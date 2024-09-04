@@ -3,7 +3,9 @@
 
 void FootCollider::OnCollision(Collider* collider)
 {
-	collider;
+	if (collider->GetCollisionAttribute() == kCollisionAttributeTerrain) {
+		part_->SetIsGround(true);
+	}
 }
 
 void FootCollider::Initialize(IPart* part)

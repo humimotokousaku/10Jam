@@ -8,5 +8,7 @@ public:
 	void Update() override;
 	void Draw() override;
 	void ImGuiDraw() override;
+	void OnCollision(Collider* collider) override;
+
 };
 

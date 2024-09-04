@@ -195,6 +195,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" </Command>
     <ClCompile Include="Engine\Components\Model\ModelStructs.cpp" />
     <ClCompile Include="engine\Components\WorldTransform.cpp" />
     <ClCompile Include="Project\GameObject\Player\DarumaPart\Foot\FootCollider.cpp" />
+    <ClCompile Include="Project\GameObject\Player\DarumaPart\Heavy\HeavyPart.cpp" />
     <ClCompile Include="Project\GameObject\Player\DarumaPart\Light\LightPart.cpp" />
     <ClCompile Include="Project\GameObject\Player\Player.cpp" />
     <ClCompile Include="project\scene\GameManager.cpp" />

@@ -3,6 +3,12 @@
 #include "Audio.h"
 #include "TextureManager.h"
 #include "ModelManager.h"
+#include "CollisionManager.h"
+#include "Camera.h"
+
+#include "../GameObjectLists.h"
+
+#include <memory>
 
 class GameManager;
 class GameScene : public IScene
@@ -40,5 +46,14 @@ private:// プライベートなメンバ変数
 	TextureManager* textureManager_;
 	ModelManager* modelManager_;
 	Audio* audio_;
+
+private: // USER
+	std::unique_ptr<CollisionManager> collisionManager_;
+	// カメラ
+	std::unique_ptr<Camera> camera_;
+
+	std::unique_ptr<Player> player_;
+
+
 };
 

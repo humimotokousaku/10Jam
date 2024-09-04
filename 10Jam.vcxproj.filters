@@ -384,6 +384,12 @@
     <ClCompile Include="Project\GameObject\Player\Player.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Project\GameObject\Player\BodyParts\Foot\FootCollider.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\GameObject\Player\BodyParts\Light\LightPart.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\ImGui\imconfig.h">
@@ -635,10 +641,16 @@
     <ClInclude Include="Project\GameObject\Player\BodyParts\IPart.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Project\GameObject\Player\BodyParts\LightPart.h">
+    <ClInclude Include="Project\GameObject\Player\BodyParts\Light\LightPart.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Project\GameObject\Player\BodyParts\HeavyPart.h">
+    <ClInclude Include="Project\GameObject\Player\BodyParts\Heavy\HeavyPart.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\GameObject\Player\BodyParts\Foot\FootCollider.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\GameObject\GameObjectLists.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

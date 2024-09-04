@@ -4,7 +4,7 @@
 void FootCollider::OnCollision(Collider* collider)
 {
 	if (collider->GetCollisionAttribute() == kCollisionAttributeTerrain) {
-		part_->SetIsGround(true);
+		//part_->SetIsGround(true);
 	}
 }
 
@@ -14,8 +14,8 @@ void FootCollider::Initialize(IPart* part)
 	object3D_->Initialize();
 
 	SetCollisionPrimitive(kCollisionOBB);
-	SetCollisionAttribute(kCollisionAttributeTerrain);
-	SetCollisionMask(~kCollisionAttributeTerrain);
+	SetCollisionAttribute(kCollisionAttributeDarumaFoot);
+	SetCollisionMask(~kCollisionAttributeDarumaFoot);
 	//object3D_->SetModel();
 
 	part_ = part;
@@ -25,7 +25,7 @@ void FootCollider::Initialize(IPart* part)
 void FootCollider::Update()
 {
 	part_->SetIsGround(false);
-	if (part_->GetWorldPosition().y <= -5.0f) {
+	if (part_->GetWorldPosition().y <= -15.0f) {
 		part_->SetIsGround(true);
 	}
 

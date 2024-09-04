@@ -9,6 +9,10 @@ const uint32_t kCollisionAttributePlayer = 0b1;
 const uint32_t kCollisionAttributeEnemy = 0b1 << 1;
 // 地形
 const uint32_t kCollisionAttributeTerrain = 0b1 << 2;
+// だるまパーツ
+const uint32_t kCollisionAttributeDarumaPart = 0b1 << 3;
+// だるまパーツの足場
+const uint32_t kCollisionAttributeDarumaFoot = 0b1 << 4;
 
 /// 当たり判定の形状
 // 球体

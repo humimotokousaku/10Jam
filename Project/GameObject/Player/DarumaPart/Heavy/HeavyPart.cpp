@@ -28,6 +28,8 @@ void HeavyPart::Update()
 	// 行列更新
 	object3D_->worldTransform.UpdateMatrix();
 
+
+	ColliderUpdate();
 	footCollider_->Update();
 }
 
@@ -44,7 +46,8 @@ void HeavyPart::ImGuiDraw()
 	ImGui::DragFloat3("Position", &object3D_->worldTransform.translate.x, 0.01f);
 	ImGui::DragFloat3("Rotate", &object3D_->worldTransform.rotate.x, 0.01f);
 	ImGui::DragFloat3("Scale", &object3D_->worldTransform.scale.x, 0.01f);
-
+	Vector3 obb = GetOBB().m_Pos;
+	ImGui::DragFloat3("OBBPos", &obb.x);
 	ImGui::End();
 }
 

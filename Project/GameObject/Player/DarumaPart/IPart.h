@@ -21,6 +21,8 @@ public: // 仮想関数
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
 	virtual void ImGuiDraw() = 0;
+protected:
+	void ColliderUpdate();
 
 public: // アクセッサ
 	void SetModel(Model* model) { object3D_->SetModel(model); }

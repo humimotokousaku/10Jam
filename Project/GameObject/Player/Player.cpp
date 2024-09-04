@@ -10,16 +10,10 @@ void Player::Initialize(Camera* camera)
 
 	camera_ = camera;
 
-	testPart_ = std::make_unique<LightPart>();
-	testPart_->Initialize(collisionManager_);
-	testPart_->SetCamera(camera_);
-	testPart_->SetModel(ModelManager::GetInstance()->FindModel("Models/SampleBlock", "cube.obj"));
-
 }
 
 void Player::Update()
 {
-	testPart_->Update();
 	for (std::vector<std::unique_ptr<IPart>>::iterator it = parts_.begin(); it != parts_.end(); ++it) {
 		(*it)->Update();
 	}
@@ -27,8 +21,6 @@ void Player::Update()
 
 void Player::Draw()
 {
-	testPart_->Draw();
-
 	for (std::vector<std::unique_ptr<IPart>>::iterator it = parts_.begin(); it != parts_.end(); ++it) {
 		(*it)->Draw();
 	}
@@ -44,6 +36,11 @@ void Player::ImGuiDraw()
 	if (ImGui::Button("AddHeavy")) {
 		AddParts<HeavyPart>();
 	}
+
+	// それぞれのImGui
+	for (std::vector<std::unique_ptr<IPart>>::iterator it = parts_.begin(); it != parts_.end(); ++it) {
+		(*it)->ImGuiDraw();
+	}
+
 	ImGui::End();
-	testPart_->ImGuiDraw();
 }

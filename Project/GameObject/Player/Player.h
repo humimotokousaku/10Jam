@@ -21,6 +21,11 @@ public:
 	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// ImGuiの処理
+	/// </summary>
+	void ImGuiDraw();
+
 public: // アクセッサ
 	void SetCollisionManager(CollisionManager* collisionManager) { collisionManager_ = collisionManager; }
 

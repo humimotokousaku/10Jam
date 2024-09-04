@@ -9,12 +9,18 @@ void GameScene::Initialize() {
 	audio_ = Audio::GetInstance();
 
 	// モデル読み込み
-	modelManager_->LoadModel("", "cube.obj");
+	/// テクスチャの読み込み
+	textureManager_->LoadTexture("", "uvChecker.png");
+	// テクスチャの番号を取得
+	textureHandle_ = textureManager_->GetSrvIndex("", "uvChecker.png");
+
+	modelManager_->LoadModel("Models/SampleBlock", "cube.obj");
 	collisionManager_ = std::make_unique<CollisionManager>();
 
 	// カメラ
 	camera_ = std::make_unique<Camera>();
 	camera_->Initialize();
+	camera_->worldTransform_.translate = Vector3(0.0f, 0.0f, -15.0f);
 	// プレイヤー
 	player_ = std::make_unique<Player>();
 	player_->SetCollisionManager(collisionManager_.get());
@@ -28,7 +34,7 @@ void GameScene::Update() {
 	camera_->Update();
 	// プレイヤー
 	player_->Update();
-
+	player_->ImGuiDraw();
 
 	// 当たり判定
 	collisionManager_->CheckAllCollisions();

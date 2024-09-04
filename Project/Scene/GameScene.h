@@ -46,7 +46,8 @@ private:// プライベートなメンバ変数
 	TextureManager* textureManager_;
 	ModelManager* modelManager_;
 	Audio* audio_;
-
+	// テクスチャの番号
+	uint32_t textureHandle_;
 private: // USER
 	std::unique_ptr<CollisionManager> collisionManager_;
 	// カメラ

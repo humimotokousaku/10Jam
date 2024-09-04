@@ -1,6 +1,8 @@
 #include "LightPart.h"
 #include "ModelManager.h"
 
+#include "ImGuiManager.h"
+
 void LightPart::Initialize(CollisionManager* manager)
 {
 	// 生成
@@ -26,4 +28,15 @@ void LightPart::Draw()
 {
 	// 描画
 	object3D_->Draw();
+}
+
+void LightPart::ImGuiDraw()
+{
+	ImGui::Begin("LightPart");
+
+	ImGui::DragFloat3("Position", &object3D_->worldTransform.translate.x, 0.01f);
+	ImGui::DragFloat3("Rotate", &object3D_->worldTransform.rotate.x, 0.01f);
+	ImGui::DragFloat3("Scale", &object3D_->worldTransform.scale.x, 0.01f);
+
+	ImGui::End();
 }

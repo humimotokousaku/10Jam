@@ -384,10 +384,10 @@
     <ClCompile Include="Project\GameObject\Player\Player.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Project\GameObject\Player\BodyParts\Foot\FootCollider.cpp">
+    <ClCompile Include="Project\GameObject\Player\DarumaPart\Foot\FootCollider.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Project\GameObject\Player\BodyParts\Light\LightPart.cpp">
+    <ClCompile Include="Project\GameObject\Player\DarumaPart\Light\LightPart.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -638,19 +638,22 @@
     <ClInclude Include="Project\GameObject\Enemy\IEnemy.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Project\GameObject\Player\BodyParts\IPart.h">
+    <ClInclude Include="Project\GameObject\Player\DarumaPart\IPart.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Project\GameObject\Player\BodyParts\Light\LightPart.h">
+    <ClInclude Include="Project\GameObject\Player\DarumaPart\Light\LightPart.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Project\GameObject\Player\BodyParts\Heavy\HeavyPart.h">
+    <ClInclude Include="Project\GameObject\Player\DarumaPart\Heavy\HeavyPart.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Project\GameObject\Player\BodyParts\Foot\FootCollider.h">
+    <ClInclude Include="Project\GameObject\Player\DarumaPart\Foot\FootCollider.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Project\GameObject\GameObjectLists.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\GameObject\Player\System\PartManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

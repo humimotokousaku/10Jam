@@ -24,6 +24,7 @@ public:
 	virtual void Initialize(CollisionManager* manager) = 0;
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
+	virtual void ImGuiDraw() = 0;
 
 	void SetModel(Model* model) { object3D_->SetModel(model); }
 	void SetCamera(Camera* camera) { object3D_->SetCamera(camera); }

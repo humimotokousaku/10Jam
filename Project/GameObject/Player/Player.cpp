@@ -14,7 +14,7 @@ void Player::Initialize(Camera* camera)
 	testPart_ = std::make_unique<LightPart>();
 	testPart_->Initialize(collisionManager_);
 	testPart_->SetCamera(camera);
-	testPart_->SetModel(ModelManager::GetInstance()->FindModel("", "cube.obj"));
+	testPart_->SetModel(ModelManager::GetInstance()->FindModel("Models/SampleBlock", "cube.obj"));
 
 }
 
@@ -26,4 +26,9 @@ void Player::Update()
 void Player::Draw()
 {
 	testPart_->Draw();
+}
+
+void Player::ImGuiDraw()
+{
+	testPart_->ImGuiDraw();
 }

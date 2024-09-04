@@ -7,6 +7,6 @@ public:
 	void Initialize(CollisionManager* manager) override;
 	void Update() override;
 	void Draw() override;
-
+	void ImGuiDraw() override;
 };
 

@@ -240,6 +240,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" </Command>
     <ClCompile Include="engine\PostProcess\RadialBlur.cpp" />
     <ClCompile Include="Engine\Pso\SkyboxPSO.cpp" />
     <ClCompile Include="Project\Components\SceneTransition\SceneTransition.cpp" />
+    <ClCompile Include="Project\SampleObject\SampleObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\PostProcess\Dissolve.h" />
@@ -330,6 +331,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" </Command>
     <ClInclude Include="engine\PostProcess\RadialBlur.h" />
     <ClInclude Include="Engine\Pso\SkyboxPSO.h" />
     <ClInclude Include="Project\Components\SceneTransition\SceneTransition.h" />
+    <ClInclude Include="Project\SampleObject\SampleObject.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\ImGui\LICENSE.txt" />

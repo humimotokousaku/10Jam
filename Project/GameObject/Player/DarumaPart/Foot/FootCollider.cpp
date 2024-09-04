@@ -16,12 +16,15 @@ void FootCollider::Initialize(IPart* part)
 	SetCollisionMask(~kCollisionAttributeTerrain);
 	//object3D_->SetModel();
 
-	part;
-
+	part_ = part;
+	object3D_->worldTransform.parent_ = part_->GetWorldTransform();
 }
 
 void FootCollider::Update()
 {
-
+	part_->SetIsGround(false);
+	if (part_->GetWorldPosition().y <= -5.0f) {
+		part_->SetIsGround(true);
+	}
 
 }

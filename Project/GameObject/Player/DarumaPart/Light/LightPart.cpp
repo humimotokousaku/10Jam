@@ -1,6 +1,6 @@
 #include "LightPart.h"
+#include "../Foot/FootCollider.h"
 #include "ModelManager.h"
-
 #include "ImGuiManager.h"
 
 void LightPart::Initialize(CollisionManager* manager)
@@ -16,12 +16,23 @@ void LightPart::Initialize(CollisionManager* manager)
 	SetCollisionAttribute(kCollisionAttributeTerrain);
 	SetCollisionMask(~kCollisionAttributeTerrain);
 	manager->SetColliderList(this);
+	footCollider_ = std::make_unique<FootCollider>();
+	footCollider_->Initialize(this);
+
+	// USER
+	isGround_ = false;
+
 }
 
 void LightPart::Update()
 {
+	if (!isGround_) {
+		object3D_->worldTransform.translate.y -= 9.8f * (1.0f / 60.0f);
+	}
 	// 行列更新
 	object3D_->worldTransform.UpdateMatrix();
+
+	footCollider_->Update();
 }
 
 void LightPart::Draw()

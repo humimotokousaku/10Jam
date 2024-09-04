@@ -24,6 +24,8 @@ public:
 public:
 	void Initialize(IPart* part);
 	void Update();
+	void Draw();
+	void Object3DSetting(Camera* camera, Model* model);
 private:
 	//
 	std::unique_ptr<Object3D> object3D_;

@@ -37,6 +37,7 @@ void HeavyPart::Draw()
 {
 	// 描画
 	object3D_->Draw();
+	footCollider_->Draw();
 }
 
 void HeavyPart::ImGuiDraw()
@@ -48,6 +49,8 @@ void HeavyPart::ImGuiDraw()
 	ImGui::DragFloat3("Scale", &object3D_->worldTransform.scale.x, 0.01f);
 	Vector3 obb = GetOBB().m_Pos;
 	ImGui::DragFloat3("OBBPos", &obb.x);
+	Vector3 obbLength = GetOBB().m_fLength;
+	ImGui::DragFloat3("OBBLength", &obbLength.x);
 	ImGui::End();
 }
 

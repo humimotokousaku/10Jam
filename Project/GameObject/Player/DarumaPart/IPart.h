@@ -29,6 +29,7 @@ public: // アクセッサ
 	void SetCamera(Camera* camera) { object3D_->SetCamera(camera); }
 	void SetIsGround(bool isGround) { isGround_ = isGround; }
 	WorldTransform* GetWorldTransform() { return &object3D_->worldTransform; }
+	FootCollider* GetFootCollider() { return footCollider_.get(); }
 public: // コライダー
 	// 衝突時に呼ばれる関数
 	// ワールド座標を取得

@@ -49,5 +49,6 @@ inline void Player::AddParts()
 	instance->Initialize(collisionManager_);
 	instance->SetCamera(camera_);
 	instance->SetModel(ModelManager::GetInstance()->FindModel("Models/SampleBlock", "cube.obj"));
+	instance->GetFootCollider()->Object3DSetting(camera_, ModelManager::GetInstance()->FindModel("Models/SampleBlock", "cube.obj"));
 	parts_.push_back(std::move(instance));
 }

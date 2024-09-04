@@ -59,6 +59,7 @@ public:
 		Vector3 rotateResult = TransformNormal(obb_.m_NormaDirect[index], MakeRotateMatrix(GetRotation()));
 		obb_.m_NormaDirect[index] = Normalize(rotateResult);
 	}
+	void SetOBBLength(const Vector3& length = {1.0f,1.0f,1.0f}) { obb_.m_fLength = length; }
 
 	// 衝突属性(自分)を設定
 	void SetCollisionAttribute(uint32_t collisionAttribute) { collisionAttribute_ = collisionAttribute; }

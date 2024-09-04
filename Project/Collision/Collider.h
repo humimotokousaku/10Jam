@@ -20,6 +20,9 @@ public:
 	// ダメージを取得
 	float GetDamage() { return damage_; }
 
+	// 力を取得
+	Vector3 GetPower() { return power_; }
+
 	// 半径の取得
 	float GetRadius() { return radius_; }
 	// OBBの取得
@@ -43,6 +46,9 @@ public:
 
 	// ダメージを設定
 	void SetDamage(float damage) { damage_ = damage; }
+
+	// 力を設定
+	void SetPower(Vector3 power) { power_ = power; }
 
 	// 半径の設定
 	void SetRadius(float radius) { radius_ = radius; }
@@ -80,6 +86,9 @@ public:
 private:
 	// ダメージ
 	float damage_;
+
+	// 力
+	Vector3 power_;
 
 	// 衝突半径
 	float radius_ = 1.0f;

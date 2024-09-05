@@ -1,4 +1,5 @@
 #include "HeavyPart.h"
+#include "Lerp.h"
 
 void HeavyPart::Initialize(CollisionManager* manager)
 {
@@ -34,12 +35,9 @@ void HeavyPart::Update()
 	if (!isGround_) {
 		object3D_->worldTransform.translate.y -= 9.8f * (1.0f / 60.0f);
 	}
-	// 行列更新
-	object3D_->worldTransform.UpdateMatrix();
 
+	IPart::Update();
 
-	ColliderUpdate();
-	footCollider_->Update();
 }
 
 void HeavyPart::Draw()

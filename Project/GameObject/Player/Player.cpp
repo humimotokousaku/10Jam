@@ -39,7 +39,6 @@ void Player::Update()
 		//	(*partsIt_)->object3D_->worldTransform.translate.x += 0.1f;
 		//}
 	}
-
 	if (input->PressKey(DIK_W)) {
 		for (std::vector<std::unique_ptr<IPart>>::iterator it = parts_.begin(); it != parts_.end(); ++it) {
 			if ((*it)->IsGround()) {
@@ -55,10 +54,21 @@ void Player::Update()
 		}
 	}
 
+	if (input->TriggerKey(DIK_SPACE)) {
+		partsIt_ = parts_.begin();
+		if (partsIt_ != parts_.end()) {
+			(*partsIt_)->velocity_ += pushPower_;
+			//(*partsIt_)->object3D_->worldTransform.translate += pushPower_;
+		}
+	}
+
 	for (std::vector<std::unique_ptr<IPart>>::iterator it = parts_.begin(); it != parts_.end(); ++it) {
 		(*it)->Update();
 	}
 
+	parts_.erase(std::remove_if(parts_.begin(), parts_.end(), [](const std::unique_ptr<IPart>& obj) {
+		return obj->IsDead();
+		}), parts_.end());
 }
 
 void Player::Draw()
@@ -78,6 +88,8 @@ void Player::ImGuiDraw()
 	if (ImGui::Button("AddHeavy")) {
 		AddParts<HeavyPart>();
 	}
+
+	ImGui::DragFloat3("PushPower", &pushPower_.x, 0.01f);
 
 	// それぞれのImGui
 	for (std::vector<std::unique_ptr<IPart>>::iterator it = parts_.begin(); it != parts_.end(); ++it) {

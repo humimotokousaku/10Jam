@@ -8,7 +8,7 @@ class Terrain : public Collider
 public:
 	void Initialize();
 	void Update();
-	void Draw();
+	void Draw(uint32_t texture);
 	void ImGuiDraw();
 public:
 	void SetCamera(Camera* camera) { object3D_->SetCamera(camera); }
@@ -17,7 +17,6 @@ public:
 		object3D_->worldTransform.translate = position;
 		object3D_->worldTransform.UpdateMatrix();
 	}
-
 public: // コライダー
 	// 衝突時に呼ばれる関数
 	// ワールド座標を取得

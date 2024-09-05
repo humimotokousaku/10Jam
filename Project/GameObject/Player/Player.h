@@ -41,6 +41,9 @@ private:
 	Camera* camera_ = nullptr;
 	// コライダーのマネージャ
 	CollisionManager* collisionManager_ = nullptr;
+	// 押す力ベクトル
+	Vector3 pushPower_;
+
 };
 
 template<typename T>

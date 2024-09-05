@@ -199,6 +199,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" </Command>
     <ClCompile Include="Project\GameObject\Player\DarumaPart\IPart.cpp" />
     <ClCompile Include="Project\GameObject\Player\DarumaPart\Light\LightPart.cpp" />
     <ClCompile Include="Project\GameObject\Player\Player.cpp" />
+    <ClCompile Include="Project\GameObject\Player\System\PartManager.cpp" />
     <ClCompile Include="Project\GameObject\Terrain\Terrain.cpp" />
     <ClCompile Include="project\scene\GameManager.cpp" />
     <ClCompile Include="engine\Manager\ImGuiManager.cpp" />

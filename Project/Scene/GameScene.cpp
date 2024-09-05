@@ -11,8 +11,10 @@ void GameScene::Initialize() {
 	// モデル読み込み
 	/// テクスチャの読み込み
 	textureManager_->LoadTexture("", "uvChecker.png");
+	textureManager_->LoadTexture("DefaultTexture", "white.png");
 	// テクスチャの番号を取得
-	textureHandle_ = textureManager_->GetSrvIndex("", "uvChecker.png");
+	//textureHandle_ = textureManager_->GetSrvIndex("", "uvChecker.png");
+	textureHandle_ = textureManager_->GetSrvIndex("DefaultTexture", "white.png");
 
 	modelManager_->LoadModel("Models/SampleBlock", "cube.obj");
 	collisionManager_ = std::make_unique<CollisionManager>();
@@ -58,7 +60,7 @@ void GameScene::Update() {
 
 void GameScene::Draw() {
 	player_->Draw();
-	terrain_->Draw();
+	terrain_->Draw(textureHandle_);
 }
 
 void GameScene::Finalize() {

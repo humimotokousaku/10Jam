@@ -37,11 +37,8 @@ void LightPart::Update()
 	if (!isGround_) {
 		object3D_->worldTransform.translate.y -= 9.8f * (1.0f / 60.0f);
 	}
-	// 行列更新
-	object3D_->worldTransform.UpdateMatrix();
 
-	ColliderUpdate();
-	footCollider_->Update();
+	IPart::Update();
 }
 
 void LightPart::Draw()

@@ -36,6 +36,7 @@ public: // アクセッサ
 private:
 	// 土台のリスト
 	std::vector<std::unique_ptr<IPart>> parts_;
+	std::vector<std::unique_ptr<IPart>>::iterator partsIt_;
 	// ポインタ
 	Camera* camera_ = nullptr;
 	// コライダーのマネージャ

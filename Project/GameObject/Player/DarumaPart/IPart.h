@@ -35,6 +35,7 @@ public: // アクセッサ
 	void SetIsGround(bool isGround) { isGround_ = isGround; }
 	WorldTransform* GetWorldTransform() { return &object3D_->worldTransform; }
 	FootCollider* GetFootCollider() { return footCollider_.get(); }
+	bool IsGround() { return isGround_; }
 public: // コライダー
 	// 衝突時に呼ばれる関数
 	// ワールド座標を取得
@@ -45,9 +46,10 @@ public: // コライダー
 protected:
 	// 接地フラグ
 	bool isGround_;
-	// モデルと座標
-	std::unique_ptr<Object3D> object3D_;
 	// 足場
 	std::unique_ptr<FootCollider> footCollider_;
+public:
+	// モデルと座標
+	std::unique_ptr<Object3D> object3D_;
 
 };

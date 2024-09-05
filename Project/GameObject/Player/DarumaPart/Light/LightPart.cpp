@@ -67,9 +67,11 @@ void LightPart::ImGuiDraw()
 
 void LightPart::OnCollision(Collider* collider)
 {
-	if (collider->GetCollisionAttribute() == kCollisionAttributePlayer) {
+	bool isPart = collider->GetCollisionAttribute() == kCollisionAttributeDarumaPart;
+	bool isTerrain = collider->GetCollisionAttribute() == kCollisionAttributeTerrain;
+	bool isCollision = (isPart || isTerrain);
+	if (isCollision) {
 
 	}
-
 
 }

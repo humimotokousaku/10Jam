@@ -16,12 +16,14 @@ void HeavyPart::Initialize(CollisionManager* manager)
 	SetCollisionAttribute(kCollisionAttributeDarumaPart);
 	SetCollisionMask(~kCollisionAttributePlayer);
 	SetOBBLength(object3D_->worldTransform.scale);
+
+	SetTag(partTag_);
+
 	manager->SetColliderList(this);
 	footCollider_ = std::make_unique<FootCollider>();
 	footCollider_->Initialize(this);
 	manager->SetColliderList(footCollider_.get());
 
-	SetTag(partTag_);
 
 	// USER
 	isGround_ = false;

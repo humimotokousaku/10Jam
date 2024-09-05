@@ -35,7 +35,10 @@ void LightPart::Initialize(CollisionManager* manager)
 void LightPart::Update()
 {
 	if (!isGround_) {
-		object3D_->worldTransform.translate.y -= 9.8f * (1.0f / 60.0f);
+		velocity_.y = -(9.8f * (1.0f / 60.0f));
+	}
+	else {
+		velocity_.y = 0.0f;
 	}
 
 	IPart::Update();
@@ -71,7 +74,7 @@ void LightPart::OnCollision(Collider* collider)
 	bool isTerrain = collider->GetCollisionAttribute() == kCollisionAttributeTerrain;
 	bool isCollision = (isPart || isTerrain);
 	if (isCollision) {
-
+		CorrectPosition(collider);
 	}
 
 }

@@ -33,7 +33,10 @@ void HeavyPart::Initialize(CollisionManager* manager)
 void HeavyPart::Update()
 {
 	if (!isGround_) {
-		object3D_->worldTransform.translate.y -= 9.8f * (1.0f / 60.0f);
+		velocity_.y = -(9.8f * (1.0f / 60.0f));
+	}
+	else {
+		velocity_.y = 0.0f;
 	}
 
 	IPart::Update();
@@ -66,7 +69,10 @@ void HeavyPart::ImGuiDraw()
 
 void HeavyPart::OnCollision(Collider* collider)
 {
-	if (collider->GetCollisionAttribute() == kCollisionAttributePlayer) {
-
+	bool isPart = collider->GetCollisionAttribute() == kCollisionAttributeDarumaPart;
+	bool isTerrain = collider->GetCollisionAttribute() == kCollisionAttributeTerrain;
+	bool isCollision = (isPart || isTerrain);
+	if (isCollision) {
+		CorrectPosition(collider);
 	}
 }

@@ -11,6 +11,8 @@ void Player::Initialize(Camera* camera)
 
 	camera_ = camera;
 
+	partManager_.Initialize(this);
+
 }
 
 void Player::Update()
@@ -83,13 +85,17 @@ void Player::ImGuiDraw()
 {
 	ImGui::Begin("Player");
 	if (ImGui::Button("AddLight")) {
-		AddParts<LightPart>();
+		partManager_.AddParts<LightPart>(generatePosition_);
+		//AddParts<LightPart>();
 	}
 	if (ImGui::Button("AddHeavy")) {
-		AddParts<HeavyPart>();
+		partManager_.AddParts<HeavyPart>(generatePosition_);
+		//AddParts<HeavyPart>();
 	}
 
 	ImGui::DragFloat3("PushPower", &pushPower_.x, 0.01f);
+	ImGui::DragFloat3("GeneratePos", &generatePosition_.x, 0.01f);
+
 
 	// それぞれのImGui
 	for (std::vector<std::unique_ptr<IPart>>::iterator it = parts_.begin(); it != parts_.end(); ++it) {

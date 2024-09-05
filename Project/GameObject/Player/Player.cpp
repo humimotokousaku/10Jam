@@ -84,23 +84,26 @@ void Player::Draw()
 void Player::ImGuiDraw()
 {
 	ImGui::Begin("Player");
-	if (ImGui::Button("AddLight")) {
-		partManager_.AddParts<LightPart>(generatePosition_);
-		//AddParts<LightPart>();
-	}
-	if (ImGui::Button("AddHeavy")) {
-		partManager_.AddParts<HeavyPart>(generatePosition_);
-		//AddParts<HeavyPart>();
+
+	if (ImGui::BeginTabBar("System"))
+	{
+		if (ImGui::BeginTabItem("PartManager")) {
+			partManager_.ImGuiDraw();
+			ImGui::EndTabItem();
+		}
+
+		ImGui::EndTabBar();
 	}
 
 	ImGui::DragFloat3("PushPower", &pushPower_.x, 0.01f);
-	ImGui::DragFloat3("GeneratePos", &generatePosition_.x, 0.01f);
 
-
-	// それぞれのImGui
-	for (std::vector<std::unique_ptr<IPart>>::iterator it = parts_.begin(); it != parts_.end(); ++it) {
-		(*it)->ImGuiDraw();
+	if (ImGui::TreeNode("Parts")) {
+		// それぞれのImGui
+		for (std::vector<std::unique_ptr<IPart>>::iterator it = parts_.begin(); it != parts_.end(); ++it) {
+			(*it)->ImGuiDraw();
+		}
+		ImGui::TreePop();
 	}
-
+	
 	ImGui::End();
 }

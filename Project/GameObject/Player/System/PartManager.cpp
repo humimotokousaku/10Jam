@@ -22,6 +22,19 @@ void PlayerContext::PartManager::AddDaruma(DarumaPattern pattern)
 	}
 
 }
+void PlayerContext::PartManager::ImGuiDraw()
+{
+	float dragValue = 0.01f;
+	ImGui::DragFloat3("GeneratePosition", &generatePosition_.x, dragValue);
+
+	if (ImGui::Button("AddLight")) {
+		AddParts<LightPart>(generatePosition_);
+	}
+	if (ImGui::Button("AddHeavy")) {
+		AddParts<HeavyPart>(generatePosition_);
+	}
+
+}
 // 明示的なテンプレートのインスタンス化
 template void PlayerContext::PartManager::AddParts<LightPart>(const Vector3& position);
 template void PlayerContext::PartManager::AddParts<HeavyPart>(const Vector3& position);

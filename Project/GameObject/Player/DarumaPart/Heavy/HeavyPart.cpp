@@ -49,16 +49,19 @@ void HeavyPart::Draw()
 
 void HeavyPart::ImGuiDraw()
 {
-	ImGui::Begin(partTag_.c_str());
-
-	ImGui::DragFloat3("Position", &object3D_->worldTransform.translate.x, 0.01f);
-	ImGui::DragFloat3("Rotate", &object3D_->worldTransform.rotate.x, 0.01f);
-	ImGui::DragFloat3("Scale", &object3D_->worldTransform.scale.x, 0.01f);
+	ImGui::SeparatorText(partTag_.c_str());
+	std::string name = "Position" + partTag_;
+	ImGui::DragFloat3(name.c_str(), &object3D_->worldTransform.translate.x, 0.01f);
+	name = "Rotate" + partTag_;
+	ImGui::DragFloat3(name.c_str(), &object3D_->worldTransform.rotate.x, 0.01f);
+	name = "Scale" + partTag_;
+	ImGui::DragFloat3(name.c_str(), &object3D_->worldTransform.scale.x, 0.01f);
 	Vector3 obb = GetOBB().m_Pos;
-	ImGui::DragFloat3("OBBPos", &obb.x);
+	name = "OBBPosition" + partTag_;
+	ImGui::DragFloat3(name.c_str(), &obb.x);
 	Vector3 obbLength = GetOBB().m_fLength;
-	ImGui::DragFloat3("OBBLength", &obbLength.x);
-	ImGui::End();
+	name = "OBBLength" + partTag_;
+	ImGui::DragFloat3(name.c_str(), &obbLength.x);
 }
 
 void HeavyPart::OnCollision(Collider* collider)

@@ -19,15 +19,18 @@ namespace PlayerContext
 		void Initialize(Player* player);
 		// 更新
 		void Update() {};
-		// 追加
-		void AddDaruma(DarumaPattern pattern);
+		// ImGui
+		void ImGuiDraw();
 
+	public:
+		// 追加
 		template<typename T>
 		void AddParts(const Vector3& position);
+		void AddDaruma(DarumaPattern pattern);
 
 	private:
 		Player* player_ = nullptr;
-
+		Vector3 generatePosition_;
 	};
 
 }

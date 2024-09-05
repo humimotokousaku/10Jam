@@ -5,6 +5,9 @@
 
 void LightPart::Initialize(CollisionManager* manager)
 {
+	serialNumber_ = sSerialNumber;
+	sSerialNumber++;
+	partTag_ = "Light" + std::to_string(serialNumber_);
 	// 生成
 	object3D_ = std::make_unique<Object3D>();
 	object3D_->Initialize();
@@ -13,8 +16,12 @@ void LightPart::Initialize(CollisionManager* manager)
 	object3D_->worldTransform.rotate = Vector3(0.0f, 0.0f, 0.0f);
 	// コライダー登録
 	SetCollisionPrimitive(kCollisionOBB);
-	SetCollisionAttribute(kCollisionAttributeTerrain);
-	SetCollisionMask(~kCollisionAttributeTerrain);
+	SetCollisionAttribute(kCollisionAttributeDarumaPart);
+	SetCollisionMask(~kCollisionAttributePlayer);
+	SetOBBLength(object3D_->worldTransform.scale);
+
+	SetTag(partTag_);
+
 	manager->SetColliderList(this);
 	footCollider_ = std::make_unique<FootCollider>();
 	footCollider_->Initialize(this);
@@ -46,7 +53,7 @@ void LightPart::Draw()
 
 void LightPart::ImGuiDraw()
 {
-	ImGui::Begin("LightPart");
+	ImGui::Begin(partTag_.c_str());
 
 	ImGui::DragFloat3("Position", &object3D_->worldTransform.translate.x, 0.01f);
 	ImGui::DragFloat3("Rotate", &object3D_->worldTransform.rotate.x, 0.01f);

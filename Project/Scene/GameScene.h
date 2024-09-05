@@ -55,6 +55,8 @@ private: // USER
 
 	std::unique_ptr<Player> player_;
 
+	// 地面
+	std::unique_ptr<Terrain> terrain_;
 
 };
 

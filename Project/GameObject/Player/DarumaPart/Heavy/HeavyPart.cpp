@@ -2,6 +2,10 @@
 
 void HeavyPart::Initialize(CollisionManager* manager)
 {
+	serialNumber_ = sSerialNumber;
+	sSerialNumber++;
+	partTag_ = "Heavy" + std::to_string(serialNumber_);
+
 	object3D_ = std::make_unique<Object3D>();
 	object3D_->Initialize();
 	object3D_->worldTransform.translate = Vector3(0.0f, 0.0f, 0.0f);
@@ -9,12 +13,15 @@ void HeavyPart::Initialize(CollisionManager* manager)
 	object3D_->worldTransform.rotate = Vector3(0.0f, 0.0f, 0.0f);
 	// コライダー登録
 	SetCollisionPrimitive(kCollisionOBB);
-	SetCollisionAttribute(kCollisionAttributeTerrain);
-	SetCollisionMask(~kCollisionAttributeTerrain);
+	SetCollisionAttribute(kCollisionAttributeDarumaPart);
+	SetCollisionMask(~kCollisionAttributePlayer);
+	SetOBBLength(object3D_->worldTransform.scale);
 	manager->SetColliderList(this);
 	footCollider_ = std::make_unique<FootCollider>();
 	footCollider_->Initialize(this);
 	manager->SetColliderList(footCollider_.get());
+
+	SetTag(partTag_);
 
 	// USER
 	isGround_ = false;
@@ -42,7 +49,7 @@ void HeavyPart::Draw()
 
 void HeavyPart::ImGuiDraw()
 {
-	ImGui::Begin("HeavyPart");
+	ImGui::Begin(partTag_.c_str());
 
 	ImGui::DragFloat3("Position", &object3D_->worldTransform.translate.x, 0.01f);
 	ImGui::DragFloat3("Rotate", &object3D_->worldTransform.rotate.x, 0.01f);

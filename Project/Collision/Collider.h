@@ -3,6 +3,7 @@
 #include "CollisionConfig.h"
 #include "MathStructs.h"
 #include <cstdint>
+#include <string>
 
 class Collider {
 public:
@@ -73,6 +74,8 @@ public:
 	// 今当たっているかを設定
 	void SetIsPreOnCollision(bool isPreOnCollision) { isPreOnCollision_ = isPreOnCollision; }
 
+	void SetTag(std::string tag) { tag_ = tag; }
+	std::string GetTag() { return tag_; }
 	///
 	/// 純粋仮想関数
 	/// 
@@ -116,4 +119,9 @@ private:
 	bool isOnCollision_ = false;
 	// 前に当たっている
 	bool isPreOnCollision_ = false;
+
+private: // USER
+	// 名前でスキップ処理するために
+	std::string tag_;
+
 };

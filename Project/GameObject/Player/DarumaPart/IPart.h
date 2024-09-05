@@ -16,6 +16,11 @@ struct PartParameter {
 /// </summary>
 class IPart : public Collider
 {
+public:
+	static uint32_t sSerialNumber;
+public:
+	uint32_t serialNumber_;
+	std::string partTag_;
 public: // 仮想関数
 	virtual void Initialize(CollisionManager* manager) = 0;
 	virtual void Update() = 0;

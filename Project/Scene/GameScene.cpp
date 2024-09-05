@@ -26,15 +26,29 @@ void GameScene::Initialize() {
 	player_->SetCollisionManager(collisionManager_.get());
 	player_->Initialize(camera_.get());
 
+	terrain_ = std::make_unique<Terrain>();
+	terrain_->Initialize();
+	terrain_->SetCamera(camera_.get());
+	terrain_->SetModel(modelManager_->FindModel("Models/SampleBlock", "cube.obj"));
+	collisionManager_->SetColliderList(terrain_.get());
+	terrain_->SetPosition(Vector3(0.0f, -20.0f, 0.0f));
+
 }
 
 void GameScene::Update() {
 
 	// カメラ更新
+	ImGui::Begin("Camera");
+	ImGui::DragFloat3("Position", &camera_->worldTransform_.translate.x, 0.01f);
+	ImGui::End();
 	camera_->Update();
+
 	// プレイヤー
 	player_->Update();
 	player_->ImGuiDraw();
+
+	terrain_->Update();
+	terrain_->ImGuiDraw();
 
 	// 当たり判定
 	collisionManager_->CheckAllCollisions();
@@ -43,6 +57,7 @@ void GameScene::Update() {
 
 void GameScene::Draw() {
 	player_->Draw();
+	terrain_->Draw();
 }
 
 void GameScene::Finalize() {

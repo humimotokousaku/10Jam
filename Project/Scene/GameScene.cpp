@@ -27,6 +27,8 @@ void GameScene::Initialize() {
 	player_ = std::make_unique<Player>();
 	player_->SetCollisionManager(collisionManager_.get());
 	player_->Initialize(camera_.get());
+	// エネミー
+	enemy_ = std::make_unique<Enemy>();
 
 	terrain_ = std::make_unique<Terrain>();
 	terrain_->Initialize();
@@ -36,7 +38,7 @@ void GameScene::Initialize() {
 	terrain_->SetPosition(Vector3(0.0f, -20.0f, 0.0f));
 
 	gameSystemManager_ = std::make_unique<GameSystemManager>();
-	gameSystemManager_->Initialize();
+	gameSystemManager_->Initialize(player_.get(),enemy_.get());
 
 	gameTimer_.Initialize();
 }

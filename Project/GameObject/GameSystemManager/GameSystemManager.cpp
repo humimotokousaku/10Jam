@@ -1,24 +1,32 @@
 #include "GameSystemManager.h"
+#include <cassert>
 
-void GameSystemManager::Initialize()
+void GameSystemManager::Initialize(Player* player, Enemy* enemy)
 {
-	elapsedTime_ = 0;
-	frameCounter_ = 0;
+	// ポインタ
+	assert(player);
+	assert(enemy);
+	player_ = player;
+	enemy_ = enemy;
+
+	timer_.elapsed = 0;
+	timer_.frameCount = 0;
 }
 
 void GameSystemManager::Update()
 {
 	// ゲーム停止中
-	if (isStop_) {
+	if (timer_.isStop) {
 		return;
 	}
 
-	// フレームカウント
-	frameCounter_++;
-	// ゲーム内時間進む
-	if (frameCounter_ >= 60) {
-		elapsedTime_++;
-		frameCounter_ = 0;
-	}
+	timer_.Update();
+
+}
+
+void GameSystemManager::Action()
+{
+	// ここで力とアニメーションのセットアップ
+
 
 }

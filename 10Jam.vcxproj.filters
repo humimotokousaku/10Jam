@@ -653,7 +653,7 @@
     <ClInclude Include="Project\GameObject\Player\Player.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Project\GameObject\Enemy\IEnemy.h">
+    <ClInclude Include="Project\GameObject\Enemy\Enemy.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Project\GameObject\Player\DarumaPart\IPart.h">

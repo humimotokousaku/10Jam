@@ -4,9 +4,7 @@
 
 void PlayerContext::PartManager::Initialize(Player* player)
 {
-
 	player_ = player;
-
 }
 
 void PlayerContext::PartManager::AddDaruma(DarumaPattern pattern)

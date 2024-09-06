@@ -55,8 +55,9 @@ private: // USER
 	std::unique_ptr<CollisionManager> collisionManager_;
 	// カメラ
 	std::unique_ptr<Camera> camera_;
-
+	// ゲームオブジェクト
 	std::unique_ptr<Player> player_;
+	std::unique_ptr<Enemy> enemy_;
 
 	// 地面
 	std::unique_ptr<Terrain> terrain_;

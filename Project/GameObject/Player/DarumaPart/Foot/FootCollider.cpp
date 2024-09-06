@@ -3,12 +3,13 @@
 
 void FootCollider::OnCollision(Collider* collider)
 {
-	if (part_->partTag_ == collider->GetTag()) {
+	if (GetTag() == collider->GetTag()) {
 		return;
 	}
 
 	if (collider->GetCollisionAttribute() == kCollisionAttributeTerrain) {
 		part_->SetIsGround(true);
+		part_->isTerrain_ = true;
 	}
 	else if(collider->GetCollisionAttribute() == kCollisionAttributeDarumaPart){
 		part_->SetIsGround(true);
@@ -27,6 +28,7 @@ void FootCollider::Initialize(IPart* part)
 	SetCollisionPrimitive(kCollisionOBB);
 	SetCollisionAttribute(kCollisionAttributeDarumaFoot);
 	SetCollisionMask(~kCollisionAttributeDarumaFoot);
+	SetTag(part_->partTag_);
 	SetOBBLength(object3D_->worldTransform.scale);
 }
 

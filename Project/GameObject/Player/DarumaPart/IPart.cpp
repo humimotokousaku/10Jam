@@ -4,7 +4,24 @@ uint32_t IPart::sSerialNumber = 0;
 
 void IPart::Update()
 {
-	//velocity_.y = 0.0f;
+	if (isGround_) {
+		groundTimer_++;
+	}
+	else {
+		groundTimer_ = 0;
+	}
+	// 一番下の場合のみ
+	if ((!isOtherFoot_ && isGround_) && index_ == 0 && groundTimer_ > 30) {
+		isDead_ = true;
+		return;
+	}
+	else if ((isTerrain_ && isGround_) && index_ != 0 && groundTimer_ > 30) {
+		isDead_ = true;
+		return;
+	}
+	isOtherFoot_ = false;
+	isTerrain_ = false;
+
 	object3D_->worldTransform.translate += velocity_;
 	velocity_ = Lerps::Lerp(velocity_, Vector3(0.0f, 0.0f, 0.0f), 0.1f);
 
@@ -76,9 +93,19 @@ void IPart::OnCollision(Collider* collider)
 {
 	bool isPart = collider->GetCollisionAttribute() == kCollisionAttributeDarumaPart;
 	bool isTerrain = collider->GetCollisionAttribute() == kCollisionAttributeTerrain;
-	//bool is
+	bool isFoot = collider->GetCollisionAttribute() == kCollisionAttributeDarumaFoot;
 	bool isCollision = (isPart || isTerrain);
 	if (isCollision) {
 		//CorrectPosition(collider);
+	}
+	else if(isFoot){
+		bool isTrue = collider->GetTag() == this->partTag_;
+		if (!isTrue && index_ == 0) {
+			isOtherFoot_ = true;
+			return;
+		}
+	}
+	if (isTerrain) {
+		isTerrain_ = true;
 	}
 }

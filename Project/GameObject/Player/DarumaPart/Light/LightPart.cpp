@@ -66,4 +66,7 @@ void LightPart::ImGuiDraw()
 	Vector3 obbLength = GetOBB().m_fLength;
 	name = "OBBLength" + partTag_;
 	ImGui::DragFloat3(name.c_str(), &obbLength.x);
+	name = "Index" + partTag_;
+	int in = index_;
+	ImGui::InputInt(name.c_str(), &in);
 }

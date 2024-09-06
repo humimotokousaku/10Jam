@@ -47,8 +47,8 @@ void GameScene::Update() {
 	camera_->Update();
 
 	// プレイヤー
-	player_->Update();
 	player_->ImGuiDraw();
+	player_->Update();
 
 	terrain_->Update();
 	terrain_->ImGuiDraw();

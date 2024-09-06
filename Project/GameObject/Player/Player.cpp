@@ -66,8 +66,14 @@ void Player::Update()
 			//(*partsIt_)->object3D_->worldTransform.translate += pushPower_;
 		}
 	}
-
 	for (std::vector<std::unique_ptr<IPart>>::iterator it = parts_.begin(); it != parts_.end(); ++it) {
+		if (it == parts_.begin()) {
+			(*it)->index_ = 0;
+		}
+		else
+		{
+			(*it)->index_ = 1;
+		}
 		(*it)->Update();
 	}
 

@@ -71,4 +71,11 @@ public:
 	std::unique_ptr<Object3D> object3D_;
 	// 速さ
 	Vector3 velocity_;
+
+	uint32_t index_ = 0;
+
+	bool isOtherFoot_ = true;
+	bool isTerrain_ = true;
+
+	uint32_t groundTimer_ = 0;
 };

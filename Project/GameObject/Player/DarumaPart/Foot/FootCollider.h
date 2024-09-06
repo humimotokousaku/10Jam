@@ -31,5 +31,6 @@ private:
 	std::unique_ptr<Object3D> object3D_;
 	// パーツの
 	IPart* part_;
-
+public:
+	std::string collisionTag_;
 };

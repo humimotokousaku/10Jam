@@ -408,6 +408,9 @@
     <ClCompile Include="Project\GameObject\Player\DarumaPart\Medium\MediumPart.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Project\GameObject\GameSystem\GameSystemManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\ImGui\imconfig.h">
@@ -683,7 +686,10 @@
     <ClInclude Include="Project\GameObject\Player\DarumaPart\Medium\MediumPart.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Project\GameObject\GameSystem\GameManager.h">
+    <ClInclude Include="Project\GameObject\GameSystem\GameSystemManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\GameObject\Player\System\DamageManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

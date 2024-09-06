@@ -5,6 +5,7 @@
 #include "ModelManager.h"
 #include "CollisionManager.h"
 #include "Camera.h"
+#include "FollowCamera/FollowCamera.h"
 
 #include "../GameObjectLists.h"
 
@@ -50,13 +51,14 @@ private:// プライベートなメンバ変数
 	uint32_t textureHandle_;
 private: // USER
 	std::unique_ptr<CollisionManager> collisionManager_;
-	// カメラ
-	std::unique_ptr<Camera> camera_;
-
+	// 追従カメラ
+	std::unique_ptr<FollowCamera> followCamera_;
+	// 自機
 	std::unique_ptr<Player> player_;
-
 	// 地面
 	std::unique_ptr<Terrain> terrain_;
 
+	// 追従カメラの見ている座標
+	WorldTransform cameraTargetPoint_;
 };
 

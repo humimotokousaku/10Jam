@@ -36,6 +36,14 @@ namespace Lerps {
 		return result;
 	}
 
+	float LerpShortAngle(float a, float b, float t) {
+		// 角度差分を求める
+		float diff = b - a;
+		float M_PI = 3.14f;
+
+		return Lerp(a, diff, t);
+	}
+
 	Vector3 Slerp(const Vector3& start, const Vector3& end, float t) {
 		float dot = Dot(start, end);
 		float theta = (float)acos((dot * (float)std::numbers::pi) / 180);

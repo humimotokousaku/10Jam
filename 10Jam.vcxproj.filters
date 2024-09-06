@@ -354,9 +354,6 @@
     <ClCompile Include="engine\PostProcess\Bloom.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="engine\Utility\GameTime.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\PostProcess\Dissolve.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -379,6 +376,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Math\Vector2.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\Components\GameTimer\GameTimer.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -599,9 +599,6 @@
     <ClInclude Include="engine\PostProcess\Bloom.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="engine\Utility\GameTime.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\PostProcess\Dissolve.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -621,6 +618,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Project\Components\SceneTransition\SceneTransition.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\Components\GameTimer\GameTimer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

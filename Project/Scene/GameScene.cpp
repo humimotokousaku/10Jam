@@ -7,9 +7,13 @@ void GameScene::Initialize() {
 	textureManager_ = TextureManager::GetInstance();
 	modelManager_ = ModelManager::GetInstance();
 	audio_ = Audio::GetInstance();
+
+	gameTimer_.Initialize();
 }
 
 void GameScene::Update() {
+	gameTimer_.Update();
+
 	if (Input::GetInstance()->TriggerKey(DIK_SPACE) || Input::GetInstance()->GamePadTrigger(XINPUT_GAMEPAD_A)) {
 		SceneTransition::GetInstance()->Start();
 	}

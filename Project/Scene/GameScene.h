@@ -3,6 +3,7 @@
 #include "Audio.h"
 #include "TextureManager.h"
 #include "ModelManager.h"
+#include "Components/GameTimer/GameTimer.h"
 
 class GameManager;
 class GameScene : public IScene
@@ -40,5 +41,7 @@ private:// プライベートなメンバ変数
 	TextureManager* textureManager_;
 	ModelManager* modelManager_;
 	Audio* audio_;
+
+	GameTimer gameTimer_;
 };
 

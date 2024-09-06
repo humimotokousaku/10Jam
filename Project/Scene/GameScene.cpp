@@ -66,11 +66,6 @@ void GameScene::Update() {
 		sceneNum = TITLE_SCENE;
 	}
 
-	// カメラ更新
-	ImGui::Begin("Camera");
-	ImGui::DragFloat3("Position", &camera_->worldTransform_.translate.x, 0.01f);
-	ImGui::DragFloat3("Rotate", &camera_->worldTransform_.rotate.x, 0.01f);
-	ImGui::End();
 	cameraTargetPoint_.UpdateMatrix();
 	followCamera_->Update();
 	// プレイヤー

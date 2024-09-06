@@ -10,17 +10,17 @@ void SceneTransition::Initialize() {
 		for (int j = 0; j < sprite_[0].size(); j++) {
 			sprite_[i][j].Initialize("DefaultTexture", "white.png");
 			sprite_[i][j].SetSize(Vector2{ 0.0f, 0.0f });
-			sprite_[i][j].worldTransform_.translate.x = 20.0f + j * 40.0f;
-			sprite_[i][j].worldTransform_.translate.y = 20.0f + i * 40.0f;
-			//sprite_[i][j].isActive_ = false;
+			sprite_[i][j].worldTransform_.translate.x = 40.0f + j * 80.0f;
+			sprite_[i][j].worldTransform_.translate.y = 40.0f + i * 80.0f;
+			sprite_[i][j].isActive_ = false;
 			PostEffectManager::GetInstance()->AddSpriteList(&sprite_[i][j]);
 			sprite_[i][j].SetColor(Vector4{ 1,1,1,1 });
 		}
 	}
 	for (int i = 0; i < sprite_.size(); i++) {
 		for (int j = 0; j < sprite_[0].size(); j++) {
-			beginAnim_[i][j].SetAnimData(sprite_[i][j].GetSizeP(), Vector2{ 0,0 }, Vector2{ 40,40 }, 40, "sceneTransition_00", Easings::EaseOutExpo);
-			endAnim_[i][j].SetAnimData(sprite_[i][j].GetSizeP(), Vector2{ 40,40 }, Vector2{ 0,0 }, 40, "sceneTransition_01", Easings::EaseOutExpo);
+			beginAnim_[i][j].SetAnimData(sprite_[i][j].GetSizeP(), Vector2{ 0,0 }, Vector2{ 80,80 }, 40, "sceneTransition_00", Easings::EaseOutExpo);
+			endAnim_[i][j].SetAnimData(sprite_[i][j].GetSizeP(), Vector2{ 80,80 }, Vector2{ 0,0 }, 40, "sceneTransition_01", Easings::EaseOutExpo);
 		}
 	}
 	isStart_ = false;
@@ -109,11 +109,11 @@ void SceneTransition::B_NoneUpdate() {
 }
 
 void SceneTransition::B_FadeInInit() {
-	/*for (int i = 0; i < beginAnim_.size(); i++) {
-		for (int j = 0; j < beginAnim_[0].size(); j++) {
-			beginAnim_[i][j].SetIsStart(true);
+	for (int i = 0; i < sprite_.size(); i++) {
+		for (int j = 0; j < sprite_[0].size(); j++) {
+			sprite_[i][j].isActive_ = true;
 		}
-	}*/
+	}
 	radius_ = 0.0f;
 }
 void SceneTransition::B_FadeInUpdate() {
@@ -125,7 +125,7 @@ void SceneTransition::B_FadeInUpdate() {
 		}
 	}
 
-	if (beginAnim_[17][31].GetIsEnd()) {
+	if (beginAnim_[8][15].GetIsEnd()) {
 		behaviorRequest_ = Behavior::FadeOut;
 		sceneTransitionSignal_ = true;
 	}
@@ -145,7 +145,7 @@ void SceneTransition::B_FadeOutUpdate() {
 		}
 	}
 
-	if (endAnim_[17][31].GetIsEnd()) {
+	if (endAnim_[8][15].GetIsEnd()) {
 		behaviorRequest_ = Behavior::End;
 	}
 
@@ -153,6 +153,11 @@ void SceneTransition::B_FadeOutUpdate() {
 }
 
 void SceneTransition::B_EndInit() {
+	for (int i = 0; i < sprite_.size(); i++) {
+		for (int j = 0; j < sprite_[0].size(); j++) {
+			sprite_[i][j].isActive_ = false;
+		}
+	}
 	for (int i = 0; i < beginAnim_.size(); i++) {
 		for (int j = 0; j < beginAnim_[0].size(); j++) {
 			beginAnim_[i][j].ResetData();

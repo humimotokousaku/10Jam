@@ -59,9 +59,9 @@ private:
 	// 次の振るまいリクエスト
 	std::optional<Behavior> behaviorRequest_ = std::nullopt;
 
-	std::array<std::array<Animation, 32>, 18> beginAnim_;
-	std::array<std::array<Animation, 32>, 18> endAnim_;
-	std::array<std::array<Sprite, 32>, 18> sprite_;
+	std::array<std::array<Animation, 16>, 9> beginAnim_;
+	std::array<std::array<Animation, 16>, 9> endAnim_;
+	std::array<std::array<Sprite, 16>, 9> sprite_;
 
 	bool isStart_;
 	bool sceneTransitionSignal_;

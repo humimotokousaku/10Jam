@@ -1,5 +1,6 @@
 #pragma once
 #include "IScene.h"
+#include "Sprite.h"
 
 class GameManager;
 class GameClear : public IScene
@@ -18,5 +19,7 @@ public:
 
 	void Finalize()override;
 private:
+	// UI
+	std::array<std::unique_ptr<Sprite>, 3> guideUI_;
 };
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "IScene.h"
+#include "Sprite.h"
 
 class GameManager;
 
@@ -19,4 +20,7 @@ public:
 
 private:
 	Input* input_;
+
+	// UI
+	std::array<std::unique_ptr<Sprite>, 3> guideUI_;
 };

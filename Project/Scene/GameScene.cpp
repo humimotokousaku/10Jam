@@ -10,7 +10,13 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() {
+	if (Input::GetInstance()->TriggerKey(DIK_SPACE) || Input::GetInstance()->GamePadTrigger(XINPUT_GAMEPAD_A)) {
+		SceneTransition::GetInstance()->Start();
+	}
 
+	if (SceneTransition::GetInstance()->GetSceneTransitionSignal()) {
+		sceneNum = GAMEOVER_SCENE;
+	}
 }
 
 void GameScene::Draw() {

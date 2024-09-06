@@ -14,7 +14,7 @@ void SceneTransition::Initialize() {
 			sprite_[i][j].worldTransform_.translate.y = 40.0f + i * 80.0f;
 			sprite_[i][j].isActive_ = false;
 			PostEffectManager::GetInstance()->AddSpriteList(&sprite_[i][j]);
-			sprite_[i][j].SetColor(Vector4{ 1,1,1,1 });
+			sprite_[i][j].SetColor(Vector4{ 0,0,0,1 });
 		}
 	}
 	for (int i = 0; i < sprite_.size(); i++) {

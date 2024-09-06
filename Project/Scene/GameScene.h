@@ -62,5 +62,7 @@ private: // USER
 	std::unique_ptr<Terrain> terrain_;
 
 	std::unique_ptr<GameSystemManager> gameSystemManager_;
+
+	GameTimer gameTimer_;
 };
 

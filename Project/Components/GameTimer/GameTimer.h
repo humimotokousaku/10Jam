@@ -23,6 +23,8 @@ public:
 	/// </summary>
 	void AddTimer();
 
+	void SetDrawTime(int time) { timer_ = time; }
+
 private:
 	TextureManager* textureManager_;
 	PostEffectManager* postEffectManager_;

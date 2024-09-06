@@ -37,10 +37,13 @@ void GameScene::Initialize() {
 
 	gameSystemManager_ = std::make_unique<GameSystemManager>();
 	gameSystemManager_->sGameTimer = 0;
+
+	gameTimer_.Initialize();
 }
 
 void GameScene::Update() {
-	//gameTimer_.Update();
+	gameTimer_.Update();
+	gameTimer_.SetDrawTime(GameSystemManager::sGameTimer);
 
 	if (Input::GetInstance()->TriggerKey(DIK_SPACE) || Input::GetInstance()->GamePadTrigger(XINPUT_GAMEPAD_A)) {
 		SceneTransition::GetInstance()->Start();

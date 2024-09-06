@@ -35,9 +35,19 @@ void GameScene::Initialize() {
 	collisionManager_->SetColliderList(terrain_.get());
 	terrain_->SetPosition(Vector3(0.0f, -20.0f, 0.0f));
 
+	gameSystemManager_ = std::make_unique<GameSystemManager>();
+	gameSystemManager_->sGameTimer = 0;
 }
 
 void GameScene::Update() {
+
+	if (Input::GetInstance()->TriggerKey(DIK_RETURN)) {
+		SceneTransition::GetInstance()->Start();
+	}
+
+	if (SceneTransition::GetInstance()->GetSceneTransitionSignal()) {
+		sceneNum = TITLE_SCENE;
+	}
 
 	// カメラ更新
 	ImGui::Begin("Camera");
@@ -45,6 +55,11 @@ void GameScene::Update() {
 	ImGui::DragFloat3("Rotate", &camera_->worldTransform_.rotate.x, 0.01f);
 	ImGui::End();
 	camera_->Update();
+	ImGui::Begin("GameTimer");
+	int gameTime = GameSystemManager::sGameTimer;
+	ImGui::InputInt("GameTime", &gameTime);
+	ImGui::End();
+	gameSystemManager_->Update();
 
 	// プレイヤー
 	player_->ImGuiDraw();

@@ -7,6 +7,7 @@
 #include "Camera.h"
 
 #include "../GameObjectLists.h"
+#include "../GameSystem/GameSystemManager.h"
 
 #include <memory>
 
@@ -58,5 +59,6 @@ private: // USER
 	// 地面
 	std::unique_ptr<Terrain> terrain_;
 
+	std::unique_ptr<GameSystemManager> gameSystemManager_;
 };
 

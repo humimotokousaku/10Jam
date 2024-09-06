@@ -53,12 +53,8 @@ void LightPart::ImGuiDraw()
 	ImGui::DragFloat3(name.c_str(), &object3D_->worldTransform.rotate.x, 0.01f);
 	name = "Scale" + partTag_;
 	ImGui::DragFloat3(name.c_str(), &object3D_->worldTransform.scale.x, 0.01f);
-	Vector3 obb = GetOBB().m_Pos;
-	name = "OBBPosition" + partTag_;
-	ImGui::DragFloat3(name.c_str(), &obb.x);
-	Vector3 obbLength = GetOBB().m_fLength;
-	name = "OBBLength" + partTag_;
-	ImGui::DragFloat3(name.c_str(), &obbLength.x);
+	name = "IsGround : %d " + partTag_;
+	ImGui::Text(name.c_str(), isGround_);
 	name = "Index" + partTag_;
 	int in = index_;
 	ImGui::InputInt(name.c_str(), &in);

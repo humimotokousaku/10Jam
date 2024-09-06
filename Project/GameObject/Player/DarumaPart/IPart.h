@@ -22,6 +22,8 @@ public:
 	uint32_t serialNumber_;
 	std::string partTag_;
 public: // 仮想関数
+	// デストラクタ
+	virtual ~IPart() = default;
 	virtual void Initialize(CollisionManager* manager) = 0;
 	virtual void Update();
 	virtual void Draw() = 0;

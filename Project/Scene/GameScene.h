@@ -7,7 +7,7 @@
 #include "Camera.h"
 
 #include "../GameObjectLists.h"
-#include "../GameSystem/GameSystemManager.h"
+#include "../GameSystemManager/GameSystemManager.h"
 
 #include "GameTimer/GameTimer.h"
 
@@ -60,9 +60,9 @@ private: // USER
 
 	// 地面
 	std::unique_ptr<Terrain> terrain_;
-
+	// ゲームのシステム
 	std::unique_ptr<GameSystemManager> gameSystemManager_;
-
+	// ゲームのタイム
 	GameTimer gameTimer_;
 };
 

@@ -36,23 +36,28 @@ void GameScene::Initialize() {
 	terrain_->SetPosition(Vector3(0.0f, -20.0f, 0.0f));
 
 	gameSystemManager_ = std::make_unique<GameSystemManager>();
-	gameSystemManager_->sGameTimer = 0;
+	gameSystemManager_->Initialize();
 
 	gameTimer_.Initialize();
 }
 
 void GameScene::Update() {
+
+	// ゲームのシステム
+	ImGui::Begin("GameTimer");
+	int gameTime = gameSystemManager_->GetElapsedTime();
+	ImGui::InputInt("GameTime", &gameTime);
+	ImGui::End();
+	gameSystemManager_->Update();
+
+	// ゲームのタイマー
 	gameTimer_.Update();
-	gameTimer_.SetDrawTime(GameSystemManager::sGameTimer);
+	gameTimer_.SetDrawTime(gameTime);
 
-	if (Input::GetInstance()->TriggerKey(DIK_SPACE) || Input::GetInstance()->GamePadTrigger(XINPUT_GAMEPAD_A)) {
-		SceneTransition::GetInstance()->Start();
-	}
-
+	// シーンの切り替え処理
 	if (Input::GetInstance()->TriggerKey(DIK_RETURN)) {
 		SceneTransition::GetInstance()->Start();
 	}
-
 	if (SceneTransition::GetInstance()->GetSceneTransitionSignal()) {
 		sceneNum = TITLE_SCENE;
 	}
@@ -63,12 +68,6 @@ void GameScene::Update() {
 	ImGui::DragFloat3("Rotate", &camera_->worldTransform_.rotate.x, 0.01f);
 	ImGui::End();
 	camera_->Update();
-	ImGui::Begin("GameTimer");
-	int gameTime = GameSystemManager::sGameTimer;
-	ImGui::InputInt("GameTime", &gameTime);
-	ImGui::End();
-	gameSystemManager_->Update();
-
 	// プレイヤー
 	player_->ImGuiDraw();
 	player_->Update();

@@ -32,12 +32,6 @@ void HeavyPart::Initialize(CollisionManager* manager)
 
 void HeavyPart::Update()
 {
-	if (!isGround_) {
-		velocity_.y = -(9.8f * (1.0f / 60.0f));
-	}
-	else {
-		velocity_.y = 0.0f;
-	}
 
 	IPart::Update();
 

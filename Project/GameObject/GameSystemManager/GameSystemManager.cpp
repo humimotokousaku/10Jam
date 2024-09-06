@@ -1,6 +1,10 @@
 #include "GameSystemManager.h"
 
-uint32_t GameSystemManager::sGameTimer = 0;
+void GameSystemManager::Initialize()
+{
+	elapsedTime_ = 0;
+	frameCounter_ = 0;
+}
 
 void GameSystemManager::Update()
 {
@@ -13,7 +17,7 @@ void GameSystemManager::Update()
 	frameCounter_++;
 	// ゲーム内時間進む
 	if (frameCounter_ >= 60) {
-		sGameTimer++;
+		elapsedTime_++;
 		frameCounter_ = 0;
 	}
 

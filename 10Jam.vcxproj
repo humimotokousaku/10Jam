@@ -194,7 +194,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" </Command>
     <ClCompile Include="Engine\Components\Model\Model.cpp" />
     <ClCompile Include="Engine\Components\Model\ModelStructs.cpp" />
     <ClCompile Include="engine\Components\WorldTransform.cpp" />
-    <ClCompile Include="Project\GameObject\GameSystem\GameSystemManager.cpp" />
+    <ClCompile Include="Project\GameObject\GameSystemManager\GameSystemManager.cpp" />
     <ClCompile Include="Project\GameObject\Player\DarumaPart\Foot\FootCollider.cpp" />
     <ClCompile Include="Project\GameObject\Player\DarumaPart\Heavy\HeavyPart.cpp" />
     <ClCompile Include="Project\GameObject\Player\DarumaPart\IPart.cpp" />
@@ -284,7 +284,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" </Command>
     <ClInclude Include="engine\Components\WorldTransform.h" />
     <ClInclude Include="Project\GameObject\Enemy\IEnemy.h" />
     <ClInclude Include="Project\GameObject\GameObjectLists.h" />
-    <ClInclude Include="Project\GameObject\GameSystem\GameSystemManager.h" />
+    <ClInclude Include="Project\GameObject\GameSystemManager\GameSystemManager.h" />
     <ClInclude Include="Project\GameObject\Player\DarumaPart\Foot\FootCollider.h" />
     <ClInclude Include="Project\GameObject\Player\DarumaPart\Heavy\HeavyPart.h" />
     <ClInclude Include="Project\GameObject\Player\DarumaPart\IPart.h" />

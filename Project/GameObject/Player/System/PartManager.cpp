@@ -15,7 +15,7 @@ void PlayerContext::PartManager::AddDaruma(DarumaPattern pattern)
 	switch (pattern)
 	{
 	case PlayerContext::DarumaPattern::kDefault:
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 3; i++) {
 			AddParts<MediumPart>(Vector3(0.0f, float(i) * 3.85f, 0.0f));
 		}
 		//AddParts<MediumPart>(Vector3(0.0f, 2.0f, 0.0f));

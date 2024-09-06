@@ -57,6 +57,7 @@ public: // コライダー
 	Vector3 GetWorldPosition() override { return Vector3(object3D_->worldTransform.matWorld_.m[3][0], object3D_->worldTransform.matWorld_.m[3][1], object3D_->worldTransform.matWorld_.m[3][2]); };
 	// 角度を取得
 	Vector3 GetRotation() override { return Vector3(object3D_->worldTransform.rotate); };
+	void OnCollision(Collider* collider) override;
 
 protected:
 	// 接地フラグ

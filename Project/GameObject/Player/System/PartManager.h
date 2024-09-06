@@ -11,6 +11,9 @@ namespace PlayerContext
 {
 	enum class DarumaPattern : uint32_t {
 		kDefault,
+		kL2M2H,
+		//kM2L2H,
+		kH2M2L,
 	};
 
 	class PartManager {

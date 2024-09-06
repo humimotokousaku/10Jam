@@ -67,14 +67,3 @@ void LightPart::ImGuiDraw()
 	name = "OBBLength" + partTag_;
 	ImGui::DragFloat3(name.c_str(), &obbLength.x);
 }
-
-void LightPart::OnCollision(Collider* collider)
-{
-	bool isPart = collider->GetCollisionAttribute() == kCollisionAttributeDarumaPart;
-	bool isTerrain = collider->GetCollisionAttribute() == kCollisionAttributeTerrain;
-	bool isCollision = (isPart || isTerrain);
-	if (isCollision) {
-		CorrectPosition(collider);
-	}
-
-}

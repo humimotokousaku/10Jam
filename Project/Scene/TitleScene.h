@@ -1,5 +1,6 @@
 #pragma once
 #include "IScene.h"
+#include "Sprite.h"
 
 // モデルの読み込みに使用
 #include "ModelManager.h"
@@ -47,4 +48,7 @@ private:
 
 	// テスト用ブロック
 	std::array<std::unique_ptr<SampleObject>, 2> sampleObject_;
+
+	// UI
+	std::array<std::unique_ptr<Sprite>, 3> guideUI_;
 };

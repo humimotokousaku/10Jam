@@ -9,6 +9,8 @@
 #include "../GameObjectLists.h"
 #include "../GameSystem/GameSystemManager.h"
 
+#include "GameTimer/GameTimer.h"
+
 #include <memory>
 
 class GameManager;

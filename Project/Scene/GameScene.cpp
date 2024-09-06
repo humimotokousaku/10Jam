@@ -40,6 +40,11 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() {
+	//gameTimer_.Update();
+
+	if (Input::GetInstance()->TriggerKey(DIK_SPACE) || Input::GetInstance()->GamePadTrigger(XINPUT_GAMEPAD_A)) {
+		SceneTransition::GetInstance()->Start();
+	}
 
 	if (Input::GetInstance()->TriggerKey(DIK_RETURN)) {
 		SceneTransition::GetInstance()->Start();

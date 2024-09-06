@@ -22,6 +22,8 @@ public:
 	uint32_t serialNumber_;
 	std::string partTag_;
 public: // 仮想関数
+	// デストラクタ
+	virtual ~IPart() = default;
 	virtual void Initialize(CollisionManager* manager) = 0;
 	virtual void Update();
 	virtual void Draw() = 0;
@@ -55,6 +57,7 @@ public: // コライダー
 	Vector3 GetWorldPosition() override { return Vector3(object3D_->worldTransform.matWorld_.m[3][0], object3D_->worldTransform.matWorld_.m[3][1], object3D_->worldTransform.matWorld_.m[3][2]); };
 	// 角度を取得
 	Vector3 GetRotation() override { return Vector3(object3D_->worldTransform.rotate); };
+	void OnCollision(Collider* collider) override;
 
 protected:
 	// 接地フラグ
@@ -68,4 +71,11 @@ public:
 	std::unique_ptr<Object3D> object3D_;
 	// 速さ
 	Vector3 velocity_;
+
+	uint32_t index_ = 0;
+
+	bool isOtherFoot_ = true;
+	bool isTerrain_ = true;
+
+	uint32_t groundTimer_ = 0;
 };

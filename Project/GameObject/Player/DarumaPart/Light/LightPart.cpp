@@ -34,13 +34,6 @@ void LightPart::Initialize(CollisionManager* manager)
 
 void LightPart::Update()
 {
-	if (!isGround_) {
-		velocity_.y = -(9.8f * (1.0f / 60.0f));
-	}
-	else {
-		velocity_.y = 0.0f;
-	}
-
 	IPart::Update();
 }
 
@@ -66,15 +59,7 @@ void LightPart::ImGuiDraw()
 	Vector3 obbLength = GetOBB().m_fLength;
 	name = "OBBLength" + partTag_;
 	ImGui::DragFloat3(name.c_str(), &obbLength.x);
-}
-
-void LightPart::OnCollision(Collider* collider)
-{
-	bool isPart = collider->GetCollisionAttribute() == kCollisionAttributeDarumaPart;
-	bool isTerrain = collider->GetCollisionAttribute() == kCollisionAttributeTerrain;
-	bool isCollision = (isPart || isTerrain);
-	if (isCollision) {
-		CorrectPosition(collider);
-	}
-
+	name = "Index" + partTag_;
+	int in = index_;
+	ImGui::InputInt(name.c_str(), &in);
 }

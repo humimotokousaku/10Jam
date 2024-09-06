@@ -1,7 +1,6 @@
 #include "Framework.h"
 #include "ConvertString.h"
 #include "GlobalVariables.h"
-#include "GameTime.h"
 
 Framework::Framework() {
 

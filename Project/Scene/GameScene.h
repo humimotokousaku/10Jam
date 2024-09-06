@@ -8,6 +8,9 @@
 #include "FollowCamera/FollowCamera.h"
 
 #include "../GameObjectLists.h"
+#include "../GameSystemManager/GameSystemManager.h"
+
+#include "GameTimer/GameTimer.h"
 
 #include <memory>
 
@@ -55,8 +58,14 @@ private: // USER
 	std::unique_ptr<FollowCamera> followCamera_;
 	// 自機
 	std::unique_ptr<Player> player_;
+	std::unique_ptr<Enemy> enemy_;
+
 	// 地面
 	std::unique_ptr<Terrain> terrain_;
+	// ゲームのシステム
+	std::unique_ptr<GameSystemManager> gameSystemManager_;
+	// ゲームのタイム
+	GameTimer gameTimer_;
 
 	// 追従カメラの見ている座標
 	WorldTransform cameraTargetPoint_;

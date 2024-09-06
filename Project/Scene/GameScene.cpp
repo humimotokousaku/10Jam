@@ -29,6 +29,8 @@ void GameScene::Initialize() {
 	player_ = std::make_unique<Player>();
 	player_->SetCollisionManager(collisionManager_.get());
 	player_->Initialize(followCamera_->GetCamera());
+	// エネミー
+	enemy_ = std::make_unique<Enemy>();
 
 	terrain_ = std::make_unique<Terrain>();
 	terrain_->Initialize();
@@ -36,20 +38,44 @@ void GameScene::Initialize() {
 	terrain_->SetModel(modelManager_->FindModel("Models/SampleBlock", "cube.obj"));
 	collisionManager_->SetColliderList(terrain_.get());
 	terrain_->SetPosition(Vector3(0.0f, -20.0f, 0.0f));
+
+	gameSystemManager_ = std::make_unique<GameSystemManager>();
+	gameSystemManager_->Initialize(player_.get(),enemy_.get());
+
+	gameTimer_.Initialize();
 }
 
 void GameScene::Update() {
-	// 追従カメラ
-	//ImGui::Begin("FollowCamera");
-	//ImGui::DragFloat3("Position", &cameraTargetPoint_.translate.x, 0.01f);
-	//ImGui::DragFloat3("Rotate", &cameraTargetPoint_.rotate.x, 0.01f);
-	//ImGui::End();
+
+	// ゲームのシステム
+	ImGui::Begin("GameTimer");
+	int gameTime = gameSystemManager_->GetElapsedTime();
+	ImGui::InputInt("GameTime", &gameTime);
+	ImGui::End();
+	gameSystemManager_->Update();
+
+	// ゲームのタイマー
+	gameTimer_.Update();
+	gameTimer_.SetDrawTime(gameTime);
+
+	// シーンの切り替え処理
+	if (Input::GetInstance()->TriggerKey(DIK_RETURN)) {
+		SceneTransition::GetInstance()->Start();
+	}
+	if (SceneTransition::GetInstance()->GetSceneTransitionSignal()) {
+		sceneNum = TITLE_SCENE;
+	}
+
+	// カメラ更新
+	ImGui::Begin("Camera");
+	ImGui::DragFloat3("Position", &camera_->worldTransform_.translate.x, 0.01f);
+	ImGui::DragFloat3("Rotate", &camera_->worldTransform_.rotate.x, 0.01f);
+	ImGui::End();
 	cameraTargetPoint_.UpdateMatrix();
 	followCamera_->Update();
-
 	// プレイヤー
-	player_->Update();
 	player_->ImGuiDraw();
+	player_->Update();
 
 	terrain_->Update();
 	terrain_->ImGuiDraw();

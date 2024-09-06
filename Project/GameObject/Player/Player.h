@@ -28,9 +28,6 @@ public:
 	/// </summary>
 	void ImGuiDraw();
 
-	template<typename T>
-	void AddParts();
-
 public: // アクセッサ
 	void SetCollisionManager(CollisionManager* collisionManager) { collisionManager_ = collisionManager; }
 	std::vector<std::unique_ptr<IPart>>* GetParts() { return &parts_; }
@@ -54,14 +51,3 @@ private:
 	PlayerContext::PartManager partManager_;
 
 };
-
-template<typename T>
-inline void Player::AddParts()
-{
-	std::unique_ptr<IPart> instance = std::make_unique<T>();
-	instance->Initialize(collisionManager_);
-	instance->SetCamera(camera_);
-	instance->SetModel(ModelManager::GetInstance()->FindModel("Models/SampleBlock", "cube.obj"));
-	instance->GetFootCollider()->Object3DSetting(camera_, ModelManager::GetInstance()->FindModel("Models/SampleBlock", "cube.obj"));
-	parts_.push_back(std::move(instance));
-}

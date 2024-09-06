@@ -22,7 +22,8 @@ void GameScene::Initialize() {
 	// カメラ
 	camera_ = std::make_unique<Camera>();
 	camera_->Initialize();
-	camera_->worldTransform_.translate = Vector3(0.0f, 0.0f, -45.0f);
+	camera_->worldTransform_.translate = Vector3(0.0f, 15.0f, -100.0f);
+	camera_->worldTransform_.rotate.x = 0.1f;
 	// プレイヤー
 	player_ = std::make_unique<Player>();
 	player_->SetCollisionManager(collisionManager_.get());

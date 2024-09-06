@@ -12,7 +12,10 @@ void Player::Initialize(Camera* camera)
 	camera_ = camera;
 
 	partManager_.Initialize(this);
-
+	movePhysics_.acceleration = {};
+	movePhysics_.gravity = -9.8f;
+	movePhysics_.mass = 10.0f;
+	movePhysics_.miu = 0.4f;
 }
 
 void Player::Update()
@@ -20,23 +23,20 @@ void Player::Update()
 
 	Input* input = Input::GetInstance();
 	float contIndex = 1.0f;
+	float moveValue = 0.15f;
 
 	if (input->PressKey(DIK_A)) {
-		//partsIt_ = parts_.begin();
-		//if (partsIt_ != parts_.end()) {
-		//	(*partsIt_)->velocity_.x = -(0.1f);
-		//}
 		for (std::vector<std::unique_ptr<IPart>>::iterator it = parts_.begin(); it != parts_.end(); ++it) {
 			if ((*it)->IsGround()) {
-				(*it)->velocity_.x = -(0.1f / contIndex);
+				(*it)->velocity_.x += (-moveValue) * std::powf(0.95f, contIndex);
 			}
 			contIndex++;
 		}
 	}
-	else if (input->PressKey(DIK_D)) {
+	if (input->PressKey(DIK_D)) {
 		for (std::vector<std::unique_ptr<IPart>>::iterator it = parts_.begin(); it != parts_.end(); ++it) {
 			if ((*it)->IsGround()) {
-				(*it)->velocity_.x = (0.1f / contIndex);
+				(*it)->velocity_.x += moveValue * std::powf(0.95f, contIndex);
 			}
 			contIndex++;
 		}
@@ -46,7 +46,7 @@ void Player::Update()
 			if ((*it)->IsGround()) {
 				(*it)->velocity_.z = (0.1f / contIndex);
 			}
-			contIndex++;
+			contIndex--;
 		}
 	}
 	else if (input->PressKey(DIK_S)) {
@@ -54,7 +54,7 @@ void Player::Update()
 			if ((*it)->IsGround()) {
 				(*it)->velocity_.z = -(0.1f / contIndex);
 			}
-			contIndex++;
+			contIndex--;
 		}
 	}
 
@@ -100,7 +100,10 @@ void Player::ImGuiDraw()
 			partManager_.ImGuiDraw();
 			ImGui::EndTabItem();
 		}
-
+		if (ImGui::BeginTabItem("Physics")) {
+			ImGui::DragFloat2("Acc", &movePhysics_.acceleration.x);
+			ImGui::EndTabItem();
+		}
 		ImGui::EndTabBar();
 	}
 

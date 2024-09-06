@@ -15,18 +15,45 @@ void IPart::Update()
 
 	// 一番下の場合のみ
 	if ((!isOtherFoot_ && isGround_) && index_ == 0 && groundTimer_ > 30) {
-		isDead_ = true;
-		return;
+		//isDead_ = true;
+		//return;
 	}
 	else if ((isTerrain_ && isGround_) && index_ != 0 && groundTimer_ > 30) {
-		isDead_ = true;
-		return;
+		//isDead_ = true;
+		//return;
 	}
 	isOtherFoot_ = false;
 	isTerrain_ = false;
 
+	float mass = 20.0f;
+	float gravity = -9.8f;
+	float miu = 0.65f;
+	float magnitude = miu * (-mass * (gravity));
+	float frictForce = 0.0f;
+
+	if (std::fabsf(velocity_.x) > 0.01f) {
+		Vector3 normalize = Normalize(velocity_);
+		if (normalize.x > 0) {
+			frictForce = magnitude * (-1.0f);
+		}
+		else if (normalize.x < 0) {
+			frictForce = magnitude * (1.0f);
+		}
+	}
+	else if(std::fabsf(velocity_.x) < 0.001f){
+		velocity_.x = 0.0f;
+	}
+	acceleration_.x = frictForce / mass;
+
+	if (std::fabsf(acceleration_.x / 60.0f) > std::fabsf(velocity_.x)) {
+		acceleration_.x = velocity_.x * 60.0f;
+	}
+
+	// 速度計算
+	velocity_.x += acceleration_.x * (1.0f / 60.0f);
+
 	object3D_->worldTransform.translate += velocity_;
-	velocity_ = Lerps::Lerp(velocity_, Vector3(0.0f, 0.0f, 0.0f), 0.1f);
+	//velocity_ = Lerps::Lerp(velocity_, Vector3(0.0f, 0.0f, 0.0f), 0.1f);
 
 	// 行列更新
 	object3D_->worldTransform.UpdateMatrix();

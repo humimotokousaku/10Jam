@@ -71,7 +71,7 @@ public:
 	std::unique_ptr<Object3D> object3D_;
 	// 速さ
 	Vector3 velocity_;
-
+	Vector3 acceleration_{};
 	uint32_t index_ = 0;
 
 	bool isOtherFoot_ = true;

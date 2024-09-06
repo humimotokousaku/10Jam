@@ -18,6 +18,12 @@ void PlayerContext::PartManager::AddDaruma(DarumaPattern pattern)
 		}
 		//AddParts<MediumPart>(Vector3(0.0f, 2.0f, 0.0f));
 		break;
+	case PlayerContext::DarumaPattern::kHeavy:
+		for (int i = 0; i < 3; i++) {
+			AddParts<HeavyPart>(Vector3(0.0f, float(i) * 3.85f, 0.0f));
+		}
+		//AddParts<MediumPart>(Vector3(0.0f, 2.0f, 0.0f));
+		break;
 	default:
 		break;
 	}
@@ -37,11 +43,18 @@ void PlayerContext::PartManager::ImGuiDraw()
 	if (ImGui::Button("AddHeavy")) {
 		AddParts<HeavyPart>(generatePosition_);
 	}
-
-	if (ImGui::Button("Set")) {
-		AddDaruma(DarumaPattern::kDefault);
+	if (ImGui::TreeNode("SetTower")) {
+		if (ImGui::Button("SetDefault")) {
+			AddDaruma(DarumaPattern::kDefault);
+		}
+		if (ImGui::Button("SetHeavy")) {
+			AddDaruma(DarumaPattern::kHeavy);
+		}
+		ImGui::TreePop();
 	}
-
+	if (ImGui::Button("Reset")) {
+		player_->parts_.clear();
+	}
 }
 // 明示的なテンプレートのインスタンス化
 template void PlayerContext::PartManager::AddParts<LightPart>(const Vector3& position);

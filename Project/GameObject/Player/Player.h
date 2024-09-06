@@ -50,4 +50,13 @@ private:
 
 	PlayerContext::PartManager partManager_;
 
+	struct Physics {
+		Vector2 acceleration; // 加速度
+		float mass;	// 質量
+		float gravity; // 重力
+		float miu;	// 動摩擦
+	};
+
+	Physics movePhysics_;
+
 };

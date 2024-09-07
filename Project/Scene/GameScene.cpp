@@ -48,7 +48,8 @@ void GameScene::Initialize() {
 void GameScene::Update() {
 
 	// ゲームのシステム
-	ImGui::Begin("GameTimer");
+	ImGui::Begin("GameSystem");
+	ImGui::DragFloat3("CameraPosition", &cameraTargetPoint_.translate.x, 0.01f);
 	int gameTime = gameSystemManager_->GetElapsedTime();
 	ImGui::InputInt("GameTime", &gameTime);
 	if (ImGui::Button("PushAction")) {

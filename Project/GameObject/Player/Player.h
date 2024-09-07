@@ -3,6 +3,7 @@
 #include <vector>
 #include "ModelManager.h"
 #include "System/PartManager.h"
+#include "System/ReactionManager.h"
 
 class IPart;
 class Camera;
@@ -30,33 +31,24 @@ public:
 
 public: // アクセッサ
 	void SetCollisionManager(CollisionManager* collisionManager) { collisionManager_ = collisionManager; }
-	std::vector<std::unique_ptr<IPart>>* GetParts() { return &parts_; }
-	std::vector<std::unique_ptr<IPart>>::iterator* GetPartsIterator() { return &partsIt_; }
 	Camera* GetCamera() { return camera_; }
 	// コライダーのマネージャ
 	CollisionManager* GetCollision() { return collisionManager_; }
-	std::vector<std::unique_ptr<IPart>> parts_;
+
+	PlayerContext::ReactionManager* GetReactionManager() { return &reactionManager_; }
+	PlayerContext::PartManager* GetPartManager() { return &partManager_; }
 
 private:
-	// 土台のリスト
-	std::vector<std::unique_ptr<IPart>>::iterator partsIt_;
 	// ポインタ
 	Camera* camera_ = nullptr;
 	// コライダーのマネージャ
 	CollisionManager* collisionManager_ = nullptr;
-	// 押す力ベクトル
-	Vector3 pushPower_;
 	Vector3 generatePosition_;
 
+	// パーツ
 	PlayerContext::PartManager partManager_;
+	// リアクション
+	PlayerContext::ReactionManager reactionManager_;
 
-	struct Physics {
-		Vector2 acceleration; // 加速度
-		float mass;	// 質量
-		float gravity; // 重力
-		float miu;	// 動摩擦
-	};
-
-	Physics movePhysics_;
 
 };

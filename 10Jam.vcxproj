@@ -202,6 +202,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" </Command>
     <ClCompile Include="Project\GameObject\Player\DarumaPart\Medium\MediumPart.cpp" />
     <ClCompile Include="Project\GameObject\Player\Player.cpp" />
     <ClCompile Include="Project\GameObject\Player\System\PartManager.cpp" />
+    <ClCompile Include="Project\GameObject\Player\System\PhysicsSystem.cpp" />
+    <ClCompile Include="Project\GameObject\Player\System\ReactionManager.cpp" />
     <ClCompile Include="Project\GameObject\Terrain\Terrain.cpp" />
     <ClCompile Include="project\scene\GameManager.cpp" />
     <ClCompile Include="engine\Manager\ImGuiManager.cpp" />
@@ -291,8 +293,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" </Command>
     <ClInclude Include="Project\GameObject\Player\DarumaPart\Light\LightPart.h" />
     <ClInclude Include="Project\GameObject\Player\DarumaPart\Medium\MediumPart.h" />
     <ClInclude Include="Project\GameObject\Player\Player.h" />
-    <ClInclude Include="Project\GameObject\Player\System\DamageManager.h" />
     <ClInclude Include="Project\GameObject\Player\System\PartManager.h" />
+    <ClInclude Include="Project\GameObject\Player\System\PhysicsSystem.h" />
+    <ClInclude Include="Project\GameObject\Player\System\ReactionManager.h" />
     <ClInclude Include="Project\GameObject\Terrain\Terrain.h" />
     <ClInclude Include="project\scene\GameManager.h" />
     <ClInclude Include="engine\Manager\ImGuiManager.h" />

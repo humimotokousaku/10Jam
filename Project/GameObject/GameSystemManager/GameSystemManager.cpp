@@ -1,4 +1,5 @@
 #include "GameSystemManager.h"
+#include "GameObjectLists.h"
 #include <cassert>
 
 void GameSystemManager::Initialize(Player* player, Enemy* enemy)
@@ -27,6 +28,6 @@ void GameSystemManager::Update()
 void GameSystemManager::Action()
 {
 	// ここで力とアニメーションのセットアップ
-
+	player_->GetReactionManager()->PushAction({ 1.0f,0.0f,1.0f });
 
 }

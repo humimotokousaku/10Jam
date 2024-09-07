@@ -411,6 +411,12 @@
     <ClCompile Include="Project\Components\GameTimer\GameTimer.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Project\GameObject\Player\System\ReactionManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\GameObject\Player\System\PhysicsSystem.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\ImGui\imconfig.h">
@@ -686,10 +692,13 @@
     <ClInclude Include="Project\GameObject\GameSystemManager\GameSystemManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Project\GameObject\Player\System\DamageManager.h">
+    <ClInclude Include="Project\Components\GameTimer\GameTimer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Project\Components\GameTimer\GameTimer.h">
+    <ClInclude Include="Project\GameObject\Player\System\ReactionManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\GameObject\Player\System\PhysicsSystem.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

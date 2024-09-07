@@ -46,16 +46,5 @@ void LightPart::Draw()
 
 void LightPart::ImGuiDraw()
 {
-	ImGui::SeparatorText(partTag_.c_str());
-	std::string name = "Position" + partTag_;
-	ImGui::DragFloat3(name.c_str(), &object3D_->worldTransform.translate.x, 0.01f);
-	name = "Rotate" + partTag_;
-	ImGui::DragFloat3(name.c_str(), &object3D_->worldTransform.rotate.x, 0.01f);
-	name = "Scale" + partTag_;
-	ImGui::DragFloat3(name.c_str(), &object3D_->worldTransform.scale.x, 0.01f);
-	name = "IsGround : %d " + partTag_;
-	ImGui::Text(name.c_str(), isGround_);
-	name = "Index" + partTag_;
-	int in = index_;
-	ImGui::InputInt(name.c_str(), &in);
+	IPart::ImGuiDraw();
 }

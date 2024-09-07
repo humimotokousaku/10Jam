@@ -43,8 +43,6 @@ namespace PlayerContext
 	private:
 		Player* player_ = nullptr;
 		Vector3 generatePosition_;
-		Vector3 pushPower_;
-
 
 	};
 

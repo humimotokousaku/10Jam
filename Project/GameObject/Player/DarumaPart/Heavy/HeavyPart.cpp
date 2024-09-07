@@ -25,9 +25,13 @@ void HeavyPart::Initialize(CollisionManager* manager)
 	footCollider_->Initialize(this);
 	manager->SetColliderList(footCollider_.get());
 
-
 	// USER
 	isGround_ = false;
+	// 物理
+	physics_.mass = 20.0f;
+	physics_.frictionCoeff = 0.4f;
+	physics_.gravity = 9.8f;
+	physics_.normalForce = physics_.mass * physics_.gravity;
 }
 
 void HeavyPart::Update()

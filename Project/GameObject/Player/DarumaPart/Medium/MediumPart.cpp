@@ -29,6 +29,11 @@ void MediumPart::Initialize(CollisionManager* manager)
 
 	// USER
 	isGround_ = false;
+	// 物理
+	physics_.mass = 10.0f;
+	physics_.frictionCoeff = 0.3f;
+	physics_.gravity = 9.8f;
+	physics_.normalForce = physics_.mass * physics_.gravity;
 }
 
 void MediumPart::Update()

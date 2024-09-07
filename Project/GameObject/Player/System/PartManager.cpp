@@ -99,7 +99,7 @@ void PlayerContext::PartManager::InputUpdate()
 
 void PlayerContext::PartManager::AddDaruma(DarumaPattern pattern)
 {
-
+	int index = 0;
 	switch (pattern)
 	{
 	case PlayerContext::DarumaPattern::kDefault:
@@ -114,6 +114,20 @@ void PlayerContext::PartManager::AddDaruma(DarumaPattern pattern)
 		}
 		//AddParts<MediumPart>(Vector3(0.0f, 2.0f, 0.0f));
 		break;
+	case PlayerContext::DarumaPattern::kL2M2H:
+		AddParts<LightPart>(Vector3(0.0f, float(index) * 3.85f, 0.0f));
+		index++;
+		AddParts<MediumPart>(Vector3(0.0f, float(index) * 3.85f, 0.0f));
+		index++;
+		AddParts<HeavyPart>(Vector3(0.0f, float(index) * 3.85f, 0.0f));
+		break;
+	case PlayerContext::DarumaPattern::kH2M2L:
+		AddParts<HeavyPart>(Vector3(0.0f, float(index) * 3.85f, 0.0f));
+		index++;
+		AddParts<MediumPart>(Vector3(0.0f, float(index) * 3.85f, 0.0f));
+		index++;
+		AddParts<LightPart>(Vector3(0.0f, float(index) * 3.85f, 0.0f));
+		break;
 	default:
 		break;
 	}
@@ -123,7 +137,7 @@ void PlayerContext::PartManager::ImGuiDraw()
 {
 	float dragValue = 0.01f;
 	ImGui::DragFloat3("GeneratePosition", &generatePosition_.x, dragValue);
-
+	ImGui::Separator();
 	if (ImGui::Button("AddLight")) {
 		AddParts<LightPart>(generatePosition_);
 	}
@@ -133,6 +147,7 @@ void PlayerContext::PartManager::ImGuiDraw()
 	if (ImGui::Button("AddHeavy")) {
 		AddParts<HeavyPart>(generatePosition_);
 	}
+	ImGui::Separator();
 	if (ImGui::TreeNode("SetTower")) {
 		if (ImGui::Button("SetDefault")) {
 			AddDaruma(DarumaPattern::kDefault);
@@ -140,11 +155,14 @@ void PlayerContext::PartManager::ImGuiDraw()
 		if (ImGui::Button("SetHeavy")) {
 			AddDaruma(DarumaPattern::kHeavy);
 		}
+		if (ImGui::Button("LightToHeavy")) {
+			AddDaruma(DarumaPattern::kL2M2H);
+		}
+		if (ImGui::Button("HeavyToLight")) {
+			AddDaruma(DarumaPattern::kH2M2L);
+		}
 		ImGui::TreePop();
 	}
-
-	ImGui::DragFloat3("PushPower", &pushPower_.x, 0.01f);
-
 	if (ImGui::Button("Reset")) {
 		parts_.clear();
 	}

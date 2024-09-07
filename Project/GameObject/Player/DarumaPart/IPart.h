@@ -2,6 +2,7 @@
 #include "Object3D.h"
 #include "Collider.h"
 #include "CollisionManager.h"
+#include "Player/System/PhysicsSystem.h"
 
 #include "Foot/FootCollider.h"
 
@@ -66,6 +67,8 @@ protected:
 	bool isDead_;
 	// 足場
 	std::unique_ptr<FootCollider> footCollider_;
+	// 物理のパラメータ
+	PlayerContext::PhysicsParam physics_;
 public:
 	// モデルと座標
 	std::unique_ptr<Object3D> object3D_;

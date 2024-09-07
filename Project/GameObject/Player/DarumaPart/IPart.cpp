@@ -1,5 +1,4 @@
 #include "IPart.h"
-#include "Player/System/PhysicsSystem.h"
 
 uint32_t IPart::sSerialNumber = 0;
 
@@ -47,14 +46,9 @@ void IPart::Update()
 	//acceleration_.x = frictForce / mass;
 	//// 速度計算
 	//velocity_.x += acceleration_.x * (1.0f / 60.0f);
-	PlayerContext::PhysicsParam param;
-	param.mass = 10.0f;
-	param.frictionCoeff = 0.3f;
-	param.gravity = 9.8f;
-	param.normalForce = param.mass * param.gravity;
 
 	// 速度を更新（加速度を考慮）
-	velocity_ = PlayerContext::PhysicsSystem::ApplyX_ZFriction(velocity_, param);
+	velocity_ = PlayerContext::PhysicsSystem::ApplyX_ZFriction(velocity_, physics_);
 
 	// 速度が小さい場合は停止とみなす
 	if (std::fabsf(velocity_.x) < 0.01f) {

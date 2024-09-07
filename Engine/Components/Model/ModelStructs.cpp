@@ -403,11 +403,6 @@ float Custom_fmod(float dividend, float divisor, float initValue) {
 		result = initValue;
 		return result;
 	}
-	// divisorが+の場合
-	//if () {
-	//	result = initValue;
-	//	return result;
-	//}
 
 	result = dividend;
 	return result;

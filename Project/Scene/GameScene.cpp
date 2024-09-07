@@ -8,32 +8,33 @@ void GameScene::Initialize() {
 	modelManager_ = ModelManager::GetInstance();
 	audio_ = Audio::GetInstance();
 
-	// モデル読み込み
 	/// テクスチャの読み込み
 	textureManager_->LoadTexture("", "uvChecker.png");
 	textureManager_->LoadTexture("DefaultTexture", "white.png");
 	// テクスチャの番号を取得
-	//textureHandle_ = textureManager_->GetSrvIndex("", "uvChecker.png");
 	textureHandle_ = textureManager_->GetSrvIndex("DefaultTexture", "white.png");
-
+	
+	// モデル読み込み
 	modelManager_->LoadModel("Models/SampleBlock", "cube.obj");
 	collisionManager_ = std::make_unique<CollisionManager>();
 
-	// カメラ
-	camera_ = std::make_unique<Camera>();
-	camera_->Initialize();
-	camera_->worldTransform_.translate = Vector3(0.0f, 15.0f, -100.0f);
-	camera_->worldTransform_.rotate.x = 0.1f;
+	// 追従カメラ
+	followCamera_ = std::make_unique<FollowCamera>();
+	followCamera_->Initialize();
+	cameraTargetPoint_.Initialize();
+	followCamera_->SetParent(&cameraTargetPoint_);
+	//camera_->worldTransform_.translate = Vector3(0.0f, 0.0f, -45.0f);
+	
 	// プレイヤー
 	player_ = std::make_unique<Player>();
 	player_->SetCollisionManager(collisionManager_.get());
-	player_->Initialize(camera_.get());
+	player_->Initialize(followCamera_->GetCamera());
 	// エネミー
 	enemy_ = std::make_unique<Enemy>();
 
 	terrain_ = std::make_unique<Terrain>();
 	terrain_->Initialize();
-	terrain_->SetCamera(camera_.get());
+	terrain_->SetCamera(followCamera_->GetCamera());
 	terrain_->SetModel(modelManager_->FindModel("Models/SampleBlock", "cube.obj"));
 	collisionManager_->SetColliderList(terrain_.get());
 	terrain_->SetPosition(Vector3(0.0f, -20.0f, 0.0f));
@@ -68,12 +69,8 @@ void GameScene::Update() {
 		sceneNum = TITLE_SCENE;
 	}
 
-	// カメラ更新
-	ImGui::Begin("Camera");
-	ImGui::DragFloat3("Position", &camera_->worldTransform_.translate.x, 0.01f);
-	ImGui::DragFloat3("Rotate", &camera_->worldTransform_.rotate.x, 0.01f);
-	ImGui::End();
-	camera_->Update();
+	cameraTargetPoint_.UpdateMatrix();
+	followCamera_->Update();
 	// プレイヤー
 	player_->ImGuiDraw();
 	player_->Update();
@@ -83,7 +80,6 @@ void GameScene::Update() {
 
 	// 当たり判定
 	collisionManager_->CheckAllCollisions();
-
 }
 
 void GameScene::Draw() {

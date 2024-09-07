@@ -8,6 +8,8 @@ namespace Lerps {
 	Vector3 Lerp(const Vector3& start, const Vector3& end, float t);
 	Vector2 Lerp(const Vector2& start, const Vector2& end, float t);
 	float Lerp(const float& start, const float& end, float t);
+	// 最短角度補間
+	float LerpShortAngle(float a, float b, float t);
 	// 球面線形補間
 	Vector3 Slerp(const Vector3& start, const Vector3& end, float t);
 	// Cat-mullRom曲線

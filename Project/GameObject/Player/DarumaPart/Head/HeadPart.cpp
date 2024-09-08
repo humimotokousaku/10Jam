@@ -1,16 +1,16 @@
-#include "HeavyPart.h"
-#include "Lerp.h"
+#include "HeadPart.h"
+#include "TextureManager.h"
 
-void HeavyPart::Initialize(CollisionManager* manager)
+void HeadPart::Initialize(CollisionManager* manager)
 {
 	// シリアル設定
 	serialNumber_ = sSerialNumber;
 	sSerialNumber++;
-	partTag_ = "Heavy" + std::to_string(serialNumber_);
+	partTag_ = "Head";
 
 	// 基底の初期化
 	IPart::Initialize(manager);
-	object3D_->worldTransform.scale = Vector3(3.0f, 3.0f, 3.0f);
+	object3D_->worldTransform.scale = Vector3(2.5f, 2.5f, 2.5f);
 	SetOBBLength(object3D_->worldTransform.scale);
 	SetTag(partTag_);
 	FootInitialize(manager);
@@ -18,27 +18,27 @@ void HeavyPart::Initialize(CollisionManager* manager)
 	// USER
 	isGround_ = false;
 	// 物理
-	physics_.mass = 20.0f;
-	physics_.frictionCoeff = 0.4f;
+	physics_.mass = 10.0f;
+	physics_.frictionCoeff = 0.3f;
 	physics_.gravity = 9.8f;
 	physics_.normalForce = physics_.mass * physics_.gravity;
+
+	texture_ = TextureManager::GetInstance()->GetSrvIndex("DefaultTexture", "white.png");
 }
 
-void HeavyPart::Update()
+void HeadPart::Update()
 {
-
 	IPart::Update();
-
 }
 
-void HeavyPart::Draw()
+void HeadPart::Draw()
 {
 	// 描画
-	object3D_->Draw();
+	object3D_->Draw(texture_);
 	footCollider_->Draw();
 }
 
-void HeavyPart::ImGuiDraw()
+void HeadPart::ImGuiDraw()
 {
 	IPart::ImGuiDraw();
 }

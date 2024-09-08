@@ -4,5 +4,6 @@
 #include "Player/DarumaPart/Light/LightPart.h"
 #include "Player/DarumaPart/Heavy/HeavyPart.h"
 #include "Player/DarumaPart/Medium/MediumPart.h"
+#include "Player/DarumaPart/Head/HeadPart.h"
 #include "Enemy/Enemy.h"
 #include "Terrain/Terrain.h"

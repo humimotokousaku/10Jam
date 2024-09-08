@@ -5,27 +5,17 @@
 
 void MediumPart::Initialize(CollisionManager* manager)
 {
+	// シリアル設定
 	serialNumber_ = sSerialNumber;
 	sSerialNumber++;
 	partTag_ = "Medium" + std::to_string(serialNumber_);
-	// 生成
-	object3D_ = std::make_unique<Object3D>();
-	object3D_->Initialize();
-	object3D_->worldTransform.translate = Vector3(0.0f, 0.0f, 0.0f);
+
+	// 基底の初期化
+	IPart::Initialize(manager);
 	object3D_->worldTransform.scale = Vector3(2.0f, 2.0f, 2.0f);
-	object3D_->worldTransform.rotate = Vector3(0.0f, 0.0f, 0.0f);
-	// コライダー登録
-	SetCollisionPrimitive(kCollisionOBB);
-	SetCollisionAttribute(kCollisionAttributeDarumaPart);
-	SetCollisionMask(~kCollisionAttributePlayer);
 	SetOBBLength(object3D_->worldTransform.scale);
-
 	SetTag(partTag_);
-
-	manager->SetColliderList(this);
-	footCollider_ = std::make_unique<FootCollider>();
-	footCollider_->Initialize(this);
-	manager->SetColliderList(footCollider_.get());
+	FootInitialize(manager);
 
 	// USER
 	isGround_ = false;

@@ -2,25 +2,52 @@
 
 uint32_t IPart::sSerialNumber = 0;
 
+void IPart::Initialize(CollisionManager* manager)
+{
+	object3D_ = std::make_unique<Object3D>();
+	object3D_->Initialize();
+	object3D_->worldTransform.translate = Vector3(0.0f, 0.0f, 0.0f);
+	object3D_->worldTransform.rotate = Vector3(0.0f, 0.0f, 0.0f);
+
+	// コライダー登録
+	SetCollisionPrimitive(kCollisionOBB);
+	SetCollisionAttribute(kCollisionAttributeDarumaPart);
+	SetCollisionMask(~kCollisionAttributePlayer);
+
+	manager->SetColliderList(this);
+}
+
 void IPart::Update()
 {
 	if (!isGround_) {
 		velocity_.y -= (4.5f * (1.0f / 60.0f));
-		groundTimer_ = 0;
+		// 上の段
+		if (index_ != 0) {
+			groundTimer_ = 0;
+		}
+		// 下の段
+		else if (index_ == 0 && isOtherFoot_) {
+			groundTimer_++;
+		}
 	}
 	else {
-		groundTimer_++;
+		if (index_ != 0) {
+			groundTimer_++;
+		}
+		else if (index_ == 0 && !isOtherFoot_) {
+			groundTimer_++;
+		}
 		velocity_.y = 0.0f;
 	}
 
 	// 一番下の場合のみ
 	if ((!isOtherFoot_ && isGround_) && index_ == 0 && groundTimer_ > 30) {
-		//isDead_ = true;
-		//return;
+		isDead_ = true;
+		return;
 	}
 	else if ((isTerrain_ && isGround_) && index_ != 0 && groundTimer_ > 30) {
-		//isDead_ = true;
-		//return;
+		isDead_ = true;
+		return;
 	}
 	isOtherFoot_ = false;
 	isTerrain_ = false;
@@ -91,6 +118,13 @@ void IPart::ImGuiDraw()
 	name = "Index" + partTag_;
 	int in = index_;
 	ImGui::InputInt(name.c_str(), &in);
+}
+
+void IPart::FootInitialize(CollisionManager* manager)
+{
+	footCollider_ = std::make_unique<FootCollider>();
+	footCollider_->Initialize(this);
+	manager->SetColliderList(footCollider_.get());
 }
 
 void IPart::ColliderUpdate()

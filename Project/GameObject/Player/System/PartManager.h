@@ -35,6 +35,7 @@ namespace PlayerContext
 		// 追加
 		template<typename T>
 		void AddParts(const Vector3& position);
+		void AddHead(const Vector3& position);
 		void AddDaruma(DarumaPattern pattern);
 
 		std::vector<std::unique_ptr<IPart>>::iterator partsIt_;

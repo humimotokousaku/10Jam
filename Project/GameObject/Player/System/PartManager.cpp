@@ -97,6 +97,17 @@ void PlayerContext::PartManager::InputUpdate()
 	}
 }
 
+void PlayerContext::PartManager::AddHead(const Vector3& position)
+{
+	std::unique_ptr<IPart> instance = std::make_unique<HeadPart>();
+	instance->Initialize(player_->GetCollision());
+	instance->SetCamera(player_->GetCamera());
+	instance->SetModel(ModelManager::GetInstance()->FindModel("Models/SampleBlock", "cube.obj"));
+	instance->GetFootCollider()->Object3DSetting(player_->GetCamera(), ModelManager::GetInstance()->FindModel("Models/SampleBlock", "cube.obj"));
+	instance->SetPosition(position);
+	parts_.push_back(std::move(instance));
+}
+
 void PlayerContext::PartManager::AddDaruma(DarumaPattern pattern)
 {
 	int index = 0;
@@ -146,6 +157,9 @@ void PlayerContext::PartManager::ImGuiDraw()
 	}
 	if (ImGui::Button("AddHeavy")) {
 		AddParts<HeavyPart>(generatePosition_);
+	}
+	if (ImGui::Button("AddHead")) {
+		AddHead(generatePosition_);
 	}
 	ImGui::Separator();
 	if (ImGui::TreeNode("SetTower")) {

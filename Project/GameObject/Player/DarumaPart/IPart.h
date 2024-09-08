@@ -25,11 +25,12 @@ public:
 public: // 仮想関数
 	// デストラクタ
 	virtual ~IPart() = default;
-	virtual void Initialize(CollisionManager* manager) = 0;
+	virtual void Initialize(CollisionManager* manager);
 	virtual void Update();
 	virtual void Draw() = 0;
 	virtual void ImGuiDraw();
 protected: // 継承先で使用する関数
+	void FootInitialize(CollisionManager* manager);
 	void ColliderUpdate();
 	void CorrectPosition(Collider* collider);
 

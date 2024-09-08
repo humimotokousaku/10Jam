@@ -31,6 +31,9 @@ public:
 
 public: // アクセッサ
 	void SetCollisionManager(CollisionManager* collisionManager) { collisionManager_ = collisionManager; }
+	void SetIsDead(bool isDead) { isDead_ = isDead; }
+	
+	bool IsDead() { return isDead_; }
 	Camera* GetCamera() { return camera_; }
 	// コライダーのマネージャ
 	CollisionManager* GetCollision() { return collisionManager_; }
@@ -50,5 +53,6 @@ private:
 	// リアクション
 	PlayerContext::ReactionManager reactionManager_;
 
+	bool isDead_ = false;
 
 };

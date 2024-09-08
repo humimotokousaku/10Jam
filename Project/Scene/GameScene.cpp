@@ -66,6 +66,9 @@ void GameScene::Update() {
 	if (Input::GetInstance()->TriggerKey(DIK_RETURN)) {
 		SceneTransition::GetInstance()->Start();
 	}
+	if (player_->IsDead()) {
+		//SceneTransition::GetInstance()->Start();
+	}
 	if (SceneTransition::GetInstance()->GetSceneTransitionSignal()) {
 		sceneNum = TITLE_SCENE;
 	}

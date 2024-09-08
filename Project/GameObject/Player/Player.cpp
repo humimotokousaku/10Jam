@@ -31,7 +31,7 @@ void Player::Draw()
 void Player::ImGuiDraw()
 {
 	ImGui::Begin("Player");
-
+	ImGui::Text("PlDead : %d", isDead_);
 	if (ImGui::BeginTabBar("System"))
 	{
 		if (ImGui::BeginTabItem("PartManager")) {

@@ -25,7 +25,11 @@ void PlayerContext::PartManager::Update()
 	}
 
 	// 削除処理
-	parts_.erase(std::remove_if(parts_.begin(), parts_.end(), [](const std::unique_ptr<IPart>& obj) {
+	parts_.erase(std::remove_if(parts_.begin(), parts_.end(), [this](const std::unique_ptr<IPart>& obj) {
+		// 頭の死亡でプレイヤー全体の死亡判定
+		if (obj->GetTag() == "Head" && obj->IsDead()) {
+			player_->SetIsDead(true);
+		}
 		return obj->IsDead();
 		}), parts_.end());
 }

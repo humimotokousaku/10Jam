@@ -59,9 +59,9 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	}
 			
 	// 環境マップ
-    float32_t3 cameraToPosition = normalize(input.worldPosition - gCamera.worldPosition);
-    float32_t3 reflectedVector = reflect(cameraToPosition, normalize(input.normal));
-    float32_t4 enviromentColor = gEnvironmentTexture.Sample(gSampler, reflectedVector);
+    //float32_t3 cameraToPosition = normalize(input.worldPosition - gCamera.worldPosition);
+    //float32_t3 reflectedVector = reflect(cameraToPosition, normalize(input.normal));
+    //float32_t4 enviromentColor = gEnvironmentTexture.Sample(gSampler, reflectedVector);
 		
 	// ライティングをする場合
 	if (gMaterial.enableLighting != 0) {

@@ -42,11 +42,15 @@ void GameScene::Initialize() {
 	gameSystemManager_ = std::make_unique<GameSystemManager>();
 	gameSystemManager_->Initialize(player_.get(),enemy_.get());
 
+	// 経過時間
 	gameTimer_.Initialize();
+
+	// 攻撃方向表示
+	attackDirection_ = std::make_unique<AttackDirection>(followCamera_->GetCamera());
+	attackDirection_->Start();
 }
 
 void GameScene::Update() {
-
 	// ゲームのシステム
 	ImGui::Begin("GameTimer");
 	int gameTime = gameSystemManager_->GetElapsedTime();
@@ -58,8 +62,11 @@ void GameScene::Update() {
 	gameTimer_.Update();
 	gameTimer_.SetDrawTime(gameTime);
 
+	// 攻撃方向表示
+	attackDirection_->Update();
+
 	// シーンの切り替え処理
-	if (Input::GetInstance()->TriggerKey(DIK_RETURN)) {
+	if (Input::GetInstance()->TriggerKey(DIK_SPACE)) {
 		SceneTransition::GetInstance()->Start();
 	}
 	if (SceneTransition::GetInstance()->GetSceneTransitionSignal()) {
@@ -81,7 +88,9 @@ void GameScene::Update() {
 
 void GameScene::Draw() {
 	player_->Draw();
-	terrain_->Draw(textureHandle_);
+	//terrain_->Draw(textureHandle_);
+	// 攻撃方向表示
+	attackDirection_->Draw();
 }
 
 void GameScene::Finalize() {

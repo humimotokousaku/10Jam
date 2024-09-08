@@ -9,6 +9,8 @@
 #include <math.h>
 
 void Plane::Initialize() {
+	worldTransform.Initialize();
+
 	CreateVertexResource();
 
 	CreateMaterialResource();
@@ -31,10 +33,14 @@ void Plane::Initialize() {
 	};
 
 	// 矩形のデータ
-	vertexData_[0].position = { 0.0f,1.0f, 0.0f, 1.0f };// 左下
-	vertexData_[1].position = { 0.0f,0.0f, 0.0f, 1.0f };// 左上
-	vertexData_[2].position = { 1.0f,1.0f, 0.0f, 1.0f };// 右下
-	vertexData_[3].position = { 1.0f,0.0f, 0.0f, 1.0f };// 右上
+	vertexData_[0].position = { -1.0f,0.0f, -1.0f, 1.0f };// 左下
+	vertexData_[0].texcoord = { 0.0f,1.0f };
+	vertexData_[1].position = { -1.0f,0.0f, 1.0f, 1.0f };// 左上
+	vertexData_[1].texcoord = { 0.0f,0.0f };
+	vertexData_[2].position = { 1.0f,0.0f, -1.0f, 1.0f };// 右下
+	vertexData_[2].texcoord = { 1.0f,1.0f };
+	vertexData_[3].position = { 1.0f,0.0f, 1.0f, 1.0f };// 右上
+	vertexData_[3].texcoord = { 1.0f,0.0f };
 	// Index
 	indexData_[0] = 0;
 	indexData_[1] = 1;
@@ -45,32 +51,34 @@ void Plane::Initialize() {
 
 	materialData_->color = { 1.0f,1.0f,1.0f,1.0f };
 	// Lightingするか
-	materialData_->enableLighting = true;
+	materialData_->enableLighting = false;
 	// uvTransform行列の初期化
 	materialData_->uvTransform = MakeIdentity4x4();
 	materialData_->shininess = 20;
 }
 
-void Plane::Draw(uint32_t textureHandle, const WorldTransform& worldTransform, const ViewProjection& viewProjection, int fillMode) {
+void Plane::Draw(uint32_t textureHandle, int fillMode) {
+	worldTransform.UpdateMatrix();
+
 	uvTransformMatrix_ = MakeScaleMatrix(uvTransform_.scale);
 	uvTransformMatrix_ = Multiply(uvTransformMatrix_, MakeRotateZMatrix(uvTransform_.rotate.z));
 	uvTransformMatrix_ = Multiply(uvTransformMatrix_, MakeTranslateMatrix(uvTransform_.translate));
 	materialData_->uvTransform = uvTransformMatrix_;
 
-	cameraPosData_ = viewProjection.translate;
+	cameraPosData_ = camera_->worldTransform_.translate;
 
+	/// コマンドを積む
 	// 使用するPSO
-	PipelineManager::GetInstance()->SetObject3dPSO(kFillModeSolid);
+	PipelineManager::GetInstance()->SetObject3dPSO(fillMode);
 
 	DirectXCommon::GetInstance()->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView_); // VBVを設定
 	DirectXCommon::GetInstance()->GetCommandList()->IASetIndexBuffer(&indexBufferView_);
 
 	DirectXCommon::GetInstance()->GetCommandList()->SetGraphicsRootConstantBufferView(1, worldTransform.constBuff_->GetGPUVirtualAddress());
-	DirectXCommon::GetInstance()->GetCommandList()->SetGraphicsRootConstantBufferView(4, viewProjection.constBuff_->GetGPUVirtualAddress());
+	DirectXCommon::GetInstance()->GetCommandList()->SetGraphicsRootConstantBufferView(4, camera_->GetViewProjection().constBuff_->GetGPUVirtualAddress());
 	DirectXCommon::GetInstance()->GetCommandList()->SetGraphicsRootConstantBufferView(5, cameraPosResource_.Get()->GetGPUVirtualAddress());
 
 	// DescriptorTableの設定
-	//DirectXCommon::GetInstance()->GetCommandList()->SetGraphicsRootDescriptorTable(2, TextureManager::GetInstance()->GetSrvHandleGPU(1));
 	SrvManager::GetInstance()->SetGraphicsRootDesctiptorTable(2, textureHandle);
 
 	// マテリアルCBufferの場所を設定
@@ -78,13 +86,8 @@ void Plane::Draw(uint32_t textureHandle, const WorldTransform& worldTransform, c
 	DirectXCommon::GetInstance()->GetCommandList()->SetGraphicsRootConstantBufferView(3, DirectionalLight::GetInstance()->GetDirectionalLightResource()->GetGPUVirtualAddress());
 	DirectXCommon::GetInstance()->GetCommandList()->SetGraphicsRootConstantBufferView(6, PointLight::GetInstance()->GetPointLightResource()->GetGPUVirtualAddress());
 	DirectXCommon::GetInstance()->GetCommandList()->SetGraphicsRootConstantBufferView(7, SpotLight::GetInstance()->GetSpotLightResource()->GetGPUVirtualAddress());
-
-	DirectXCommon::GetInstance()->GetCommandList()->DrawIndexedInstanced(6, 1, 0, 0, 0);
+	DirectXCommon::GetInstance()->GetCommandList()->DrawIndexedInstanced(6, 1, 0, 0,0);
 }
-
-//void Plane::Release() {
-//
-//}
 
 void Plane::ImGuiAdjustParameter() {
 	ImGui::CheckboxFlags("isLighting", &materialData_->enableLighting, 1);

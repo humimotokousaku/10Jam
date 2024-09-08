@@ -9,6 +9,7 @@
 
 #include "../GameObjectLists.h"
 #include "../GameSystemManager/GameSystemManager.h"
+#include "../AttackDirection/AttackDirection.h"
 
 #include "GameTimer/GameTimer.h"
 
@@ -66,6 +67,8 @@ private: // USER
 	std::unique_ptr<GameSystemManager> gameSystemManager_;
 	// ゲームのタイム
 	GameTimer gameTimer_;
+	// 攻撃方向の表示
+	std::unique_ptr<AttackDirection> attackDirection_;
 
 	// 追従カメラの見ている座標
 	WorldTransform cameraTargetPoint_;

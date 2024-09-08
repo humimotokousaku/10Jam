@@ -4,7 +4,7 @@
 #include "TextureManager.h"
 #include "DirectXCommon.h"
 #include "WorldTransform.h"
-#include "ViewProjection.h"
+#include "Camera.h"
 #include "PipelineManager.h"
 #include <d3d12.h>
 
@@ -21,10 +21,15 @@ public:
 	void Initialize();
 
 	// 描画処理
-	void Draw(uint32_t textureHandle, const WorldTransform& worldTransform, const ViewProjection& viewProjection, int fillMode = kFillModeSolid);
+	void Draw(uint32_t textureHandle, int fillMode = kFillModeSolid);
 
 	// ImGuiをまとめた関数
 	void ImGuiAdjustParameter();
+
+	// カメラ
+	void SetCamera(Camera* camera) { camera_ = camera; }
+	// 色の設定
+	void SetColor(Vector4 RGBA) { materialData_->color = RGBA; }
 
 private:// プライベートなメンバ関数
 	Microsoft::WRL::ComPtr<ID3D12Resource> CreateBufferResource(const Microsoft::WRL::ComPtr<ID3D12Device>& device, size_t sizeInBytes);
@@ -40,6 +45,10 @@ private:// プライベートなメンバ関数
 	void CreateMaterialResource();
 
 	void CreateWvpResource();
+
+public:
+	// ワールドトランスフォーム
+	WorldTransform worldTransform;
 
 private:
 	// Material
@@ -59,4 +68,5 @@ private:
 	// カメラ
 	Microsoft::WRL::ComPtr<ID3D12Resource> cameraPosResource_;
 	Vector3 cameraPosData_;
+	Camera* camera_;
 };

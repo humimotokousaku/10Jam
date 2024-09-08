@@ -53,7 +53,7 @@ void GameScene::Update() {
 	int gameTime = gameSystemManager_->GetElapsedTime();
 	ImGui::InputInt("GameTime", &gameTime);
 	if (ImGui::Button("PushAction")) {
-		gameSystemManager_->Action();
+		gameSystemManager_->Action(1.0f);
 	}
 	ImGui::End();
 	gameSystemManager_->Update();

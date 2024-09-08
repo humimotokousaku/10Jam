@@ -12,6 +12,9 @@ void GameSystemManager::Initialize(Player* player, Enemy* enemy)
 
 	timer_.elapsed = 0;
 	timer_.frameCount = 0;
+
+	actionTime.coolTime = { 0,300 };
+
 }
 
 void GameSystemManager::Update()
@@ -23,11 +26,17 @@ void GameSystemManager::Update()
 
 	timer_.Update();
 
+	actionTime.coolTime.current++;
+	if (actionTime.coolTime.current > actionTime.coolTime.max) {
+		Action(0.15f);
+		actionTime.coolTime.current = 0;
+	}
+
 }
 
-void GameSystemManager::Action()
+void GameSystemManager::Action(float power)
 {
 	// ここで力とアニメーションのセットアップ
-	player_->GetReactionManager()->PushAction({ 1.0f,0.0f,1.0f });
+	player_->GetReactionManager()->PushAction({ 1.0f,0.0f,1.0f }, power);
 
 }

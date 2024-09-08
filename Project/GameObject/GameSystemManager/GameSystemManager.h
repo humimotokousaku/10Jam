@@ -36,7 +36,20 @@ public:
 	// ゲーム時の処理
 	void Update();
 	// 行動
-	void Action();
+	void Action(float power);
+
+	struct CountParam {
+		uint32_t current;
+		uint32_t max;
+	};
+	struct EnemyActionTable {
+		// 行動用
+		CountParam action;
+		// 間隔用
+		CountParam coolTime;
+	};
+
+	EnemyActionTable actionTime;
 
 public:
 	// 経過時間の取得

@@ -19,6 +19,7 @@ namespace PlayerContext
 		void Initialize(Player* player);
 		// 押し出しアクション
 		void PushAction(const Vector3& direct);
+		void PushAction(const Vector3& direct, float power);
 
 	private:
 		Player* player_ = nullptr;

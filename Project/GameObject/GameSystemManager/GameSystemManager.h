@@ -67,6 +67,7 @@ private: // ゲームの管理
 	Enemy* enemy_ = nullptr;
 
 	Vector3 actionDirect_{ 1.0f,0.0f,0.0f };
+	float actionPower_ = 0.15f;
 	// 攻撃方向の表示
 	std::unique_ptr<AttackDirection> attackDirection_;
 

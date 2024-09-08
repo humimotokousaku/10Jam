@@ -36,7 +36,7 @@ void GameSystemManager::Update()
 
 	actionTime.coolTime.current++;
 	if (actionTime.coolTime.current > actionTime.coolTime.max) {
-		Action(0.15f);
+		Action(actionPower_);
 		actionTime.coolTime.current = 0;
 	}
 
@@ -45,6 +45,7 @@ void GameSystemManager::Update()
 void GameSystemManager::ImGuiDraw()
 {
 	ImGui::DragFloat3("ActionDirect", &actionDirect_.x, 0.01f);
+	ImGui::DragFloat("ActionPower", &actionPower_, 0.01f);
 	actionDirect_ = Normalize(actionDirect_);
 }
 

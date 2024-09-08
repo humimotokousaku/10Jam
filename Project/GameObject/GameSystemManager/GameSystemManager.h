@@ -1,5 +1,7 @@
 #pragma once
 #include <stdint.h>
+#include <memory>
+#include "../AttackDirection/AttackDirection.h"
 
 class Player;
 class Enemy;
@@ -35,6 +37,8 @@ public:
 	void Initialize(Player* player, Enemy* enemy);
 	// ゲーム時の処理
 	void Update();
+	void ImGuiDraw();
+	void Draw();
 	// 行動
 	void Action(float power);
 
@@ -61,5 +65,9 @@ private: // ゲームの管理
 	// ポインタ
 	Player* player_ = nullptr;
 	Enemy* enemy_ = nullptr;
+
+	Vector3 actionDirect_{ 1.0f,0.0f,0.0f };
+	// 攻撃方向の表示
+	std::unique_ptr<AttackDirection> attackDirection_;
 
 };

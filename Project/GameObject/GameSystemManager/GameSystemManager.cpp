@@ -15,6 +15,10 @@ void GameSystemManager::Initialize(Player* player, Enemy* enemy)
 
 	actionTime.coolTime = { 0,300 };
 
+	// 攻撃方向表示
+	attackDirection_ = std::make_unique<AttackDirection>(player_->GetCamera());
+	attackDirection_->Start();
+
 }
 
 void GameSystemManager::Update()
@@ -26,6 +30,10 @@ void GameSystemManager::Update()
 
 	timer_.Update();
 
+	// 攻撃方向表示
+	attackDirection_->Update();
+	attackDirection_->SetArrowDirection(actionDirect_);
+
 	actionTime.coolTime.current++;
 	if (actionTime.coolTime.current > actionTime.coolTime.max) {
 		Action(0.15f);
@@ -34,9 +42,21 @@ void GameSystemManager::Update()
 
 }
 
+void GameSystemManager::ImGuiDraw()
+{
+	ImGui::DragFloat3("ActionDirect", &actionDirect_.x, 0.01f);
+	actionDirect_ = Normalize(actionDirect_);
+}
+
+void GameSystemManager::Draw()
+{
+	// 攻撃方向表示
+	attackDirection_->Draw();
+}
+
 void GameSystemManager::Action(float power)
 {
 	// ここで力とアニメーションのセットアップ
-	player_->GetReactionManager()->PushAction({ 1.0f,0.0f,1.0f }, power);
+	player_->GetReactionManager()->PushAction(actionDirect_, power);
 
 }

@@ -15,7 +15,8 @@ void MediumPart::Initialize(CollisionManager* manager)
 	IPart::Initialize(manager);
 	GlobalVariables* global = GlobalVariables::GetInstance();
 	global->CreateGroup("MediumPart");
-	global->AddItem("MediumPart", "Scale", object3D_->worldTransform.scale);
+	Vector3 value = { 2.0f,1.5f,2.0f };
+	global->AddItem("MediumPart", "Scale", value);
 	object3D_->worldTransform.scale = global->GetVector3Value("MediumPart", "Scale");
 	SetOBBLength(object3D_->worldTransform.scale);
 	SetTag(partTag_);
@@ -32,6 +33,8 @@ void MediumPart::Initialize(CollisionManager* manager)
 
 void MediumPart::Update()
 {
+	GlobalVariables* global = GlobalVariables::GetInstance();
+	object3D_->worldTransform.scale = global->GetVector3Value("MediumPart", "Scale");
 	IPart::Update();
 }
 

@@ -13,7 +13,8 @@ void HeadPart::Initialize(CollisionManager* manager)
 	IPart::Initialize(manager);
 	GlobalVariables* global = GlobalVariables::GetInstance();
 	global->CreateGroup("HeadPart");
-	global->AddItem("HeadPart", "Scale", object3D_->worldTransform.scale);
+	Vector3 value = { 2.5f,2.5f,2.5f };
+	global->AddItem("HeadPart", "Scale", value);
 	object3D_->worldTransform.scale = global->GetVector3Value("HeadPart", "Scale");
 	SetOBBLength(object3D_->worldTransform.scale);
 	SetTag(partTag_);
@@ -32,6 +33,8 @@ void HeadPart::Initialize(CollisionManager* manager)
 
 void HeadPart::Update()
 {
+	GlobalVariables* global = GlobalVariables::GetInstance();
+	object3D_->worldTransform.scale = global->GetVector3Value("HeadPart", "Scale");
 	IPart::Update();
 }
 

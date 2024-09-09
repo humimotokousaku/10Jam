@@ -15,7 +15,8 @@ void LightPart::Initialize(CollisionManager* manager)
 	IPart::Initialize(manager);
 	GlobalVariables* global = GlobalVariables::GetInstance();
 	global->CreateGroup("LightPart");
-	global->AddItem("LightPart", "Scale", object3D_->worldTransform.scale);
+	Vector3 value = { 1.0f,1.5f,1.0f };
+	global->AddItem("LightPart", "Scale", value);
 	object3D_->worldTransform.scale = global->GetVector3Value("LightPart", "Scale");
 	SetOBBLength(object3D_->worldTransform.scale);
 	SetTag(partTag_);

@@ -17,6 +17,7 @@ void GameScene::Initialize() {
 	
 	// モデル読み込み
 	modelManager_->LoadModel("Models/SampleBlock", "cube.obj");
+	modelManager_->LoadModel("Models/DarumaBody", "DarumaBody.obj");
 	collisionManager_ = std::make_unique<CollisionManager>();
 
 	// 追従カメラ

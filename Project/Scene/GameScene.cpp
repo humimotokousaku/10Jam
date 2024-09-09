@@ -88,7 +88,7 @@ void GameScene::Update() {
 
 void GameScene::Draw() {
 	player_->Draw();
-	//terrain_->Draw(textureHandle_);
+	terrain_->Draw(textureHandle_);
 	// 攻撃方向表示
 	attackDirection_->Draw();
 }

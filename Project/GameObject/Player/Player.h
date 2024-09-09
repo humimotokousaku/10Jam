@@ -30,6 +30,8 @@ public:
 
 public: // アクセッサ
 	void SetCollisionManager(CollisionManager* collisionManager) { collisionManager_ = collisionManager; }
+	void SetPushPower(Vector3 pushPower) { pushPower_ = pushPower; }
+	PlayerContext::PartManager GetPartManager() { return partManager_; }
 	std::vector<std::unique_ptr<IPart>>* GetParts() { return &parts_; }
 	std::vector<std::unique_ptr<IPart>>::iterator* GetPartsIterator() { return &partsIt_; }
 	Camera* GetCamera() { return camera_; }

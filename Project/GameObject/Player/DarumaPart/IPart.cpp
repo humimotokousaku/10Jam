@@ -31,13 +31,15 @@ void IPart::Update()
 		}
 	}
 	else {
-		if (index_ != 0) {
-			groundTimer_++;
-		}
-		else if (index_ == 0 && !isOtherFoot_) {
-			groundTimer_++;
-		}
 		velocity_.y = 0.0f;
+		if (velocity_.x == 0.0f || velocity_.z == 0.0f) {
+			if (index_ != 0) {
+				groundTimer_++;
+			}
+			else if (index_ == 0 && !isOtherFoot_) {
+				groundTimer_++;
+			}
+		}
 	}
 
 	// 一番下の場合のみ

@@ -1,9 +1,10 @@
 #pragma once
 #include "IScene.h"
 #include "Sprite.h"
-#include "TitleEffect/TitleEffect.h"
 #include "ModelManager.h"
 #include "TextureManager.h"
+
+#include "TitleEffect/TitleEffect.h"
 
 class GameManager;
 
@@ -32,7 +33,4 @@ private:// エンジン機能
 private:
 	// タイトルの演出
 	TitleEffect titleEffect_;
-
-	// UI
-	std::array<std::unique_ptr<Sprite>, 3> guideUI_;
 };

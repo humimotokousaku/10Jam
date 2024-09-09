@@ -40,6 +40,7 @@ void AttackDirection::Update() {
 #ifdef _DEBUG
 	ImGui::Begin("AttackDirection");
 	ImGui::DragFloat3("translation", &arrow_->worldTransform.translate.x, 0.1f);
+	ImGui::DragFloat3("WorldTranslate", &worldTransform_.translate.x, 0.1f);
 	ImGui::DragFloat3("rotation", &arrow_->worldTransform.rotate.x, 0.1f);
 	ImGui::DragFloat3("scale", &arrow_->worldTransform.scale.x, 0.1f);
 	ImGui::DragFloat3("DirVel", &dirVel_.x, 0.1f);

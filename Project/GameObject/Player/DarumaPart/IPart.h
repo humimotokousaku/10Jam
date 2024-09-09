@@ -2,6 +2,7 @@
 #include "Object3D.h"
 #include "Collider.h"
 #include "CollisionManager.h"
+#include "Player/System/PhysicsSystem.h"
 
 #include "Foot/FootCollider.h"
 
@@ -24,11 +25,12 @@ public:
 public: // 仮想関数
 	// デストラクタ
 	virtual ~IPart() = default;
-	virtual void Initialize(CollisionManager* manager) = 0;
+	virtual void Initialize(CollisionManager* manager);
 	virtual void Update();
 	virtual void Draw() = 0;
-	virtual void ImGuiDraw() = 0;
+	virtual void ImGuiDraw();
 protected: // 継承先で使用する関数
+	void FootInitialize(CollisionManager* manager);
 	void ColliderUpdate();
 	void CorrectPosition(Collider* collider);
 
@@ -66,12 +68,14 @@ protected:
 	bool isDead_;
 	// 足場
 	std::unique_ptr<FootCollider> footCollider_;
+	// 物理のパラメータ
+	PlayerContext::PhysicsParam physics_;
 public:
 	// モデルと座標
 	std::unique_ptr<Object3D> object3D_;
 	// 速さ
 	Vector3 velocity_;
-
+	Vector3 acceleration_{};
 	uint32_t index_ = 0;
 
 	bool isOtherFoot_ = true;

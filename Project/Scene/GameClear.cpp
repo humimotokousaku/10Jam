@@ -17,18 +17,37 @@ void GameClear::Initialize() {
 	guideUI_[2]->Initialize("Textures/UI", "guide_pad_A.png");
 	guideUI_[2]->SetSize(Vector2{ 64,64 });
 	guideUI_[2]->SetPos(Vector2{ (float)WinApp::kClientWidth_ / 2,(float)WinApp::kClientHeight_ / 4 * 3 });
-	for (int i = 0; i < 3; i++) {
+	guideUI_[3] = std::make_unique<Sprite>();
+	guideUI_[3]->Initialize("Textures/UI", "guide_pad_A.png");
+	guideUI_[3]->SetSize(Vector2{ 64,64 });
+	guideUI_[3]->SetPos(Vector2{ (float)WinApp::kClientWidth_ / 2,(float)WinApp::kClientHeight_ / 4 * 3 });
+	for (int i = 0; i < guideUI_.size(); i++) {
 		PostEffectManager::GetInstance()->AddSpriteList(guideUI_[i].get());
 	}
+
+	// Aボタンの残像を出す
+	buttonAnim_[0].SetAnimData(&guideUI_[3]->worldTransform_.scale, Vector3{ 1,1,1 }, Vector3{ 2,2,2 }, 60, "s", Easings::EaseOutExpo);
+	buttonAnim_[1].SetAnimData(guideUI_[3]->GetColorP(), Vector4{ 1,1,1,0.6f }, Vector4{ 1,1,1,0 }, 60, "s1", Easings::EaseOutExpo);
+	// ボタンの拡大と縮小
+	buttonAnim_[2].SetAnimData(&guideUI_[2]->worldTransform_.scale, Vector3{ 1,1,1 }, Vector3{ 0.75f,0.75f,0.75f }, 5, "s", Easings::EaseInOutSine);
 }
 
 void GameClear::Update() {
 	if (Input::GetInstance()->TriggerKey(DIK_SPACE) || Input::GetInstance()->GamePadTrigger(XINPUT_GAMEPAD_A)) {
-		SceneTransition::GetInstance()->Start();
+		for (int i = 0; i < buttonAnim_.size(); i++) {
+			buttonAnim_[i].SetIsStart(true);
+		}
 	}
 
+	if (buttonAnim_[1].GetIsEnd()) {
+		SceneTransition::GetInstance()->Start();
+	}
 	if (SceneTransition::GetInstance()->GetSceneTransitionSignal()) {
 		sceneNum = TITLE_SCENE;
+	}
+	// ボタンのアニメーション更新
+	for (int i = 0; i < buttonAnim_.size(); i++) {
+		buttonAnim_[i].Update();
 	}
 }
 

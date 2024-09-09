@@ -2,14 +2,41 @@
 
 uint32_t IPart::sSerialNumber = 0;
 
+void IPart::Initialize(CollisionManager* manager)
+{
+	object3D_ = std::make_unique<Object3D>();
+	object3D_->Initialize();
+	object3D_->worldTransform.translate = Vector3(0.0f, 0.0f, 0.0f);
+	object3D_->worldTransform.rotate = Vector3(0.0f, 0.0f, 0.0f);
+
+	// コライダー登録
+	SetCollisionPrimitive(kCollisionOBB);
+	SetCollisionAttribute(kCollisionAttributeDarumaPart);
+	SetCollisionMask(~kCollisionAttributePlayer);
+
+	manager->SetColliderList(this);
+}
+
 void IPart::Update()
 {
 	if (!isGround_) {
 		velocity_.y -= (4.5f * (1.0f / 60.0f));
-		groundTimer_ = 0;
+		// 上の段
+		if (index_ != 0) {
+			groundTimer_ = 0;
+		}
+		// 下の段
+		else if (index_ == 0 && isOtherFoot_) {
+			groundTimer_++;
+		}
 	}
 	else {
-		groundTimer_++;
+		if (index_ != 0) {
+			groundTimer_++;
+		}
+		else if (index_ == 0 && !isOtherFoot_) {
+			groundTimer_++;
+		}
 		velocity_.y = 0.0f;
 	}
 
@@ -25,8 +52,41 @@ void IPart::Update()
 	isOtherFoot_ = false;
 	isTerrain_ = false;
 
+	//float mass = 20.0f;
+	//float gravity = -9.8f;
+	//float miu = 0.65f;
+	//float magnitude = miu * (-mass * (gravity));
+	//float frictForce = 0.0f;
+
+	//if (std::fabsf(velocity_.x) > 0.01f) {
+	//	Vector3 normalize = Normalize(velocity_);
+	//	if (normalize.x > 0) {
+	//		frictForce = magnitude * (-1.0f);
+	//	}
+	//	else if (normalize.x < 0) {
+	//		frictForce = magnitude * (1.0f);
+	//	}
+	//}
+	//else{
+	//	velocity_.x = 0.0f;
+	//}
+	//acceleration_.x = frictForce / mass;
+	//// 速度計算
+	//velocity_.x += acceleration_.x * (1.0f / 60.0f);
+
+	// 速度を更新（加速度を考慮）
+	velocity_ = PlayerContext::PhysicsSystem::ApplyX_ZFriction(velocity_, physics_);
+
+	// 速度が小さい場合は停止とみなす
+	if (std::fabsf(velocity_.x) < 0.01f) {
+		velocity_.x = 0.0f;
+	}
+	if (std::fabsf(velocity_.z) < 0.01f) {
+		velocity_.z = 0.0f;
+	}
+
 	object3D_->worldTransform.translate += velocity_;
-	velocity_ = Lerps::Lerp(velocity_, Vector3(0.0f, 0.0f, 0.0f), 0.1f);
+	//velocity_ = Lerps::Lerp(velocity_, Vector3(0.0f, 0.0f, 0.0f), 0.01f);
 
 	// 行列更新
 	object3D_->worldTransform.UpdateMatrix();
@@ -37,6 +97,34 @@ void IPart::Update()
 	if (GetWorldPosition().y <= -40.0f) {
 		isDead_ = true;
 	}
+}
+
+void IPart::ImGuiDraw()
+{
+	ImGui::SeparatorText(partTag_.c_str());
+	std::string name = "Position" + partTag_;
+	if (ImGui::TreeNode("Transform")) {
+		ImGui::DragFloat3(name.c_str(), &object3D_->worldTransform.translate.x, 0.01f);
+		name = "Rotate" + partTag_;
+		ImGui::DragFloat3(name.c_str(), &object3D_->worldTransform.rotate.x, 0.01f);
+		name = "Scale" + partTag_;
+		ImGui::DragFloat3(name.c_str(), &object3D_->worldTransform.scale.x, 0.01f);
+		ImGui::TreePop();
+	}
+	name = "Velocity" + partTag_;
+	ImGui::DragFloat3(name.c_str(), &velocity_.x);
+	name = "IsGround : %d " + partTag_;
+	ImGui::Text(name.c_str(), isGround_);
+	name = "Index" + partTag_;
+	int in = index_;
+	ImGui::InputInt(name.c_str(), &in);
+}
+
+void IPart::FootInitialize(CollisionManager* manager)
+{
+	footCollider_ = std::make_unique<FootCollider>();
+	footCollider_->Initialize(this);
+	manager->SetColliderList(footCollider_.get());
 }
 
 void IPart::ColliderUpdate()
@@ -68,51 +156,8 @@ void IPart::CorrectPosition(Collider* collider)
 		else if (pMax.y >= cMin.y && pMax.y <= cMax.y) {
 			correctPosition.y = targetPosition.y - object3D_->worldTransform.scale.y - targetScale.y - correctValue;
 		}
-		object3D_->worldTransform.translate = correctPosition;
+		object3D_->worldTransform.translate.y = correctPosition.y;
 	}
-
-	//if (collider->GetWorldPosition().y >= correctPosition.y + object3D_->worldTransform.scale.y && collider->GetWorldPosition().y - targetScale.y <= correctPosition.y + object3D_->worldTransform.scale.y) {
-	//	correctPosition.y = targetPosition.y - object3D_->worldTransform.scale.y - targetScale.y - correctValue;
-	//}
-	//else if (collider->GetWorldPosition().y <= correctPosition.y - object3D_->worldTransform.scale.y && collider->GetWorldPosition().y + targetScale.y <= correctPosition.y - object3D_->worldTransform.scale.y) {
-	//	correctPosition.y = targetPosition.y + object3D_->worldTransform.scale.y + targetScale.y + correctValue;
-	//}
-	//object3D_->worldTransform.translate = correctPosition;
-
-	//if (isMove) {
-	//	//if (isX) {
-	//	//	// 右向き移動
-	//	//	if (velocity_.x > 0.0f) {
-	//	//		correctPosition.x = targetPosition.x - object3D_->worldTransform.scale.x - targetScale.x - correctValue;
-	//	//	}
-	//	//	// 左向き移動
-	//	//	else {
-	//	//		correctPosition.x = targetPosition.x + object3D_->worldTransform.scale.x + targetScale.x + correctValue;
-	//	//	}
-	//	//}
-	//	if (isY) {
-	//		// 上向き
-	//		if (velocity_.y > 0.0f) {
-	//			correctPosition.y = targetPosition.y - object3D_->worldTransform.scale.y - targetScale.y - correctValue;
-	//		}
-	//		// 下向き
-	//		else if(velocity_.y > 0.0f){
-	//			correctPosition.y = targetPosition.y + object3D_->worldTransform.scale.y + targetScale.y + correctValue;
-	//		}
-	//	}
-	//	//if (isZ) {
-	//	//	// 奥
-	//	//	if (velocity_.z > 0.0f) {
-	//	//		correctPosition.z = targetPosition.z - object3D_->worldTransform.scale.z - targetScale.z - correctValue;
-	//	//	}
-	//	//	// 手前
-	//	//	else {
-	//	//		correctPosition.z = targetPosition.z + object3D_->worldTransform.scale.z + targetScale.z + correctValue;
-	//	//	}
-	//	//}
-	//	object3D_->worldTransform.translate = correctPosition;
-	//}
-
 }
 
 void IPart::OnCollision(Collider* collider)

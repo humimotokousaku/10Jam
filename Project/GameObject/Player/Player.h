@@ -3,6 +3,7 @@
 #include <vector>
 #include "ModelManager.h"
 #include "System/PartManager.h"
+#include "System/ReactionManager.h"
 
 class IPart;
 class Camera;
@@ -30,26 +31,28 @@ public:
 
 public: // アクセッサ
 	void SetCollisionManager(CollisionManager* collisionManager) { collisionManager_ = collisionManager; }
-	void SetPushPower(Vector3 pushPower) { pushPower_ = pushPower; }
-	PlayerContext::PartManager GetPartManager() { return partManager_; }
-	std::vector<std::unique_ptr<IPart>>* GetParts() { return &parts_; }
-	std::vector<std::unique_ptr<IPart>>::iterator* GetPartsIterator() { return &partsIt_; }
+	void SetIsDead(bool isDead) { isDead_ = isDead; }	
+	bool IsDead() { return isDead_; }
+
 	Camera* GetCamera() { return camera_; }
 	// コライダーのマネージャ
 	CollisionManager* GetCollision() { return collisionManager_; }
-	std::vector<std::unique_ptr<IPart>> parts_;
+
+	PlayerContext::ReactionManager* GetReactionManager() { return &reactionManager_; }
+	PlayerContext::PartManager* GetPartManager() { return &partManager_; }
 
 private:
-	// 土台のリスト
-	std::vector<std::unique_ptr<IPart>>::iterator partsIt_;
 	// ポインタ
 	Camera* camera_ = nullptr;
 	// コライダーのマネージャ
 	CollisionManager* collisionManager_ = nullptr;
-	// 押す力ベクトル
-	Vector3 pushPower_;
 	Vector3 generatePosition_;
 
+	// パーツ
 	PlayerContext::PartManager partManager_;
+	// リアクション
+	PlayerContext::ReactionManager reactionManager_;
+
+	bool isDead_ = false;
 
 };

@@ -45,16 +45,19 @@ void GameScene::Initialize() {
 	// 経過時間
 	gameTimer_.Initialize();
 
-	// 攻撃方向表示
-	attackDirection_ = std::make_unique<AttackDirection>(followCamera_->GetCamera());
-	attackDirection_->Start();
 }
 
 void GameScene::Update() {
 	// ゲームのシステム
-	ImGui::Begin("GameTimer");
+	ImGui::Begin("GameSystem");
+	ImGui::DragFloat3("CameraPosition", &cameraTargetPoint_.translate.x, 0.01f);
 	int gameTime = gameSystemManager_->GetElapsedTime();
 	ImGui::InputInt("GameTime", &gameTime);
+	if (ImGui::Button("PushAction")) {
+		gameSystemManager_->Action(1.0f);
+	}
+	gameSystemManager_->ImGuiDraw();
+
 	ImGui::End();
 	gameSystemManager_->Update();
 
@@ -62,12 +65,13 @@ void GameScene::Update() {
 	gameTimer_.Update();
 	gameTimer_.SetDrawTime(gameTime);
 
-	// 攻撃方向表示
-	attackDirection_->Update();
 
 	// シーンの切り替え処理
 	if (Input::GetInstance()->TriggerKey(DIK_SPACE)) {
 		SceneTransition::GetInstance()->Start();
+	}
+	if (player_->IsDead()) {
+		//SceneTransition::GetInstance()->Start();
 	}
 	if (SceneTransition::GetInstance()->GetSceneTransitionSignal()) {
 		sceneNum = TITLE_SCENE;
@@ -89,8 +93,8 @@ void GameScene::Update() {
 void GameScene::Draw() {
 	player_->Draw();
 	terrain_->Draw(textureHandle_);
-	// 攻撃方向表示
-	attackDirection_->Draw();
+
+	gameSystemManager_->Draw();
 }
 
 void GameScene::Finalize() {

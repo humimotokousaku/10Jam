@@ -1,6 +1,7 @@
 #pragma once
 #include "IScene.h"
 #include "Sprite.h"
+#include "Animation.h"
 
 class GameManager;
 class GameClear : public IScene
@@ -21,5 +22,8 @@ public:
 private:
 	// UI
 	std::array<std::unique_ptr<Sprite>, 3> guideUI_;
+
+	// ボタンのアニメーション
+	std::array<Animation, 4> buttonAnim_;
 };
 

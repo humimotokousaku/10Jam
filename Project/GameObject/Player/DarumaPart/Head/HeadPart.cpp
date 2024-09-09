@@ -1,5 +1,6 @@
 #include "HeadPart.h"
 #include "TextureManager.h"
+#include "GlobalVariables.h"
 
 void HeadPart::Initialize(CollisionManager* manager)
 {
@@ -10,7 +11,10 @@ void HeadPart::Initialize(CollisionManager* manager)
 
 	// 基底の初期化
 	IPart::Initialize(manager);
-	object3D_->worldTransform.scale = Vector3(2.5f, 2.5f, 2.5f);
+	GlobalVariables* global = GlobalVariables::GetInstance();
+	global->CreateGroup("HeadPart");
+	global->AddItem("HeadPart", "Scale", object3D_->worldTransform.scale);
+	object3D_->worldTransform.scale = global->GetVector3Value("HeadPart", "Scale");
 	SetOBBLength(object3D_->worldTransform.scale);
 	SetTag(partTag_);
 	FootInitialize(manager);

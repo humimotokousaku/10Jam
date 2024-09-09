@@ -2,6 +2,7 @@
 #include "../Foot/FootCollider.h"
 #include "ModelManager.h"
 #include "ImGuiManager.h"
+#include "GlobalVariables.h"
 
 void LightPart::Initialize(CollisionManager* manager)
 {
@@ -12,7 +13,10 @@ void LightPart::Initialize(CollisionManager* manager)
 
 	// 基底の初期化
 	IPart::Initialize(manager);
-	object3D_->worldTransform.scale = Vector3(1.0f, 1.0f, 1.0f);
+	GlobalVariables* global = GlobalVariables::GetInstance();
+	global->CreateGroup("LightPart");
+	global->AddItem("LightPart", "Scale", object3D_->worldTransform.scale);
+	object3D_->worldTransform.scale = global->GetVector3Value("LightPart", "Scale");
 	SetOBBLength(object3D_->worldTransform.scale);
 	SetTag(partTag_);
 	FootInitialize(manager);
@@ -28,6 +32,8 @@ void LightPart::Initialize(CollisionManager* manager)
 
 void LightPart::Update()
 {
+	GlobalVariables* global = GlobalVariables::GetInstance();
+	object3D_->worldTransform.scale = global->GetVector3Value("LightPart", "Scale");
 	IPart::Update();
 }
 

@@ -1,8 +1,8 @@
 {
     "LightPart": {
-        "FrictionCoeff": 0.10000000149011612,
+        "FrictionCoeff": 0.3499999940395355,
         "Gravity": 9.800000190734863,
-        "Mass": 7.5,
+        "Mass": 10.0,
         "Scale": [
             6.0,
             2.0,

@@ -13,7 +13,6 @@ void GameSystemManager::Initialize(Player* player, Enemy* enemy)
 	timer_.elapsed = 0;
 	timer_.frameCount = 0;
 
-	actionTime.coolTime = { 0,300 };
 	// 方向
 	actionDirect_ = { -1.0f,0.0f,1.0f };
 	// 攻撃方向表示

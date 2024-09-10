@@ -36,6 +36,8 @@ void GameScene::Initialize() {
 	player_ = std::make_unique<Player>();
 	player_->SetCollisionManager(collisionManager_.get());
 	player_->Initialize(followCamera_->GetCamera());
+	//player_->GetPartManager()->AddDaruma(PlayerContext::DarumaPattern::kL2M2H);
+	//player_->GetPartManager()->AddHead(Vector3{ 0,50,0 });
 	// エネミー
 	enemy_ = std::make_unique<Enemy>();
 

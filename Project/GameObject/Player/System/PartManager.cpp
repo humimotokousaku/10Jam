@@ -119,6 +119,7 @@ void PlayerContext::PartManager::AddHead(const Vector3& position)
 	instance->SetModel(ModelManager::GetInstance()->FindModel("Models/SampleBlock", "cube.obj"));
 	instance->GetFootCollider()->Object3DSetting(player_->GetCamera(), ModelManager::GetInstance()->FindModel("Models/SampleBlock", "cube.obj"));
 	instance->SetPosition(position);
+	instance->SetPlayer(player_);
 	parts_.push_back(std::move(instance));
 }
 

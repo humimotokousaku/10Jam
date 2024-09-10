@@ -1,6 +1,7 @@
 #include "HeadPart.h"
 #include "TextureManager.h"
 #include "GlobalVariables.h"
+#include "GameObjectLists.h"
 
 void HeadPart::Initialize(CollisionManager* manager)
 {
@@ -153,6 +154,9 @@ void HeadPart::OnCollision(Collider* collider)
 	bool isFoot = collider->GetCollisionAttribute() == kCollisionAttributeDarumaFoot;
 	bool isCollision = (isPart || isTerrain);
 	bool isTrue = collider->GetTag() == this->partTag_;
+	if (isTerrain) {
+		player_->SetIsDead(true);
+	}
 	if (isCollision && !isTrue) {
 		CorrectPosition(collider);
 		AddTorque(collider);

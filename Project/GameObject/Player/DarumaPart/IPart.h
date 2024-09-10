@@ -8,6 +8,8 @@
 
 #include <memory>
 
+class Player;
+
 struct PartParameter {
 	float gravity;
 };
@@ -50,6 +52,8 @@ public: // アクセッサ
 		object3D_->worldTransform.UpdateMatrix();
 	}
 
+	void SetPlayer(Player* player) { player_ = player; }
+
 	WorldTransform* GetWorldTransform() { return &object3D_->worldTransform; }
 	FootCollider* GetFootCollider() { return footCollider_.get(); }
 	bool IsGround() { return isGround_; }
@@ -71,6 +75,8 @@ protected:
 	std::unique_ptr<FootCollider> footCollider_;
 	// 物理のパラメータ
 	PlayerContext::PhysicsParam physics_;
+
+	Player* player_ = nullptr;
 private:
 	// コライダーのマネージャ
 	CollisionManager* collisionManager_;

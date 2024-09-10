@@ -9,5 +9,4 @@ public:
 	void Draw() override;
 	void ImGuiDraw() override;
 
-
 };

@@ -28,6 +28,7 @@ void HeadPart::Initialize(CollisionManager* manager)
 
 void HeadPart::Update()
 {
+	Input* input = Input::GetInstance();
 	IPart::Update();
 }
 
@@ -41,4 +42,58 @@ void HeadPart::Draw()
 void HeadPart::ImGuiDraw()
 {
 	IPart::ImGuiDraw();
+}
+
+void HeadPart::AddTorque(Collider* collider)
+{
+	/*Vector3 min = collider->GetWorldPosition() - collider->GetOBB().m_fLength;
+	Vector3 max = collider->GetWorldPosition() + collider->GetOBB().m_fLength;*/
+
+	Vector3 diff = Normalize(GetWorldPosition() - collider->GetWorldPosition());
+	float dot = Dot({0.0f, 1.0f, 0.0f}, diff);
+	float lenght = Length({ 0.0f, 1.0f, 0.0f }) * Length(diff);
+
+	if (lenght != 0) {
+		float cosTheta = dot / lenght;
+		cosTheta = std::fmax(-1.0f, std::fmin(1.0f, cosTheta));
+
+		float angleRadians = std::acos(cosTheta);
+		float angle = angleRadians * float(180.0f / std::numbers::pi);
+		if (angleRadians * float(180.0f / std::numbers::pi) > 30.0f) {
+			if (diff.x > 0.0f) {
+				object3D_->worldTransform.rotate.z += -0.1f * angleRadians;
+			}
+			else {
+				object3D_->worldTransform.rotate.z += 0.1f * angleRadians;
+			}
+		}
+	}
+
+	float attenuation = -0.5f * object3D_->worldTransform.rotate.z;
+	if (std::fabs(attenuation) > std::fabs(object3D_->worldTransform.rotate.z)) {
+		attenuation = -object3D_->worldTransform.rotate.z;
+	}
+	object3D_->worldTransform.rotate.z += attenuation;
+}
+
+void HeadPart::OnCollision(Collider* collider)
+{
+	bool isPart = collider->GetCollisionAttribute() == kCollisionAttributeDarumaPart;
+	bool isTerrain = collider->GetCollisionAttribute() == kCollisionAttributeTerrain;
+	bool isFoot = collider->GetCollisionAttribute() == kCollisionAttributeDarumaFoot;
+	bool isCollision = (isPart || isTerrain);
+	bool isTrue = collider->GetTag() == this->partTag_;
+	if (isCollision && !isTrue) {
+		CorrectPosition(collider);
+		AddTorque(collider);
+	}
+	else if (isFoot) {
+		if (!isTrue && index_ == 0) {
+			isOtherFoot_ = true;
+			return;
+		}
+	}
+	if (isTerrain) {
+		isTerrain_ = true;
+	}
 }

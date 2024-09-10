@@ -63,8 +63,11 @@ void GameScene::Update() {
 	gameSystemManager_->ImGuiDraw();
 
 	ImGui::End();
-	gameSystemManager_->Update();
+	if (gameSystemManager_->isGameStop_) {
+		return;
+	}
 
+	gameSystemManager_->Update();
 	// ゲームのタイマー
 	gameTimer_.Update();
 	gameTimer_.SetDrawTime(gameTime);

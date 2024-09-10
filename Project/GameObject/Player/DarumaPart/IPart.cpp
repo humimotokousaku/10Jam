@@ -19,6 +19,9 @@ void IPart::Initialize(CollisionManager* manager)
 
 void IPart::Update()
 {
+	// グローバルうんたら
+	ApplyGlobalVariables();
+
 	if (!isGround_) {
 		velocity_.y -= (4.5f * (1.0f / 60.0f));
 		// 上の段
@@ -122,6 +125,12 @@ void IPart::ImGuiDraw()
 	ImGui::InputInt(name.c_str(), &in);
 }
 
+void IPart::ApplyGlobalVariables()
+{
+	
+
+}
+
 void IPart::FootInitialize(CollisionManager* manager)
 {
 	footCollider_ = std::make_unique<FootCollider>();
@@ -132,6 +141,7 @@ void IPart::FootInitialize(CollisionManager* manager)
 void IPart::ColliderUpdate()
 {
 	this->SetOBBCenterPos(GetWorldPosition());
+	this->SetOBBLength(object3D_->worldTransform.scale);
 	this->SetOBBDirect(0);
 }
 

@@ -29,6 +29,7 @@ public: // 仮想関数
 	virtual void Update();
 	virtual void Draw() = 0;
 	virtual void ImGuiDraw();
+	virtual void ApplyGlobalVariables();
 protected: // 継承先で使用する関数
 	void FootInitialize(CollisionManager* manager);
 	void ColliderUpdate();

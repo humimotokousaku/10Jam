@@ -49,3 +49,9 @@ void LightPart::ImGuiDraw()
 {
 	IPart::ImGuiDraw();
 }
+
+void LightPart::ApplyGlobalVariables()
+{
+	GlobalVariables* global = GlobalVariables::GetInstance();
+	object3D_->worldTransform.scale = global->GetVector3Value("LightPart", "Scale");
+}

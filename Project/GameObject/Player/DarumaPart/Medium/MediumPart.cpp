@@ -49,3 +49,9 @@ void MediumPart::ImGuiDraw()
 {
 	IPart::ImGuiDraw();
 }
+
+void MediumPart::ApplyGlobalVariables()
+{
+	GlobalVariables* global = GlobalVariables::GetInstance();
+	object3D_->worldTransform.scale = global->GetVector3Value("MediumPart", "Scale");
+}

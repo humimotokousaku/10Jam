@@ -46,6 +46,7 @@ void GameSystemManager::ImGuiDraw()
 {
 	ImGui::DragFloat3("ActionDirect", &actionDirect_.x, 0.01f);
 	ImGui::DragFloat("ActionPower", &actionPower_, 0.01f);
+	ImGui::Checkbox("GameStop", &isGameStop_);
 	actionDirect_ = Normalize(actionDirect_);
 }
 

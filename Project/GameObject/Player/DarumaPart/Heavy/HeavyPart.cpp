@@ -47,3 +47,9 @@ void HeavyPart::ImGuiDraw()
 {
 	IPart::ImGuiDraw();
 }
+
+void HeavyPart::ApplyGlobalVariables()
+{
+	GlobalVariables* global = GlobalVariables::GetInstance();
+	object3D_->worldTransform.scale = global->GetVector3Value("HeavyPart", "Scale");
+}

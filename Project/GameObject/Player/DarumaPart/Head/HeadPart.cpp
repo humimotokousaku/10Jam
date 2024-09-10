@@ -49,3 +49,9 @@ void HeadPart::ImGuiDraw()
 {
 	IPart::ImGuiDraw();
 }
+
+void HeadPart::ApplyGlobalVariables()
+{
+	GlobalVariables* global = GlobalVariables::GetInstance();
+	object3D_->worldTransform.scale = global->GetVector3Value("HeadPart", "Scale");
+}

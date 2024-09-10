@@ -4,13 +4,8 @@
 #include "ImGuiManager.h"
 #include "GlobalVariables.h"
 
-LightPart::~LightPart() {
-	collisionManager_->ClearColliderList(this);
-}
-
 void LightPart::Initialize(CollisionManager* manager)
 {
-	collisionManager_ = manager;
 	// シリアル設定
 	serialNumber_ = sSerialNumber;
 	sSerialNumber++;

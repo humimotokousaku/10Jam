@@ -4,7 +4,6 @@
 class MediumPart : public IPart
 {
 public:
-	~MediumPart();
 	void Initialize(CollisionManager* manager) override;
 	void Update() override;
 	void Draw() override;

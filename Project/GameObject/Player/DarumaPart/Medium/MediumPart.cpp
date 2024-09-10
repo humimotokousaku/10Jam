@@ -4,13 +4,8 @@
 #include "ImGuiManager.h"
 #include "GlobalVariables.h"
 
-MediumPart::~MediumPart() {
-	collisionManager_->ClearColliderList(this);
-}
-
 void MediumPart::Initialize(CollisionManager* manager)
 {
-	collisionManager_ = manager;
 	// シリアル設定
 	serialNumber_ = sSerialNumber;
 	sSerialNumber++;

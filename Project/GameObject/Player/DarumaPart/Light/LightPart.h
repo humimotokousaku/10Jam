@@ -4,7 +4,6 @@
 class LightPart : public IPart
 {
 public:
-	~LightPart();
 	void Initialize(CollisionManager* manager) override;
 	void Update() override;
 	void Draw() override;

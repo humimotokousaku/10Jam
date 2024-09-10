@@ -2,6 +2,12 @@
 
 uint32_t IPart::sSerialNumber = 0;
 
+IPart::~IPart()
+{
+	collisionManager_->ClearColliderList(this);
+	collisionManager_->ClearColliderList(footCollider_.get());
+}
+
 void IPart::Initialize(CollisionManager* manager)
 {
 	object3D_ = std::make_unique<Object3D>();
@@ -9,12 +15,13 @@ void IPart::Initialize(CollisionManager* manager)
 	object3D_->worldTransform.translate = Vector3(0.0f, 0.0f, 0.0f);
 	object3D_->worldTransform.rotate = Vector3(0.0f, 0.0f, 0.0f);
 
+	collisionManager_ = manager;
 	// コライダー登録
 	SetCollisionPrimitive(kCollisionOBB);
 	SetCollisionAttribute(kCollisionAttributeDarumaPart);
 	SetCollisionMask(~kCollisionAttributePlayer);
 
-	manager->SetColliderList(this);
+	collisionManager_->SetColliderList(this);
 }
 
 void IPart::Update()
@@ -147,30 +154,6 @@ void IPart::ColliderUpdate()
 
 void IPart::CorrectPosition(Collider* collider)
 {
-	Vector3 targetPosition = collider->GetWorldPosition();
-	Vector3 targetScale = collider->GetOBB().m_fLength;
-	// 最大最小
-	Vector3 cMin = targetPosition - targetScale;
-	Vector3 cMax = targetPosition + targetScale;
-
-	bool isX = velocity_.x != 0.0f;
-	bool isY = velocity_.y != 0.0f;
-	bool isZ = velocity_.z != 0.0f;
-	bool isMove = isX || isY || isZ;
-	float correctValue = 0.00f;
-	Vector3 correctPosition = GetWorldPosition();
-	Vector3 pMin = correctPosition - object3D_->worldTransform.scale;
-	Vector3 pMax = correctPosition + object3D_->worldTransform.scale;
-	/*if (isY) {
-		if (pMin.y >= cMin.y && pMin.y <= cMax.y) {
-			correctPosition.y = targetPosition.y + object3D_->worldTransform.scale.y + targetScale.y + correctValue;
-		}
-		else if (pMax.y >= cMin.y && pMax.y <= cMax.y) {
-			correctPosition.y = targetPosition.y - object3D_->worldTransform.scale.y - targetScale.y - correctValue;
-		}
-		object3D_->worldTransform.translate.y = correctPosition.y;
-	}*/
-
 	float minPenetrationDepth = (std::numeric_limits<float>::max)();
 	Vector3 minPenetrationAxis;
 

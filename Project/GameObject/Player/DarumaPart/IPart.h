@@ -24,7 +24,7 @@ public:
 	std::string partTag_;
 public: // 仮想関数
 	// デストラクタ
-	virtual ~IPart() = default;
+	virtual ~IPart();
 	virtual void Initialize(CollisionManager* manager);
 	virtual void Update();
 	virtual void Draw() = 0;

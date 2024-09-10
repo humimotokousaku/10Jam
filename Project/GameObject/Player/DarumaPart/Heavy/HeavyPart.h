@@ -4,7 +4,6 @@
 class HeavyPart : public IPart
 {
 public:
-	~HeavyPart();
 	void Initialize(CollisionManager* manager) override;
 	void Update() override;
 	void Draw() override;

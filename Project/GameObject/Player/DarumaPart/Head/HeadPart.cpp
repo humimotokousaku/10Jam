@@ -2,13 +2,8 @@
 #include "TextureManager.h"
 #include "GlobalVariables.h"
 
-HeadPart::~HeadPart() {
-	collisionManager_->ClearColliderList(this);
-}
-
 void HeadPart::Initialize(CollisionManager* manager)
 {
-	collisionManager_ = manager;
 	// シリアル設定
 	serialNumber_ = sSerialNumber;
 	sSerialNumber++;

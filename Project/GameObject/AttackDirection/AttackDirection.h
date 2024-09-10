@@ -23,6 +23,7 @@ public:
 #pragma region Setter
 	// 矢印の方向ベクトルを設定
 	void SetArrowDirection(Vector3 dirVel) { dirVel_ = dirVel; }
+	void SetColor(const Vector4& color) { arrow_->SetColor(color); }
 	// 矢印の描画開始
 	void Start() { isStart_ = true; }
 	// 矢印の描画終了

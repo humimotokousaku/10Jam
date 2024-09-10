@@ -29,6 +29,7 @@ private: // 時間関係
 				frameCount = 0;
 			}
 		}
+		bool isAction = false;
 	};
 	// タイマー
 	GameFrameTimer timer_;
@@ -58,6 +59,8 @@ private:
 	};
 
 	EnemyActionTable actionTime;
+
+	void PushActionTimeReference();
 
 
 public:

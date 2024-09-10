@@ -14,10 +14,14 @@ void GameSystemManager::Initialize(Player* player, Enemy* enemy)
 	timer_.frameCount = 0;
 
 	actionTime.coolTime = { 0,300 };
-
+	// 方向
+	actionDirect_ = { -1.0f,0.0f,1.0f };
 	// 攻撃方向表示
 	attackDirection_ = std::make_unique<AttackDirection>(player_->GetCamera());
 	attackDirection_->Start();
+	attackDirection_->worldTransform_.translate.y = -16.8f;
+	attackDirection_->worldTransform_.scale *= 3.0f;
+	attackDirection_->SetColor({ 1.0f,1.0f,1.0f,0.8f });
 	// 経過時間
 	gameTimer_.Initialize();
 }
@@ -46,11 +50,13 @@ void GameSystemManager::Update()
 	attackDirection_->Update();
 	attackDirection_->SetArrowDirection(actionDirect_);
 
-	actionTime.coolTime.current++;
-	if (actionTime.coolTime.current > actionTime.coolTime.max) {
-		Action(actionPower_);
-		actionTime.coolTime.current = 0;
-	}
+	PushActionTimeReference();
+
+	//actionTime.coolTime.current++;
+	//if (actionTime.coolTime.current > actionTime.coolTime.max) {
+	//	Action(actionPower_);
+	//	actionTime.coolTime.current = 0;
+	//}
 }
 
 void GameSystemManager::ImGuiDraw()
@@ -76,5 +82,35 @@ void GameSystemManager::Action(float power)
 {
 	// ここで力とアニメーションのセットアップ
 	player_->GetReactionManager()->PushAction(actionDirect_, power);
+	// アクションしたか
+	timer_.isAction = true;
+}
 
+void GameSystemManager::PushActionTimeReference()
+{
+	// 押し出しのやつをタイマーで
+	if (timer_.elapsed == 10) {
+		if (timer_.isAction) {
+			return;
+		}
+		Action(2.0f);
+		actionDirect_ = { 1.0f,0.0f,1.0f };
+	}
+	else if (timer_.elapsed == 15) {
+		if (timer_.isAction) {
+			return;
+		}
+		Action(1.5f);
+		actionDirect_ = { 1.0f,0.0f,-1.0f };
+	}
+	else if (timer_.elapsed == 25) {
+		if (timer_.isAction) {
+			return;
+		}
+		Action(1.0f);
+		actionDirect_ = { -1.0f,0.0f,-1.0f };
+	}
+	else {
+		timer_.isAction = false;
+	}
 }

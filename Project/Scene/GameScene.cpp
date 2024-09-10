@@ -25,6 +25,11 @@ void GameScene::Initialize() {
 	followCamera_->Initialize();
 	cameraTargetPoint_.Initialize();
 	followCamera_->SetParent(&cameraTargetPoint_);
+
+	GlobalVariables* global = GlobalVariables::GetInstance();
+	global->CreateGroup("FollowCamera");
+	global->AddItem("FollowCamera", "OffsetPoint", cameraTargetPoint_.translate);
+
 	//camera_->worldTransform_.translate = Vector3(0.0f, 0.0f, -45.0f);
 	
 	// プレイヤー
@@ -51,6 +56,7 @@ void GameScene::Update() {
 	// ゲームのシステム
 	ImGui::Begin("GameSystem");
 	ImGui::DragFloat3("CameraPosition", &cameraTargetPoint_.translate.x, 0.01f);
+	cameraTargetPoint_.translate = GlobalVariables::GetInstance()->GetVector3Value("FollowCamera", "OffsetPoint");
 	gameSystemManager_->ImGuiDraw();
 
 	ImGui::End();

@@ -51,11 +51,11 @@ void IPart::Update()
 	}
 
 	// 一番下の場合のみ
-	if ((!isOtherFoot_ && isGround_) && index_ == 0 && groundTimer_ > 60) {
+	if ((!isOtherFoot_ && isGround_) && index_ == 0 && groundTimer_ > 30) {
 		isDead_ = true;
 		return;
 	}
-	else if ((isTerrain_ && isGround_) && index_ != 0 && groundTimer_ > 60) {
+	else if ((isTerrain_ && isGround_) && index_ != 0 && groundTimer_ > 30) {
 		isDead_ = true;
 		return;
 	}

@@ -40,8 +40,66 @@ void HeadPart::Initialize(CollisionManager* manager)
 
 void HeadPart::Update()
 {
-	GlobalVariables* global = GlobalVariables::GetInstance();
-	object3D_->worldTransform.scale = global->GetVector3Value("HeadPart", "Scale");
+	// グローバルうんたら
+	ApplyGlobalVariables();
+
+	//if (!isGround_) {
+	//	velocity_.y -= (4.5f * (1.0f / 60.0f));
+	//	// 上の段
+	//	if (index_ != 0) {
+	//		groundTimer_ = 0;
+	//	}
+	//	// 下の段
+	//	else if (index_ == 0 && isOtherFoot_) {
+	//		groundTimer_++;
+	//	}
+	//}
+	//else {
+	//	velocity_.y = 0.0f;
+	//	if (velocity_.x == 0.0f || velocity_.z == 0.0f) {
+	//		if (index_ != 0) {
+	//			groundTimer_++;
+	//		}
+	//		else if (index_ == 0 && !isOtherFoot_) {
+	//			groundTimer_++;
+	//		}
+	//	}
+	//}
+
+	// 一番下の場合のみ
+	if ((!isOtherFoot_ && isGround_) && index_ == 0 && groundTimer_ > 30) {
+		isDead_ = true;
+		return;
+	}
+	else if ((isTerrain_ && isGround_) && index_ != 0 && groundTimer_ > 30) {
+		isDead_ = true;
+		return;
+	}
+	isOtherFoot_ = false;
+	isTerrain_ = false;
+
+	// 速度を更新（加速度を考慮）
+	velocity_ = PlayerContext::PhysicsSystem::ApplyX_ZFriction(velocity_, physics_);
+
+	// 速度が小さい場合は停止とみなす
+	if (std::fabsf(velocity_.x) < 0.01f) {
+		velocity_.x = 0.0f;
+	}
+	if (std::fabsf(velocity_.z) < 0.01f) {
+		velocity_.z = 0.0f;
+	}
+
+	object3D_->worldTransform.translate += velocity_;
+
+	// 行列更新
+	object3D_->worldTransform.UpdateMatrix();
+
+	ColliderUpdate();
+	footCollider_->Update();
+
+	if (GetWorldPosition().y <= -40.0f) {
+		isDead_ = true;
+	}
 	IPart::Update();
 }
 
@@ -99,6 +157,9 @@ void HeadPart::OnCollision(Collider* collider)
 	if (isCollision && !isTrue) {
 		CorrectPosition(collider);
 		AddTorque(collider);
+		if (velocity_.y != 0.0f) {
+			velocity_.y = 0.0f;
+		}
 	}
 	else if (isFoot) {
 		if (!isTrue && index_ == 0) {

@@ -12,7 +12,8 @@ void GameTimer::Initialize() {
 		numSprite_[i] = std::make_unique<Sprite>();
 		numSprite_[i]->Initialize("Textures/UI", "0.png");
 		numSprite_[i]->SetAnchorPoint(Vector2{ 0.5f, 0.5f });
-		numSprite_[i]->SetPos(Vector2{ 1120.0f + 16.0f * i, 192.0f });
+		numSprite_[i]->SetPos(Vector2{ ((1280.0f / 2.0f) + 32.0f * i) - 32.0f, 32.0f });
+		numSprite_[i]->SetSize(numSprite_[i]->GetSize() * 2.0f);
 		postEffectManager_->AddSpriteList(numSprite_[i].get());
 
 		eachTimer_[i] = 0;

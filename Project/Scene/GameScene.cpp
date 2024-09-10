@@ -44,8 +44,6 @@ void GameScene::Initialize() {
 	gameSystemManager_ = std::make_unique<GameSystemManager>();
 	gameSystemManager_->Initialize(player_.get(),enemy_.get());
 
-	// 経過時間
-	gameTimer_.Initialize();
 
 }
 
@@ -53,8 +51,6 @@ void GameScene::Update() {
 	// ゲームのシステム
 	ImGui::Begin("GameSystem");
 	ImGui::DragFloat3("CameraPosition", &cameraTargetPoint_.translate.x, 0.01f);
-	int gameTime = gameSystemManager_->GetElapsedTime();
-	ImGui::InputInt("GameTime", &gameTime);
 	gameSystemManager_->ImGuiDraw();
 
 	ImGui::End();
@@ -63,16 +59,13 @@ void GameScene::Update() {
 	}
 
 	gameSystemManager_->Update();
-	// ゲームのタイマー
-	gameTimer_.Update();
-	gameTimer_.SetDrawTime(gameTime);
 
 
 	// シーンの切り替え処理
 	if (Input::GetInstance()->TriggerKey(DIK_SPACE)) {
 		SceneTransition::GetInstance()->Start();
 	}
-	if (player_->IsDead()) {
+	if (gameSystemManager_->IsGameEnd()) {
 		//SceneTransition::GetInstance()->Start();
 	}
 	if (SceneTransition::GetInstance()->GetSceneTransitionSignal()) {

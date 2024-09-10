@@ -71,9 +71,10 @@ protected:
 	std::unique_ptr<FootCollider> footCollider_;
 	// 物理のパラメータ
 	PlayerContext::PhysicsParam physics_;
-public:
+private:
+	// コライダーのマネージャ
 	CollisionManager* collisionManager_;
-
+public:
 	// モデルと座標
 	std::unique_ptr<Object3D> object3D_;
 	// 速さ

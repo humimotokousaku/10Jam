@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <memory>
 #include "../AttackDirection/AttackDirection.h"
+#include "GameTimer/GameTimer.h"
 
 class Player;
 class Enemy;
@@ -9,7 +10,7 @@ class Enemy;
 class GameSystemManager
 {
 private: // 時間関係
-	struct GameTime {
+	struct GameFrameTimer {
 		// ゲームの経過時間
 		uint32_t elapsed;
 		// ゲームのフレームカウント（経過時間用）
@@ -30,7 +31,7 @@ private: // 時間関係
 		}
 	};
 	// タイマー
-	GameTime timer_;
+	GameFrameTimer timer_;
 
 public:
 	// 初期化
@@ -42,6 +43,9 @@ public:
 	// 行動
 	void Action(float power);
 
+	bool isGameStop_ = false;
+
+private:
 	struct CountParam {
 		uint32_t current;
 		uint32_t max;
@@ -55,12 +59,11 @@ public:
 
 	EnemyActionTable actionTime;
 
-	bool isGameStop_ = false;
 
 public:
 	// 経過時間の取得
 	uint32_t GetElapsedTime() { return timer_.elapsed; }
-
+	bool IsGameEnd() { return isGameEnd_; }
 private: // ゲームの管理
 	// ゲーム処理の終了フラグ
 	bool isGameEnd_;
@@ -72,5 +75,7 @@ private: // ゲームの管理
 	float actionPower_ = 0.15f;
 	// 攻撃方向の表示
 	std::unique_ptr<AttackDirection> attackDirection_;
+	// ゲームのタイム
+	GameTimer gameTimer_;
 
 };

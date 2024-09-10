@@ -236,18 +236,20 @@ void IPart::CorrectPosition(Collider* collider)
 
 
 	object3D_->worldTransform.translate += Multiply(minPenetrationDepth * 0.5f, minPenetrationAxis);
-
 }
 
 void IPart::OnCollision(Collider* collider)
 {
+	bool isHead = collider->GetCollisionAttribute() == kCollisionAttributeDarumaHead;
 	bool isPart = collider->GetCollisionAttribute() == kCollisionAttributeDarumaPart;
 	bool isTerrain = collider->GetCollisionAttribute() == kCollisionAttributeTerrain;
 	bool isFoot = collider->GetCollisionAttribute() == kCollisionAttributeDarumaFoot;
 	bool isCollision = (isPart || isTerrain);
 	bool isTrue = collider->GetTag() == this->partTag_;
 	if (isCollision && !isTrue) {
-		CorrectPosition(collider);
+		if (!isHead) {
+			CorrectPosition(collider);
+		}
 	}
 	else if(isFoot){
 		if (!isTrue && index_ == 0) {
@@ -258,4 +260,5 @@ void IPart::OnCollision(Collider* collider)
 	if (isTerrain) {
 		isTerrain_ = true;
 	}
+	object3D_->worldTransform.UpdateMatrix();
 }

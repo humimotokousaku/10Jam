@@ -55,9 +55,6 @@ void GameScene::Update() {
 	ImGui::DragFloat3("CameraPosition", &cameraTargetPoint_.translate.x, 0.01f);
 	int gameTime = gameSystemManager_->GetElapsedTime();
 	ImGui::InputInt("GameTime", &gameTime);
-	if (ImGui::Button("PushAction")) {
-		gameSystemManager_->Action(1.0f);
-	}
 	gameSystemManager_->ImGuiDraw();
 
 	ImGui::End();

@@ -11,6 +11,8 @@ void HeadPart::Initialize(CollisionManager* manager)
 
 	// 基底の初期化
 	IPart::Initialize(manager);
+	SetCollisionAttribute(kCollisionAttributeDarumaHead);
+
 	GlobalVariables* global = GlobalVariables::GetInstance();
 	global->CreateGroup("HeadPart");
 	Vector3 value = { 2.5f,2.5f,2.5f };
@@ -102,6 +104,7 @@ void HeadPart::OnCollision(Collider* collider)
 	if (isTerrain) {
 		isTerrain_ = true;
 	}
+	object3D_->worldTransform.UpdateMatrix();
 }
 
 void HeadPart::ApplyGlobalVariables()

@@ -13,6 +13,8 @@ const uint32_t kCollisionAttributeTerrain = 0b1 << 2;
 const uint32_t kCollisionAttributeDarumaPart = 0b1 << 3;
 // だるまパーツの足場
 const uint32_t kCollisionAttributeDarumaFoot = 0b1 << 4;
+// だるまパーツ
+const uint32_t kCollisionAttributeDarumaHead = 0b1 << 5;
 
 /// 当たり判定の形状
 // 球体

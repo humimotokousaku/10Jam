@@ -1,5 +1,6 @@
 #include "HeavyPart.h"
 #include "Lerp.h"
+#include "GlobalVariables.h"
 
 void HeavyPart::Initialize(CollisionManager* manager)
 {
@@ -10,7 +11,11 @@ void HeavyPart::Initialize(CollisionManager* manager)
 
 	// 基底の初期化
 	IPart::Initialize(manager);
-	object3D_->worldTransform.scale = Vector3(3.0f, 3.0f, 3.0f);
+	GlobalVariables* global = GlobalVariables::GetInstance();
+	global->CreateGroup("HeavyPart");
+	Vector3 value = { 3.0f,1.5f,3.0f };
+	global->AddItem("HeavyPart", "Scale", value);
+	object3D_->worldTransform.scale = global->GetVector3Value("HeavyPart", "Scale");
 	SetOBBLength(object3D_->worldTransform.scale);
 	SetTag(partTag_);
 	FootInitialize(manager);
@@ -26,9 +31,9 @@ void HeavyPart::Initialize(CollisionManager* manager)
 
 void HeavyPart::Update()
 {
-
+	GlobalVariables* global = GlobalVariables::GetInstance();
+	object3D_->worldTransform.scale = global->GetVector3Value("HeavyPart", "Scale");
 	IPart::Update();
-
 }
 
 void HeavyPart::Draw()
@@ -41,4 +46,10 @@ void HeavyPart::Draw()
 void HeavyPart::ImGuiDraw()
 {
 	IPart::ImGuiDraw();
+}
+
+void HeavyPart::ApplyGlobalVariables()
+{
+	GlobalVariables* global = GlobalVariables::GetInstance();
+	object3D_->worldTransform.scale = global->GetVector3Value("HeavyPart", "Scale");
 }

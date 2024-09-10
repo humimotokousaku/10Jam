@@ -1,6 +1,7 @@
 #include "GameScene.h"
 #include "GameManager.h"
 #include "SceneTransition/SceneTransition.h"
+#include "GlobalVariables.h"
 
 void GameScene::Initialize() {
 	sceneNum = GAME_SCENE;
@@ -16,6 +17,7 @@ void GameScene::Initialize() {
 	
 	// モデル読み込み
 	modelManager_->LoadModel("Models/SampleBlock", "cube.obj");
+	modelManager_->LoadModel("Models/DarumaBody", "DarumaBody.obj");
 	collisionManager_ = std::make_unique<CollisionManager>();
 
 	// 追従カメラ
@@ -48,6 +50,8 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() {
+	// Globalの更新
+	GlobalVariables::GetInstance()->Update();
 	// ゲームのシステム
 	ImGui::Begin("GameSystem");
 	ImGui::DragFloat3("CameraPosition", &cameraTargetPoint_.translate.x, 0.01f);
@@ -59,8 +63,11 @@ void GameScene::Update() {
 	gameSystemManager_->ImGuiDraw();
 
 	ImGui::End();
-	gameSystemManager_->Update();
+	if (gameSystemManager_->isGameStop_) {
+		return;
+	}
 
+	gameSystemManager_->Update();
 	// ゲームのタイマー
 	gameTimer_.Update();
 	gameTimer_.SetDrawTime(gameTime);

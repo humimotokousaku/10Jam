@@ -1,5 +1,6 @@
 #include "HeadPart.h"
 #include "TextureManager.h"
+#include "GlobalVariables.h"
 
 void HeadPart::Initialize(CollisionManager* manager)
 {
@@ -10,7 +11,11 @@ void HeadPart::Initialize(CollisionManager* manager)
 
 	// 基底の初期化
 	IPart::Initialize(manager);
-	object3D_->worldTransform.scale = Vector3(2.5f, 2.5f, 2.5f);
+	GlobalVariables* global = GlobalVariables::GetInstance();
+	global->CreateGroup("HeadPart");
+	Vector3 value = { 2.5f,2.5f,2.5f };
+	global->AddItem("HeadPart", "Scale", value);
+	object3D_->worldTransform.scale = global->GetVector3Value("HeadPart", "Scale");
 	SetOBBLength(object3D_->worldTransform.scale);
 	SetTag(partTag_);
 	FootInitialize(manager);
@@ -28,7 +33,8 @@ void HeadPart::Initialize(CollisionManager* manager)
 
 void HeadPart::Update()
 {
-	Input* input = Input::GetInstance();
+	GlobalVariables* global = GlobalVariables::GetInstance();
+	object3D_->worldTransform.scale = global->GetVector3Value("HeadPart", "Scale");
 	IPart::Update();
 }
 
@@ -96,4 +102,10 @@ void HeadPart::OnCollision(Collider* collider)
 	if (isTerrain) {
 		isTerrain_ = true;
 	}
+}
+
+void HeadPart::ApplyGlobalVariables()
+{
+	GlobalVariables* global = GlobalVariables::GetInstance();
+	object3D_->worldTransform.scale = global->GetVector3Value("HeadPart", "Scale");
 }

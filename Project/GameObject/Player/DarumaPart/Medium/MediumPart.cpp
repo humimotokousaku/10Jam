@@ -2,6 +2,7 @@
 #include "../Foot/FootCollider.h"
 #include "ModelManager.h"
 #include "ImGuiManager.h"
+#include "GlobalVariables.h"
 
 void MediumPart::Initialize(CollisionManager* manager)
 {
@@ -12,7 +13,11 @@ void MediumPart::Initialize(CollisionManager* manager)
 
 	// 基底の初期化
 	IPart::Initialize(manager);
-	object3D_->worldTransform.scale = Vector3(2.0f, 2.0f, 2.0f);
+	GlobalVariables* global = GlobalVariables::GetInstance();
+	global->CreateGroup("MediumPart");
+	Vector3 value = { 2.0f,1.5f,2.0f };
+	global->AddItem("MediumPart", "Scale", value);
+	object3D_->worldTransform.scale = global->GetVector3Value("MediumPart", "Scale");
 	SetOBBLength(object3D_->worldTransform.scale);
 	SetTag(partTag_);
 	FootInitialize(manager);
@@ -28,6 +33,8 @@ void MediumPart::Initialize(CollisionManager* manager)
 
 void MediumPart::Update()
 {
+	GlobalVariables* global = GlobalVariables::GetInstance();
+	object3D_->worldTransform.scale = global->GetVector3Value("MediumPart", "Scale");
 	IPart::Update();
 }
 
@@ -41,4 +48,10 @@ void MediumPart::Draw()
 void MediumPart::ImGuiDraw()
 {
 	IPart::ImGuiDraw();
+}
+
+void MediumPart::ApplyGlobalVariables()
+{
+	GlobalVariables* global = GlobalVariables::GetInstance();
+	object3D_->worldTransform.scale = global->GetVector3Value("MediumPart", "Scale");
 }

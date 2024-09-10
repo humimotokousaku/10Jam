@@ -205,7 +205,7 @@ void PlayerContext::PartManager::AddParts(const Vector3& position)
 	std::unique_ptr<IPart> instance = std::make_unique<T>();
 	instance->Initialize(player_->GetCollision());
 	instance->SetCamera(player_->GetCamera());
-	instance->SetModel(ModelManager::GetInstance()->FindModel("Models/SampleBlock", "cube.obj"));
+	instance->SetModel(ModelManager::GetInstance()->FindModel("Models/DarumaBody", "DarumaBody.obj"));
 	instance->GetFootCollider()->Object3DSetting(player_->GetCamera(), ModelManager::GetInstance()->FindModel("Models/SampleBlock", "cube.obj"));
 	instance->SetPosition(position);
 	parts_.push_back(std::move(instance));

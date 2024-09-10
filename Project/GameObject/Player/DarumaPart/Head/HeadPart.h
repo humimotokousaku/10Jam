@@ -10,6 +10,8 @@ public:
 	void ImGuiDraw() override;
 	void AddTorque(Collider* collider);
 	void OnCollision(Collider* collider) override;
+	void ApplyGlobalVariables() override;
+
 private:
 	uint32_t texture_;
 };

@@ -12,10 +12,11 @@ void HeavyPart::Initialize(CollisionManager* manager)
 	// 基底の初期化
 	IPart::Initialize(manager);
 	GlobalVariables* global = GlobalVariables::GetInstance();
-	global->CreateGroup("HeavyPart");
+	std::string groupName = "HeavyPart";
+	global->CreateGroup(groupName);
 	Vector3 value = { 3.0f,1.5f,3.0f };
-	global->AddItem("HeavyPart", "Scale", value);
-	object3D_->worldTransform.scale = global->GetVector3Value("HeavyPart", "Scale");
+	global->AddItem(groupName, "Scale", value);
+	object3D_->worldTransform.scale = global->GetVector3Value(groupName, "Scale");
 	SetOBBLength(object3D_->worldTransform.scale);
 	SetTag(partTag_);
 	FootInitialize(manager);
@@ -23,16 +24,17 @@ void HeavyPart::Initialize(CollisionManager* manager)
 	// USER
 	isGround_ = false;
 	// 物理
-	physics_.mass = 20.0f;
-	physics_.frictionCoeff = 0.4f;
-	physics_.gravity = 9.8f;
+	global->AddItem(groupName, "Mass", 20.0f);
+	global->AddItem(groupName, "FrictionCoeff", 0.4f);
+	global->AddItem(groupName, "Gravity", 9.8f);
+	physics_.mass = global->GetFloatValue(groupName, "Mass");
+	physics_.frictionCoeff = global->GetFloatValue(groupName, "FrictionCoeff");
+	physics_.gravity = global->GetFloatValue(groupName, "Gravity");
 	physics_.normalForce = physics_.mass * physics_.gravity;
 }
 
 void HeavyPart::Update()
 {
-	GlobalVariables* global = GlobalVariables::GetInstance();
-	object3D_->worldTransform.scale = global->GetVector3Value("HeavyPart", "Scale");
 	IPart::Update();
 }
 
@@ -51,5 +53,9 @@ void HeavyPart::ImGuiDraw()
 void HeavyPart::ApplyGlobalVariables()
 {
 	GlobalVariables* global = GlobalVariables::GetInstance();
-	object3D_->worldTransform.scale = global->GetVector3Value("HeavyPart", "Scale");
+	std::string groupName = "HeavyPart";
+	object3D_->worldTransform.scale = global->GetVector3Value(groupName, "Scale");
+	physics_.mass = global->GetFloatValue(groupName, "Mass");
+	physics_.frictionCoeff = global->GetFloatValue(groupName, "FrictionCoeff");
+	physics_.gravity = global->GetFloatValue(groupName, "Gravity");
 }

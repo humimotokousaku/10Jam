@@ -14,10 +14,11 @@ void HeadPart::Initialize(CollisionManager* manager)
 	SetCollisionAttribute(kCollisionAttributeDarumaHead);
 
 	GlobalVariables* global = GlobalVariables::GetInstance();
-	global->CreateGroup("HeadPart");
+	std::string groupName = "HeadPart";
+	global->CreateGroup(groupName);
 	Vector3 value = { 2.5f,2.5f,2.5f };
-	global->AddItem("HeadPart", "Scale", value);
-	object3D_->worldTransform.scale = global->GetVector3Value("HeadPart", "Scale");
+	global->AddItem(groupName, "Scale", value);
+	object3D_->worldTransform.scale = global->GetVector3Value(groupName, "Scale");
 	SetOBBLength(object3D_->worldTransform.scale);
 	SetTag(partTag_);
 	FootInitialize(manager);
@@ -25,9 +26,12 @@ void HeadPart::Initialize(CollisionManager* manager)
 	// USER
 	isGround_ = false;
 	// 物理
-	physics_.mass = 10.0f;
-	physics_.frictionCoeff = 0.3f;
-	physics_.gravity = 9.8f;
+	global->AddItem(groupName, "Mass", 10.0f);
+	global->AddItem(groupName, "FrictionCoeff", 0.3f);
+	global->AddItem(groupName, "Gravity", 9.8f);
+	physics_.mass = global->GetFloatValue(groupName, "Mass");
+	physics_.frictionCoeff = global->GetFloatValue(groupName, "FrictionCoeff");
+	physics_.gravity = global->GetFloatValue(groupName, "Gravity");
 	physics_.normalForce = physics_.mass * physics_.gravity;
 
 	texture_ = TextureManager::GetInstance()->GetSrvIndex("", "uvChecker.png");
@@ -171,5 +175,10 @@ void HeadPart::OnCollision(Collider* collider)
 void HeadPart::ApplyGlobalVariables()
 {
 	GlobalVariables* global = GlobalVariables::GetInstance();
-	object3D_->worldTransform.scale = global->GetVector3Value("HeadPart", "Scale");
+	std::string groupName = "HeadPart";
+	object3D_->worldTransform.scale = global->GetVector3Value(groupName, "Scale");
+	physics_.mass = global->GetFloatValue(groupName, "Mass");
+	physics_.frictionCoeff = global->GetFloatValue(groupName, "FrictionCoeff");
+	physics_.gravity = global->GetFloatValue(groupName, "Gravity");
+	physics_.normalForce = physics_.mass * physics_.gravity;
 }

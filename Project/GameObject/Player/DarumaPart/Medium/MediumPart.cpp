@@ -14,10 +14,11 @@ void MediumPart::Initialize(CollisionManager* manager)
 	// 基底の初期化
 	IPart::Initialize(manager);
 	GlobalVariables* global = GlobalVariables::GetInstance();
-	global->CreateGroup("MediumPart");
+	std::string groupName = "MediumPart";
+	global->CreateGroup(groupName);
 	Vector3 value = { 2.0f,1.5f,2.0f };
-	global->AddItem("MediumPart", "Scale", value);
-	object3D_->worldTransform.scale = global->GetVector3Value("MediumPart", "Scale");
+	global->AddItem(groupName, "Scale", value);
+	object3D_->worldTransform.scale = global->GetVector3Value(groupName, "Scale");
 	SetOBBLength(object3D_->worldTransform.scale);
 	SetTag(partTag_);
 	FootInitialize(manager);
@@ -25,16 +26,17 @@ void MediumPart::Initialize(CollisionManager* manager)
 	// USER
 	isGround_ = false;
 	// 物理
-	physics_.mass = 10.0f;
-	physics_.frictionCoeff = 0.3f;
-	physics_.gravity = 9.8f;
+	global->AddItem(groupName, "Mass", 10.0f);
+	global->AddItem(groupName, "FrictionCoeff", 0.3f);
+	global->AddItem(groupName, "Gravity", 9.8f);
+	physics_.mass = global->GetFloatValue(groupName, "Mass");
+	physics_.frictionCoeff = global->GetFloatValue(groupName, "FrictionCoeff");
+	physics_.gravity = global->GetFloatValue(groupName, "Gravity");
 	physics_.normalForce = physics_.mass * physics_.gravity;
 }
 
 void MediumPart::Update()
 {
-	GlobalVariables* global = GlobalVariables::GetInstance();
-	object3D_->worldTransform.scale = global->GetVector3Value("MediumPart", "Scale");
 	IPart::Update();
 }
 
@@ -53,5 +55,9 @@ void MediumPart::ImGuiDraw()
 void MediumPart::ApplyGlobalVariables()
 {
 	GlobalVariables* global = GlobalVariables::GetInstance();
-	object3D_->worldTransform.scale = global->GetVector3Value("MediumPart", "Scale");
+	std::string groupName = "MediumPart";
+	object3D_->worldTransform.scale = global->GetVector3Value(groupName, "Scale");
+	physics_.mass = global->GetFloatValue(groupName, "Mass");
+	physics_.frictionCoeff = global->GetFloatValue(groupName, "FrictionCoeff");
+	physics_.gravity = global->GetFloatValue(groupName, "Gravity");
 }

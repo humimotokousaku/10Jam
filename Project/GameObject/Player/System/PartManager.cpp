@@ -45,60 +45,72 @@ void PlayerContext::PartManager::Draw()
 void PlayerContext::PartManager::InputUpdate()
 {
 	Input* input = Input::GetInstance();
-	float contIndex = 1.0f;
-	float moveValue = 0.1f;
-	bool isA = false;
-	bool isD = false;
-	bool isW = false;
-	bool isS = false;
-	Vector2 moveSpeed = { moveValue,moveValue };
-
-	// 入力処理
-	if (input->PressKey(DIK_A)) {
-		isA = true;
-		moveSpeed.x *= -1.0f;
-	}
-	if (input->PressKey(DIK_D)) {
-		isD = true;
-	}
-	if (input->PressKey(DIK_W)) {
-		isW = true;
-	}
-	if (input->PressKey(DIK_S)) {
-		isS = true;
-		moveSpeed.y *= -1.0f;
-	}
-
-	// スピードの調整
-	if (isA || isD) {
-		if (isW || isS) {
-			moveSpeed.x *= (1.0f / 2.0f);
-			moveSpeed.y *= (1.0f / 2.0f);
-		}
-		else {
-			moveSpeed.y = 0.0f;
-		}
-	}
-	else if (isW || isS) {
-		if (isA || isD) {
-			moveSpeed.x *= (1.0f / 2.0f);
-			moveSpeed.y *= (1.0f / 2.0f);
-		}
-		else {
-			moveSpeed.x = 0.0f;
-		}
+	Vector2 leftStick = {};
+	XINPUT_STATE joyState;
+	if (input->GetJoystickState(0, joyState)) {
+		SHORT leftThumbX = input->ApplyDeadzone(joyState.Gamepad.sThumbLX);
+		SHORT leftThumbY = input->ApplyDeadzone(joyState.Gamepad.sThumbLY);
+		leftStick.x += (float)leftThumbX / SHRT_MAX;
+		leftStick.y += (float)leftThumbY / SHRT_MAX;
+		leftStick = Normalize(leftStick);
+		leftStick *= 0.1f;
 	}
 	else {
-		moveSpeed = { 0.0f,0.0f };
+		//float moveValue = 0.1f;
+		//bool isA = false;
+		//bool isD = false;
+		//bool isW = false;
+		//bool isS = false;
+		//Vector2 moveSpeed = { moveValue,moveValue };
+
+		//// 入力処理
+		//if (input->PressKey(DIK_A)) {
+		//	isA = true;
+		//	moveSpeed.x *= -1.0f;
+		//}
+		//if (input->PressKey(DIK_D)) {
+		//	isD = true;
+		//}
+		//if (input->PressKey(DIK_W)) {
+		//	isW = true;
+		//}
+		//if (input->PressKey(DIK_S)) {
+		//	isS = true;
+		//	moveSpeed.y *= -1.0f;
+		//}
+
+		//// スピードの調整
+		//if (isA || isD) {
+		//	if (isW || isS) {
+		//		moveSpeed.x *= (1.0f / 2.0f);
+		//		moveSpeed.y *= (1.0f / 2.0f);
+		//	}
+		//	else {
+		//		moveSpeed.y = 0.0f;
+		//	}
+		//}
+		//else if (isW || isS) {
+		//	if (isA || isD) {
+		//		moveSpeed.x *= (1.0f / 2.0f);
+		//		moveSpeed.y *= (1.0f / 2.0f);
+		//	}
+		//	else {
+		//		moveSpeed.x = 0.0f;
+		//	}
+		//}
+		//else {
+		//	moveSpeed = { 0.0f,0.0f };
+		//}
 	}
+	float contIndex = 1.0f;
 
 	// 入力による速度の計算
 	for (std::vector<std::unique_ptr<IPart>>::iterator it = parts_.begin(); it != parts_.end(); ++it) {
 		if ((*it)->IsGround()) {
-			(*it)->velocity_.x += moveSpeed.x * (contIndex);
-			(*it)->velocity_.z += moveSpeed.y * (contIndex);
+			(*it)->velocity_.x += leftStick.x * (contIndex);
+			(*it)->velocity_.z += leftStick.y * (contIndex);
 		}
-		contIndex -= 0.05f;
+		contIndex += 0.05f;
 	}
 }
 

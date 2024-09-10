@@ -1,18 +1,10 @@
 #pragma once
 #include "IScene.h"
 #include "Sprite.h"
-
-// モデルの読み込みに使用
 #include "ModelManager.h"
-
-// テクスチャの読み込みに使用
 #include "TextureManager.h"
 
-// テスト用のブロック
-#include "SampleObject/SampleObject.h"
-
-// カメラ
-#include "Camera.h"
+#include "TitleEffect/TitleEffect.h"
 
 class GameManager;
 
@@ -30,7 +22,7 @@ public:
 	// 解放処理
 	void Finalize()override;
 
-private:
+private:// エンジン機能
 	// 入力
 	Input* input_;
 	// モデルの読み込み
@@ -38,17 +30,7 @@ private:
 	// テクスチャの読み込み
 	TextureManager* textureManager_;
 
-	// テクスチャの番号
-	uint32_t textureHandle_;
-
-	// カメラ
-	std::unique_ptr<Camera> camera_;
-	// 衝突マネージャー
-	std::unique_ptr<CollisionManager> collisionManager_;
-
-	// テスト用ブロック
-	std::array<std::unique_ptr<SampleObject>, 2> sampleObject_;
-
-	// UI
-	std::array<std::unique_ptr<Sprite>, 3> guideUI_;
+private:
+	// タイトルの演出
+	TitleEffect titleEffect_;
 };

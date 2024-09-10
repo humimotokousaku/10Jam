@@ -159,6 +159,10 @@ namespace Easings {
 		return x * x * x * x * x;
 	}
 
+	float EaseInOutSine(float t) {
+		return 0.5f * (1 - std::cos(2 * 3.14f * t));
+	}
+
 	// だんだん減速(ぎりぎりまで速度が速い)
 	float EaseOutQuint(float x) {
 		return 1 - (float)pow(1 - x, 5);

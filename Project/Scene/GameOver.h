@@ -1,6 +1,7 @@
 #pragma once
 #include "IScene.h"
 #include "Sprite.h"
+#include "Animation.h"
 
 class GameManager;
 class GameOver : public IScene
@@ -20,6 +21,9 @@ public:
 	void Finalize()override;
 private:
 	// UI
-	std::array<std::unique_ptr<Sprite>, 3> guideUI_;
+	std::array<std::unique_ptr<Sprite>, 4> guideUI_;
+
+	// ボタンのアニメーション
+	std::array<Animation, 3> buttonAnim_;
 };
 

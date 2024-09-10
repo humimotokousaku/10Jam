@@ -31,9 +31,9 @@ public:
 
 public: // アクセッサ
 	void SetCollisionManager(CollisionManager* collisionManager) { collisionManager_ = collisionManager; }
-	void SetIsDead(bool isDead) { isDead_ = isDead; }
-	
+	void SetIsDead(bool isDead) { isDead_ = isDead; }	
 	bool IsDead() { return isDead_; }
+
 	Camera* GetCamera() { return camera_; }
 	// コライダーのマネージャ
 	CollisionManager* GetCollision() { return collisionManager_; }

@@ -10,7 +10,7 @@ void GameSystemManager::Initialize(Player* player, Enemy* enemy)
 	player_ = player;
 	enemy_ = enemy;
 
-	timer_.elapsed = 0;
+	timer_.elapsed = 5;
 	timer_.frameCount = 0;
 
 	// 方向
@@ -27,11 +27,8 @@ void GameSystemManager::Initialize(Player* player, Enemy* enemy)
 
 void GameSystemManager::Update()
 {
-	// ゲームのタイマー
-	gameTimer_.Update();
-	gameTimer_.SetDrawTime(GetElapsedTime());
 	// ゲーム終了の判定
-	if (timer_.elapsed >= 60) {
+	if (timer_.elapsed <= 0) {
 		isGameEnd_ = true;
 	}
 	if (player_->IsDead()) {
@@ -43,7 +40,10 @@ void GameSystemManager::Update()
 		return;
 	}
 	// 時間の更新
-	timer_.Update();
+	timer_.Update(-1);
+	// ゲームのタイマー
+	gameTimer_.Update();
+	gameTimer_.SetDrawTime(GetElapsedTime());
 
 	// 攻撃方向表示
 	attackDirection_->Update();

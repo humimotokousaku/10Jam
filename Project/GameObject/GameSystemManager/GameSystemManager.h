@@ -44,7 +44,7 @@ private: // ゲームの管理
 private: // 時間関係
 	struct GameFrameTimer {
 		// ゲームの経過時間
-		uint32_t elapsed;
+		int elapsed;
 		// ゲームのフレームカウント（経過時間用）
 		uint32_t frameCount = 0;
 		// ゲームを止める処理
@@ -52,13 +52,16 @@ private: // 時間関係
 		// ゲームのポーズ
 		bool isPause = false;
 		// 更新
-		void Update() {
+		void Update(int value) {
 			// フレームカウント
 			frameCount++;
 			// ゲーム内時間進む
 			if (frameCount >= 60) {
-				elapsed++;
+				elapsed += value;
 				frameCount = 0;
+			}
+			if (elapsed < 0) {
+				elapsed = 0;
 			}
 		}
 		bool isAction = false;

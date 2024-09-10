@@ -24,7 +24,7 @@ void PostEffectManager::Initialize() {
 	renderTexture_.push_back(radialBlur_->GetRenderTexture());
 	radialBlurData_.isActive = false;
 	radialBlurData_.blurWidth = 0.005f;
-	radialBlurData_.center = { 0.5f, 0.5f };
+	radialBlurData_.centerProjection = { 0.5f, 0.5f };
 	radialBlur_->SetRadialBlurData(radialBlurData_);
 	postEffect_.push_back(radialBlur_);
 	// Gauss

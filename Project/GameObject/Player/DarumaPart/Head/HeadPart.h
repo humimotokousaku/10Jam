@@ -8,6 +8,8 @@ public:
 	void Update() override;
 	void Draw() override;
 	void ImGuiDraw() override;
+	void AddTorque(Collider* collider);
+	void OnCollision(Collider* collider) override;
 	void ApplyGlobalVariables() override;
 
 private:

@@ -161,7 +161,7 @@ void IPart::CorrectPosition(Collider* collider)
 	Vector3 correctPosition = GetWorldPosition();
 	Vector3 pMin = correctPosition - object3D_->worldTransform.scale;
 	Vector3 pMax = correctPosition + object3D_->worldTransform.scale;
-	if (isY) {
+	/*if (isY) {
 		if (pMin.y >= cMin.y && pMin.y <= cMax.y) {
 			correctPosition.y = targetPosition.y + object3D_->worldTransform.scale.y + targetScale.y + correctValue;
 		}
@@ -169,7 +169,74 @@ void IPart::CorrectPosition(Collider* collider)
 			correctPosition.y = targetPosition.y - object3D_->worldTransform.scale.y - targetScale.y - correctValue;
 		}
 		object3D_->worldTransform.translate.y = correctPosition.y;
+	}*/
+
+	float minPenetrationDepth = (std::numeric_limits<float>::max)();
+	Vector3 minPenetrationAxis;
+
+	Vector3 axes[15];  // 衝突判定に使用する分離軸
+	int axisCount = 0;
+
+	// OBBの各軸を分離軸に追加
+	for (int i = 0; i < 3; i++) {
+		axes[axisCount++] = GetOBB().m_NormaDirect[i];
+		axes[axisCount++] = collider->GetOBB().m_NormaDirect[i];
 	}
+
+	// OBBの各軸の外積を分離軸に追加
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			Vector3 crossAxis = Cross(GetOBB().m_NormaDirect[i], collider->GetOBB().m_NormaDirect[i]);
+			if (Length(crossAxis) > 1e-6) {
+				axes[axisCount++] = Normalize(crossAxis);
+			}
+		}
+	}
+
+	//Vector3 centerOffset = Subtract(obb2.center, obb1.center);
+	Vector3 centerOffset = GetWorldPosition() - collider->GetWorldPosition();
+	// 各軸に対して衝突判定
+	for (int i = 0; i < axisCount; i++) {
+		Vector3 axis = axes[i];
+
+		// OBB1とOBB2の軸への投影半径を計算
+		float r1 = GetOBB().m_fLength.x * std::fabsf(Dot(GetOBB().m_NormaDirect[0], axis)) +
+			       GetOBB().m_fLength.y * std::fabsf(Dot(GetOBB().m_NormaDirect[1], axis)) +
+			       GetOBB().m_fLength.z * std::fabsf(Dot(GetOBB().m_NormaDirect[2], axis));
+		float r2 = collider->GetOBB().m_fLength.x * std::fabsf(Dot(collider->GetOBB().m_NormaDirect[0], axis)) +
+			       collider->GetOBB().m_fLength.y * std::fabsf(Dot(collider->GetOBB().m_NormaDirect[1], axis)) +
+			       collider->GetOBB().m_fLength.z * std::fabsf(Dot(collider->GetOBB().m_NormaDirect[2], axis));
+		float distance = std::fabs(Dot(centerOffset, axis));
+
+		// 貫通深度を計算
+		float penetrationDepth = (r1 + r2) - distance;
+
+		if (penetrationDepth < 0.0f) {
+			continue;
+		}
+
+		// 最小の貫通深度を保存
+		if (penetrationDepth < minPenetrationDepth) {
+			minPenetrationDepth = penetrationDepth;
+			minPenetrationAxis = Normalize(axis);
+		}
+	}
+
+	// 中心オフセットとの内積を使用して、押し返し方向を決定
+	if (Dot(centerOffset, minPenetrationAxis) < 0) {
+		minPenetrationAxis = Multiply(-1, minPenetrationAxis);
+	}
+
+	// Y軸方向の押し返しを優先
+	if (std::fabs(minPenetrationAxis.y) > std::fabs(minPenetrationAxis.x) &&
+		std::fabs(minPenetrationAxis.y) > std::fabs(minPenetrationAxis.z)) {
+		minPenetrationAxis = Vector3(0, minPenetrationAxis.y, 0);
+	}
+
+
+
+	object3D_->worldTransform.translate += Multiply(minPenetrationDepth * 0.5f, minPenetrationAxis);
+
 }
 
 void IPart::OnCollision(Collider* collider)

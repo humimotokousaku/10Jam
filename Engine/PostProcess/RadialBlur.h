@@ -11,7 +11,7 @@ public:// 構造体
 	struct RadialBlurData {
 		bool isActive;	 // 使用するか
 		float blurWidth; // ブラーの強さ
-		Vector2 center;
+		Vector2 centerProjection;
 	};
 public:
 	/// <summary>

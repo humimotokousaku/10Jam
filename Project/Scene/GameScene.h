@@ -10,6 +10,7 @@
 #include "../GameObjectLists.h"
 #include "../GameSystemManager/GameSystemManager.h"
 #include "../AttackDirection/AttackDirection.h"
+#include "Tutorial/Tutorial.h"
 
 #include <memory>
 
@@ -63,6 +64,8 @@ private: // USER
 	std::unique_ptr<Terrain> terrain_;
 	// ゲームのシステム
 	std::unique_ptr<GameSystemManager> gameSystemManager_;
+	// チュートリアル
+	std::unique_ptr<Tutorial> tutorial_;
 
 	// 追従カメラの見ている座標
 	WorldTransform cameraTargetPoint_;

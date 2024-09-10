@@ -29,15 +29,11 @@ void GameScene::Initialize() {
 	GlobalVariables* global = GlobalVariables::GetInstance();
 	global->CreateGroup("FollowCamera");
 	global->AddItem("FollowCamera", "OffsetPoint", cameraTargetPoint_.translate);
-
-	//camera_->worldTransform_.translate = Vector3(0.0f, 0.0f, -45.0f);
 	
 	// プレイヤー
 	player_ = std::make_unique<Player>();
 	player_->SetCollisionManager(collisionManager_.get());
 	player_->Initialize(followCamera_->GetCamera());
-	//player_->GetPartManager()->AddDaruma(PlayerContext::DarumaPattern::kL2M2H);
-	//player_->GetPartManager()->AddHead(Vector3{ 0,50,0 });
 	// エネミー
 	enemy_ = std::make_unique<Enemy>();
 
@@ -51,7 +47,9 @@ void GameScene::Initialize() {
 	gameSystemManager_ = std::make_unique<GameSystemManager>();
 	gameSystemManager_->Initialize(player_.get(),enemy_.get());
 
-
+	tutorial_ = std::make_unique<Tutorial>();
+	tutorial_->Initialize(collisionManager_.get(), followCamera_->GetCamera(), player_.get(), enemy_.get(), terrain_.get(), gameSystemManager_.get());
+	tutorial_->Start();
 }
 
 void GameScene::Update() {
@@ -68,7 +66,6 @@ void GameScene::Update() {
 
 	gameSystemManager_->Update();
 
-
 	// シーンの切り替え処理
 #ifdef _DEBUG
 	if (Input::GetInstance()->TriggerKey(DIK_SPACE)) {
@@ -79,20 +76,27 @@ void GameScene::Update() {
 		//SceneTransition::GetInstance()->Start();
 	}
 	if (SceneTransition::GetInstance()->GetSceneTransitionSignal()) {
-		sceneNum = TITLE_SCENE;
+		if (!tutorial_->GetIsStart()) {
+			sceneNum = TITLE_SCENE;
+		}
 	}
 
+	// 追従カメラ
 	cameraTargetPoint_.UpdateMatrix();
 	followCamera_->Update();
 	// プレイヤー
 	player_->ImGuiDraw();
 	player_->Update();
 
+	// 地面
 	terrain_->Update();
 	terrain_->ImGuiDraw();
 
 	// 当たり判定
 	collisionManager_->CheckAllCollisions();
+
+	// チュートリアル
+	tutorial_->Update();
 }
 
 void GameScene::Draw() {

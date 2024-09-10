@@ -252,6 +252,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" </Command>
     <ClCompile Include="Project\Components\SceneTransition\SceneTransition.cpp" />
     <ClCompile Include="Project\SampleObject\SampleObject.cpp" />
     <ClCompile Include="Project\TitleEffect\TitleEffect.cpp" />
+    <ClCompile Include="Project\Tutorial\Tutorial.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Project\GameObject\AttackDirection\AttackDirection.h" />
@@ -353,6 +354,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" </Command>
     <ClInclude Include="Project\Components\SceneTransition\SceneTransition.h" />
     <ClInclude Include="Project\SampleObject\SampleObject.h" />
     <ClInclude Include="Project\TitleEffect\TitleEffect.h" />
+    <ClInclude Include="Project\Tutorial\Tutorial.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\ImGui\LICENSE.txt" />

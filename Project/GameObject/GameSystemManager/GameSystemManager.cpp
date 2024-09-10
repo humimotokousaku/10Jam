@@ -10,7 +10,7 @@ void GameSystemManager::Initialize(Player* player, Enemy* enemy)
 	player_ = player;
 	enemy_ = enemy;
 
-	timer_.elapsed = 5;
+	timer_.elapsed = 60;
 	timer_.frameCount = 0;
 
 	// 方向
@@ -23,6 +23,10 @@ void GameSystemManager::Initialize(Player* player, Enemy* enemy)
 	attackDirection_->SetColor({ 1.0f,1.0f,1.0f,0.8f });
 	// 経過時間
 	gameTimer_.Initialize();
+
+	actionManager_ = std::make_unique<ActionManager>();
+	actionManager_->LoadActionData();
+	//actionManager_->UpdateActionData(0);
 }
 
 void GameSystemManager::Update()
@@ -49,13 +53,7 @@ void GameSystemManager::Update()
 	attackDirection_->Update();
 	attackDirection_->SetArrowDirection(actionDirect_);
 
-	PushActionTimeReference();
-
-	//actionTime.coolTime.current++;
-	//if (actionTime.coolTime.current > actionTime.coolTime.max) {
-	//	Action(actionPower_);
-	//	actionTime.coolTime.current = 0;
-	//}
+	CSVActionControll();
 }
 
 void GameSystemManager::ImGuiDraw()
@@ -85,30 +83,24 @@ void GameSystemManager::Action(float power)
 	timer_.isAction = true;
 }
 
-void GameSystemManager::PushActionTimeReference()
+void GameSystemManager::CSVActionControll()
 {
-	// 押し出しのやつをタイマーで
-	if (timer_.elapsed == 10) {
+	// 配列を超過しないように
+	if (actionNow_ < actionManager_->actionContainer_.size()) {
+		return;
+	}
+	// 画像の方向設定
+	attackDirection_->SetArrowDirection(actionManager_->actionContainer_[actionNow_].direct);
+	// 押し出すアクション
+	if (actionManager_->actionContainer_[actionNow_].time == timer_.elapsed) {
+		// 一度行っているなら早期
 		if (timer_.isAction) {
 			return;
 		}
-		Action(2.0f);
-		actionDirect_ = { 1.0f,0.0f,1.0f };
+		Action(actionManager_->actionContainer_[actionNow_].power);
+		actionNow_++;
 	}
-	else if (timer_.elapsed == 15) {
-		if (timer_.isAction) {
-			return;
-		}
-		Action(1.5f);
-		actionDirect_ = { 1.0f,0.0f,-1.0f };
-	}
-	else if (timer_.elapsed == 25) {
-		if (timer_.isAction) {
-			return;
-		}
-		Action(1.0f);
-		actionDirect_ = { -1.0f,0.0f,-1.0f };
-	}
+	// その番号の時間と一致していなければフラグリセット
 	else {
 		timer_.isAction = false;
 	}

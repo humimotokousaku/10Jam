@@ -3,6 +3,7 @@
 #include <memory>
 #include "../AttackDirection/AttackDirection.h"
 #include "GameTimer/GameTimer.h"
+#include "ActionManager.h"
 
 class Player;
 class Enemy;
@@ -19,7 +20,7 @@ public:
 	// 行動
 	void Action(float power);
 private:
-	void PushActionTimeReference();
+	void CSVActionControll();
 
 public:
 	// 経過時間の取得
@@ -37,8 +38,13 @@ private: // ゲームの管理
 	Vector3 actionDirect_{ 1.0f,0.0f,0.0f };
 	// 押し出しの力
 	float actionPower_ = 0.15f;
+
+	int32_t actionNow_ = 0;
+
 	// 攻撃方向の表示
 	std::unique_ptr<AttackDirection> attackDirection_;
+	// 行動マネージャー
+	std::unique_ptr<ActionManager> actionManager_;
 	// ゲームのタイム
 	GameTimer gameTimer_;
 private: // 時間関係

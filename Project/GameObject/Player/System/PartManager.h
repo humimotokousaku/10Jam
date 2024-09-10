@@ -28,7 +28,6 @@ namespace PlayerContext
 		// ImGui
 		void ImGuiDraw();
 		void ImGuiPart();
-	private:
 		// 入力処理
 		void InputUpdate();
 	public:
@@ -37,6 +36,7 @@ namespace PlayerContext
 		void AddParts(const Vector3& position);
 		void AddHead(const Vector3& position);
 		void AddDaruma(DarumaPattern pattern);
+		void ListClear();
 
 		std::vector<std::unique_ptr<IPart>>::iterator partsIt_;
 		std::vector<std::unique_ptr<IPart>> parts_;

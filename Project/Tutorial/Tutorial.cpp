@@ -49,12 +49,17 @@ void Tutorial::Initialize() {
 	buttonAnim_[5].SetAnimData(&countUI_[2]->worldTransform_.rotate, Vector3{ 0.0f,0.0f,0.0f }, Vector3{ 0.0f,0.0f,(float)std::numbers::pi * 2 }, 60, "s", Easings::EaseOutExpo);
 
 	isStart_ = true;
+	isCountDown_ = false;
 }
 
 void Tutorial::Update() {
 	// 3秒後にカウントダウン開始
 	if (currentFrame_ <= 241 && currentFrame_ >= 240) {
 		SceneTransition::GetInstance()->Start();
+		// 初期位置に
+		player_->GenerateInitialize();
+		// カウントダウンを開始したか
+		isCountDown_ = true;
 	}
 	if (SceneTransition::GetInstance()->GetSceneTransitionSignal()) {
 		// コントローラのUIを非表示
@@ -85,6 +90,7 @@ void Tutorial::Update() {
 	// 最後のアニメーションが終わったらチュートリアル終了
 	if (buttonAnim_[buttonAnim_.size() - 1].GetIsEnd()) {
 		isStart_ = false;
+		isCountDown_ = false;
 		// UIを表示しない
 		for (int i = 0; i < countUI_.size(); i++) {
 			countUI_[i]->isActive_ = false;

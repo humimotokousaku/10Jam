@@ -9,9 +9,6 @@ void PlayerContext::PartManager::Initialize(Player* player)
 
 void PlayerContext::PartManager::Update()
 {
-	// 入力処理
-	InputUpdate();
-
 	// 更新
 	for (std::vector<std::unique_ptr<IPart>>::iterator it = parts_.begin(); it != parts_.end(); ++it) {
 		if (it == parts_.begin()) {
@@ -161,6 +158,12 @@ void PlayerContext::PartManager::AddDaruma(DarumaPattern pattern)
 	}
 
 }
+
+void PlayerContext::PartManager::ListClear()
+{
+	parts_.clear();
+}
+
 void PlayerContext::PartManager::ImGuiDraw()
 {
 	float dragValue = 0.01f;
@@ -195,7 +198,7 @@ void PlayerContext::PartManager::ImGuiDraw()
 		ImGui::TreePop();
 	}
 	if (ImGui::Button("Reset")) {
-		parts_.clear();
+		ListClear();
 	}
 }
 

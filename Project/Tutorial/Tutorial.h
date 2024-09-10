@@ -27,9 +27,12 @@ public:
 	/// </summary>
 	void Start() { isStart_ = true; }
 
+	void SetPlayer(Player* player) { player_ = player; }
+
 #pragma region Getter
 	// チュートリアルが開始しているか
 	bool GetIsStart() { return isStart_; }
+	bool IsCountDown() { return isCountDown_; }
 #pragma endregion
 
 private:
@@ -43,6 +46,10 @@ private:
 
 	// チュートリアル開始
 	bool isStart_;
+	bool isCountDown_ = false;
 
 	int currentFrame_;
+
+	Player* player_ = nullptr;
+
 };

@@ -23,14 +23,19 @@ void GameSystemManager::Initialize(Player* player, Enemy* enemy)
 	attackDirection_->SetColor({ 1.0f,1.0f,1.0f,0.8f });
 	// 経過時間
 	gameTimer_.Initialize();
+	gameTimer_.SetDrawTime(GetElapsedTime());
 
 	actionManager_ = std::make_unique<ActionManager>();
 	actionManager_->LoadActionData();
 	//actionManager_->UpdateActionData(0);
 }
 
-void GameSystemManager::Update()
+void GameSystemManager::Update(bool isTutorial)
 {
+	// チュートリアル中なら処理しない
+	if (isTutorial) {
+		return;
+	}
 	// ゲーム終了の判定
 	if (timer_.elapsed <= 0) {
 		isGameEnd_ = true;
@@ -53,6 +58,7 @@ void GameSystemManager::Update()
 	attackDirection_->Update();
 	attackDirection_->SetArrowDirection(actionDirect_);
 
+	// CSVのデータを使ったアクション処理
 	CSVActionControll();
 }
 
@@ -66,6 +72,13 @@ void GameSystemManager::ImGuiDraw()
 		Action(actionPower_);
 	}
 	ImGui::Checkbox("GameStop", &isGameStop_);
+	ImGui::Checkbox("ArrowDraw", &isDraw_);
+	if (isDraw_) {
+		attackDirection_->SetColor({ 1,1,1,1 });
+	}
+	else {
+		attackDirection_->SetColor({ 1,1,1,0 });
+	}
 	actionDirect_ = Normalize(actionDirect_);
 }
 

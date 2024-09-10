@@ -14,7 +14,7 @@ public:
 	// 初期化
 	void Initialize(Player* player, Enemy* enemy);
 	// ゲーム時の処理
-	void Update();
+	void Update(bool isTutorial);
 	void ImGuiDraw();
 	void Draw();
 	// 行動
@@ -28,6 +28,7 @@ public:
 	bool IsGameEnd() { return isGameEnd_; }
 
 	bool isGameStop_ = false;
+	bool isDraw_ = true;
 private: // ゲームの管理
 	// ゲーム処理の終了フラグ
 	bool isGameEnd_ = false;
@@ -39,6 +40,7 @@ private: // ゲームの管理
 	// 押し出しの力
 	float actionPower_ = 0.15f;
 
+	// 現在のインデックス
 	int32_t actionNow_ = 0;
 
 	// 攻撃方向の表示

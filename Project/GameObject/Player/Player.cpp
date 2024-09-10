@@ -16,11 +16,13 @@ void Player::Initialize(Camera* camera)
 
 }
 
-void Player::Update()
+void Player::Update(bool isCountDown)
 {
+	if (!isCountDown) {
+		partManager_.InputUpdate();
+	}
 
 	partManager_.Update();
-
 }
 
 void Player::Draw()
@@ -48,4 +50,15 @@ void Player::ImGuiDraw()
 	}
 	
 	ImGui::End();
+}
+
+void Player::GenerateInitialize()
+{
+	// 死亡フラグリセット
+	isDead_ = false;
+	// リストの初期化
+	partManager_.ListClear();
+	// 生成
+	partManager_.AddDaruma(PlayerContext::DarumaPattern::kL2M2H);
+	partManager_.AddHead(Vector3{ 0,50,0 });
 }

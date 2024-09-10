@@ -1,0 +1,7 @@
+// コマンド,方向X,方向Z,力の値
+NEXTTIME,10
+POP,3,1,2.5
+NEXTTIME,20
+POP,1,1,1.2
+NEXTTIME,1
+POP,2,2,2,1

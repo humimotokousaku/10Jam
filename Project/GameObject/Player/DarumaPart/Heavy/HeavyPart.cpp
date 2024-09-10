@@ -2,8 +2,13 @@
 #include "Lerp.h"
 #include "GlobalVariables.h"
 
+HeavyPart::~HeavyPart() {
+	collisionManager_->ClearColliderList(this);
+}
+
 void HeavyPart::Initialize(CollisionManager* manager)
 {
+	collisionManager_ = manager;
 	// シリアル設定
 	serialNumber_ = sSerialNumber;
 	sSerialNumber++;

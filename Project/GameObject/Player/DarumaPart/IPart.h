@@ -72,6 +72,8 @@ protected:
 	// 物理のパラメータ
 	PlayerContext::PhysicsParam physics_;
 public:
+	CollisionManager* collisionManager_;
+
 	// モデルと座標
 	std::unique_ptr<Object3D> object3D_;
 	// 速さ

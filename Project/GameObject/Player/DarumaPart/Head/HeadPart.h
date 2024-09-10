@@ -4,6 +4,7 @@
 class HeadPart : public IPart
 {
 public:
+	~HeadPart();
 	void Initialize(CollisionManager* manager) override;
 	void Update() override;
 	void Draw() override;

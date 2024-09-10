@@ -28,7 +28,7 @@ void HeadPart::Initialize(CollisionManager* manager)
 	physics_.gravity = 9.8f;
 	physics_.normalForce = physics_.mass * physics_.gravity;
 
-	texture_ = TextureManager::GetInstance()->GetSrvIndex("DefaultTexture", "white.png");
+	texture_ = TextureManager::GetInstance()->GetSrvIndex("", "uvChecker.png");
 }
 
 void HeadPart::Update()

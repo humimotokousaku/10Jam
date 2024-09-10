@@ -50,8 +50,6 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() {
-	// Globalの更新
-	GlobalVariables::GetInstance()->Update();
 	// ゲームのシステム
 	ImGui::Begin("GameSystem");
 	ImGui::DragFloat3("CameraPosition", &cameraTargetPoint_.translate.x, 0.01f);

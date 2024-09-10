@@ -29,6 +29,7 @@ void PlayerContext::PartManager::Update()
 		// 頭の死亡でプレイヤー全体の死亡判定
 		if (obj->GetTag() == "Head" && obj->IsDead()) {
 			player_->SetIsDead(true);
+			return false;
 		}
 		return obj->IsDead();
 		}), parts_.end());

@@ -47,8 +47,9 @@ void GameScene::Initialize() {
 	gameSystemManager_ = std::make_unique<GameSystemManager>();
 	gameSystemManager_->Initialize(player_.get(),enemy_.get());
 
+	// チュートリアル
 	tutorial_ = std::make_unique<Tutorial>();
-	tutorial_->Initialize(collisionManager_.get(), followCamera_->GetCamera(), player_.get(), enemy_.get(), terrain_.get(), gameSystemManager_.get());
+	tutorial_->Initialize();
 	tutorial_->Start();
 }
 

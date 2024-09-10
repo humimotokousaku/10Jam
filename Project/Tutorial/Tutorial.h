@@ -12,13 +12,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	/// <param name="collisionManager">衝突マネージャ</param>
-	/// <param name="camera">カメラ</param>
-	/// <param name="player">自機</param>
-	/// <param name="enemy">敵</param>
-	/// <param name="terrain">地面</param>
-	/// <param name="gameSystemManager">ゲームのシステム</param>
-	void Initialize(CollisionManager* collisionManager, Camera* camera, Player* player, Enemy* enemy, Terrain* terrain, GameSystemManager* gameSystemManager);
+	void Initialize();
 	/// <summary>
 	/// 更新処理
 	/// </summary>
@@ -39,13 +33,6 @@ public:
 #pragma endregion
 
 private:
-	CollisionManager* collisionManager_;
-	Camera* camera_;
-	Player* player_;
-	Enemy* enemy_;
-	Terrain* terrain_;
-	GameSystemManager* gameSystemManager_;
-
 	// UI
 	std::array<std::unique_ptr<Sprite>, 2> guideUI_;
 

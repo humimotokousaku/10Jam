@@ -1,14 +1,7 @@
 #include "Tutorial.h"
 #include "SceneTransition/SceneTransition.h"
 
-void Tutorial::Initialize(CollisionManager* collisionManager, Camera* camera, Player* player, Enemy* enemy, Terrain* terrain, GameSystemManager* gameSystemManager) {
-	collisionManager_ = collisionManager;
-	camera_ = camera;
-	player_ = player;
-	enemy_ = enemy;
-	terrain_ = terrain;
-	gameSystemManager_ = gameSystemManager;
-
+void Tutorial::Initialize() {
 	// UIのスプライトを作成
 	guideUI_[0] = std::make_unique<Sprite>();
 	guideUI_[0]->Initialize("Textures/UI", "guide_pad.png");

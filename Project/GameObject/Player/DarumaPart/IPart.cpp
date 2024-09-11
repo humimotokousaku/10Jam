@@ -30,7 +30,7 @@ void IPart::Update()
 	ApplyGlobalVariables();
 
 	if (!isGround_) {
-		velocity_.y -= (4.5f * (1.0f / 60.0f));
+		velocity_.y -= (4.5f * GameSystemManager::sDeltaTime);
 		// 上の段
 		if (index_ != 0) {
 			groundTimer_ = 0;
@@ -50,6 +50,8 @@ void IPart::Update()
 		}
 	}
 
+	//if(isAlive_.isTerrain)
+
 	// 一番下の場合のみ
 	if ((!isOtherFoot_ && isGround_) && index_ == 0 && groundTimer_ > 30) {
 		//isDead_ = true;
@@ -61,7 +63,7 @@ void IPart::Update()
 	}
 	isOtherFoot_ = false;
 	isTerrain_ = false;
-	isAlive_ = {};
+	isAlive_.Initialize();
 	//float mass = 20.0f;
 	//float gravity = -9.8f;
 	//float miu = 0.65f;
@@ -258,3 +260,4 @@ void IPart::OnCollision(Collider* collider)
 	}
 	object3D_->worldTransform.UpdateMatrix();
 }
+

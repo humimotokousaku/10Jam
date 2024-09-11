@@ -2,6 +2,8 @@
 #include "GameObjectLists.h"
 #include <cassert>
 
+float GameSystemManager::sDeltaTime = 1.0f / 60.0f;
+
 void GameSystemManager::Initialize(Player* player, Enemy* enemy)
 {
 	// ポインタ

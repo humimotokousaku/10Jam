@@ -3,6 +3,7 @@
 #include "Collider.h"
 #include "CollisionManager.h"
 #include "Player/System/PhysicsSystem.h"
+#include "GameSystemManager/GameSystemManager.h"
 
 #include "Foot/FootCollider.h"
 
@@ -88,13 +89,40 @@ public:
 	Vector3 acceleration_{};
 	uint32_t index_ = 0;
 
-	struct AliveCheck {
-		bool isTerrain;
-		bool isOverHead;
-		bool isPart;
+	// 一番下はTerrainとPart
+	// 中はOverHeadとPart
+	// Terrainのみの場合削除
+	// 頭は例外
+
+	struct RemoveStatus {
+		bool isTerrain = false;	// 地形接地
+		bool isOverHead = false;	// 頭上になにかいる
+		bool isPart = false;	// 身体と接地
+
+		bool isDelete = false;
+		// 消すタイマーの処理を行うかどうか
+		bool IsReadyCountDown() { return isTerrain && (!isOverHead && !isPart); }
+		void Initialize() {
+			*this = RemoveStatus();
+		}
+		int32_t deathCount_;
+		void Update(int32_t max) {
+			// フラグがtrueなら消すカウントダウン
+			if (IsReadyCountDown()) {
+				deathCount_++;
+				// 消すフラグを上げる
+				if (deathCount_ > max) {
+					isDelete = true;
+				}
+			}
+			// 削除フラグがなければ
+			else {
+				Initialize();
+			}
+		}
 	};
 
-	AliveCheck isAlive_;
+	RemoveStatus isAlive_;
 
 	bool isOtherFoot_ = true;
 	bool isTerrain_ = true;

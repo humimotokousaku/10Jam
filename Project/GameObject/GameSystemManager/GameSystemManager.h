@@ -11,6 +11,9 @@ class Enemy;
 class GameSystemManager
 {
 public:
+	static float sDeltaTime;
+
+public:
 	// 初期化
 	void Initialize(Player* player, Enemy* enemy);
 	// ゲーム時の処理

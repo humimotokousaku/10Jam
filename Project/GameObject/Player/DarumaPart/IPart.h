@@ -76,7 +76,7 @@ protected:
 	std::unique_ptr<FootCollider> footCollider_;
 	// 物理のパラメータ
 	PlayerContext::PhysicsParam physics_;
-
+	// プレイヤー
 	Player* player_ = nullptr;
 private:
 	// コライダーのマネージャ
@@ -86,7 +86,6 @@ public:
 	std::unique_ptr<Object3D> object3D_;
 	// 速さ
 	Vector3 velocity_;
-	Vector3 acceleration_{};
 	uint32_t index_ = 0;
 
 	// 一番下はTerrainとPart
@@ -132,5 +131,5 @@ public:
 		}
 	};
 	// 削除用の変数
-	RemoveStatus isAlive_;
+	RemoveStatus removeStatus_;
 };

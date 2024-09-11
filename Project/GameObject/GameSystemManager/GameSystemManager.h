@@ -29,12 +29,18 @@ public:
 	// 経過時間の取得
 	uint32_t GetElapsedTime() { return timer_.elapsed; }
 	bool IsGameEnd() { return isGameEnd_; }
-
-	bool isGameStop_ = false;
+	bool IsGameClear() { return isGameClear_; }
+	bool IsGameOver() { return isGameOver_; }
+	bool IsGameStop() { return isGameStop_; }
 	bool isDraw_ = true;
 private: // ゲームの管理
 	// ゲーム処理の終了フラグ
 	bool isGameEnd_ = false;
+
+	bool isGameClear_ = false;
+	bool isGameOver_ = false;
+	bool isGameStop_ = false;
+
 	// ポインタ
 	Player* player_ = nullptr;
 	Enemy* enemy_ = nullptr;

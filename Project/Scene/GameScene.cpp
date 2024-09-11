@@ -84,10 +84,16 @@ void GameScene::Update() {
 		if (!tutorial_->GetIsStart() && !tutorial_->GetIsStart()) {
 			sceneNum = TITLE_SCENE;
 		}
+		else if (gameSystemManager_->IsGameClear()) {
+
+		}
+		else if (gameSystemManager_->IsGameOver()) {
+
+		}
 	}
 
 	// ゲームマネージャー側でゲームを止める処理
-	if (gameSystemManager_->isGameStop_) {
+	if (gameSystemManager_->IsGameStop()) {
 		return;
 	}
 

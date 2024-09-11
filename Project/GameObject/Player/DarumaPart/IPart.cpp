@@ -36,11 +36,11 @@ void IPart::Update()
 		velocity_.y = 0.0f;
 	}
 	// 削除処理
-	isAlive_.Update(20);
-	if (isAlive_.isDelete) {
+	removeStatus_.Update(20);
+	if (removeStatus_.isDelete) {
 		isDead_ = true;
 	}
-	isAlive_.FlagReset();
+	removeStatus_.FlagReset();
 
 	// 速度を更新（加速度を考慮）
 	velocity_ = PlayerContext::PhysicsSystem::ApplyX_ZFriction(velocity_, physics_);
@@ -88,11 +88,11 @@ void IPart::ImGuiDraw()
 	int in = index_;
 	ImGui::InputInt(name.c_str(), &in);
 	name = "IsTerrain" + partTag_;
-	ImGui::Checkbox(name.c_str(), &isAlive_.isTerrain);
+	ImGui::Checkbox(name.c_str(), &removeStatus_.isTerrain);
 	name = "IsOverHead" + partTag_;
-	ImGui::Checkbox(name.c_str(), &isAlive_.isOverHead);
+	ImGui::Checkbox(name.c_str(), &removeStatus_.isOverHead);
 	name = "isPart" + partTag_;
-	ImGui::Checkbox(name.c_str(), &isAlive_.isPart);
+	ImGui::Checkbox(name.c_str(), &removeStatus_.isPart);
 }
 
 void IPart::ApplyGlobalVariables()
@@ -198,13 +198,13 @@ void IPart::OnCollision(Collider* collider)
 		}
 	}
 	if (isTerrain) {
-		isAlive_.isTerrain = isTerrain;
+		removeStatus_.isTerrain = isTerrain;
 	}
 	if ((isFoot && !isTrue)) {
-		isAlive_.isOverHead = true;
+		removeStatus_.isOverHead = true;
 	}
 	if (isPart && !isTrue) {
-		isAlive_.isPart = true;
+		removeStatus_.isPart = true;
 	}
 	object3D_->worldTransform.UpdateMatrix();
 }

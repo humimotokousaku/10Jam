@@ -41,9 +41,11 @@ void GameSystemManager::Update(bool isTutorial)
 	// ゲーム終了の判定
 	if (timer_.elapsed <= 0) {
 		isGameEnd_ = true;
+		isGameClear_ = true;
 	}
 	if (player_->IsDead()) {
 		isGameEnd_ = true;
+		isGameOver_ = true;
 	}
 
 	// ゲーム停止中

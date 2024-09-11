@@ -27,9 +27,10 @@ void GameSystemManager::Initialize(Player* player, Enemy* enemy)
 	gameTimer_.Initialize();
 	gameTimer_.SetDrawTime(GetElapsedTime());
 
+	// 外部の行動データ
 	actionManager_ = std::make_unique<ActionManager>();
 	actionManager_->LoadActionData();
-	//actionManager_->UpdateActionData(0);
+	attackDirection_->SetArrowDirection(actionManager_->actionContainer_[0].direct);
 }
 
 void GameSystemManager::Update(bool isTutorial)
@@ -43,6 +44,7 @@ void GameSystemManager::Update(bool isTutorial)
 		isGameEnd_ = true;
 		isGameClear_ = true;
 	}
+	// 失敗の場合
 	if (player_->IsDead()) {
 		isGameEnd_ = true;
 		isGameOver_ = true;
@@ -60,7 +62,6 @@ void GameSystemManager::Update(bool isTutorial)
 
 	// 攻撃方向表示
 	attackDirection_->Update();
-	attackDirection_->SetArrowDirection(actionDirect_);
 
 	// CSVのデータを使ったアクション処理
 	CSVActionControll();
@@ -73,16 +74,9 @@ void GameSystemManager::ImGuiDraw()
 	ImGui::DragFloat3("ActionDirect", &actionDirect_.x, 0.01f);
 	ImGui::DragFloat("ActionPower", &actionPower_, 0.01f);
 	if (ImGui::Button("PushAction")) {
-		Action(actionPower_);
+		Action(actionDirect_, actionPower_);
 	}
 	ImGui::Checkbox("GameStop", &isGameStop_);
-	ImGui::Checkbox("ArrowDraw", &isDraw_);
-	if (isDraw_) {
-		attackDirection_->SetColor({ 1,1,1,1 });
-	}
-	else {
-		attackDirection_->SetColor({ 1,1,1,0 });
-	}
 	actionDirect_ = Normalize(actionDirect_);
 }
 
@@ -92,10 +86,10 @@ void GameSystemManager::Draw()
 	attackDirection_->Draw();
 }
 
-void GameSystemManager::Action(float power)
+void GameSystemManager::Action(const Vector3& direct, float power)
 {
 	// ここで力とアニメーションのセットアップ
-	player_->GetReactionManager()->PushAction(actionDirect_, power);
+	player_->GetReactionManager()->PushAction(direct, power);
 	// アクションしたか
 	timer_.isAction = true;
 }
@@ -103,7 +97,7 @@ void GameSystemManager::Action(float power)
 void GameSystemManager::CSVActionControll()
 {
 	// 配列を超過しないように
-	if (actionNow_ < actionManager_->actionContainer_.size()) {
+	if (actionNow_ >= actionManager_->actionContainer_.size()) {
 		return;
 	}
 	// 画像の方向設定
@@ -114,7 +108,7 @@ void GameSystemManager::CSVActionControll()
 		if (timer_.isAction) {
 			return;
 		}
-		Action(actionManager_->actionContainer_[actionNow_].power);
+		Action(actionManager_->actionContainer_[actionNow_].direct, actionManager_->actionContainer_[actionNow_].power);
 		actionNow_++;
 	}
 	// その番号の時間と一致していなければフラグリセット

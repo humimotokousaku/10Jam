@@ -54,7 +54,7 @@ public: // アクセッサ
 	}
 
 	void SetPlayer(Player* player) { player_ = player; }
-
+public: // ゲッター
 	WorldTransform* GetWorldTransform() { return &object3D_->worldTransform; }
 	FootCollider* GetFootCollider() { return footCollider_.get(); }
 	bool IsGround() { return isGround_; }
@@ -88,11 +88,11 @@ public:
 	Vector3 velocity_;
 	uint32_t index_ = 0;
 
+private:
 	// 一番下はTerrainとPart
 	// 中はOverHeadとPart
 	// Terrainのみの場合削除
 	// 頭は例外
-
 	struct RemoveStatus {
 		bool isTerrain = false;	// 地形接地
 		bool isOverHead = false;	// 頭上になにかいる

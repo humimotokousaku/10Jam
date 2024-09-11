@@ -5,11 +5,6 @@ class Player;
 
 namespace PlayerContext
 {
-	struct PushParams {
-		float power;
-		float count;
-	};
-
 	class PartManager;
 
 	class ReactionManager
@@ -24,9 +19,6 @@ namespace PlayerContext
 	private:
 		Player* player_ = nullptr;
 		PartManager* partManager_ = nullptr;
-		// パラメータ
-		PushParams params_;
 	};
-
 
 }

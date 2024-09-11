@@ -81,14 +81,13 @@ void GameScene::Update() {
 		//SceneTransition::GetInstance()->Start();
 	}
 	if (SceneTransition::GetInstance()->GetSceneTransitionSignal()) {
-		if (!tutorial_->GetIsStart() && !tutorial_->GetIsStart()) {
-			sceneNum = TITLE_SCENE;
-		}
-		else if (gameSystemManager_->IsGameClear()) {
-
-		}
-		else if (gameSystemManager_->IsGameOver()) {
-
+		if (!tutorial_->GetIsStart()) {
+			if (gameSystemManager_->IsGameClear()) {
+				sceneNum = TITLE_SCENE;
+			}
+			else if (gameSystemManager_->IsGameOver()) {
+				//sceneNum = GAME_SCENE;
+			}
 		}
 	}
 

@@ -18,11 +18,14 @@ public:
 	void Initialize(Player* player, Enemy* enemy);
 	// ゲーム時の処理
 	void Update(bool isTutorial);
+	// ImGui
 	void ImGuiDraw();
+	// 描画
 	void Draw();
 	// 行動
-	void Action(float power);
+	void Action(const Vector3& direct, float power);
 private:
+	// CSVのやつ
 	void CSVActionControll();
 
 public:
@@ -32,15 +35,17 @@ public:
 	bool IsGameClear() { return isGameClear_; }
 	bool IsGameOver() { return isGameOver_; }
 	bool IsGameStop() { return isGameStop_; }
-	bool isDraw_ = true;
 private: // ゲームの管理
 	// ゲーム処理の終了フラグ
 	bool isGameEnd_ = false;
-
+	// 成功
 	bool isGameClear_ = false;
+	// 失敗
 	bool isGameOver_ = false;
+	// 停止
 	bool isGameStop_ = false;
 
+private:
 	// ポインタ
 	Player* player_ = nullptr;
 	Enemy* enemy_ = nullptr;
@@ -48,10 +53,8 @@ private: // ゲームの管理
 	Vector3 actionDirect_{ 1.0f,0.0f,0.0f };
 	// 押し出しの力
 	float actionPower_ = 0.15f;
-
 	// 現在のインデックス
 	int32_t actionNow_ = 0;
-
 	// 攻撃方向の表示
 	std::unique_ptr<AttackDirection> attackDirection_;
 	// 行動マネージャー
@@ -82,6 +85,8 @@ private: // 時間関係
 			}
 		}
 		bool isAction = false;
+		// 値の初期化
+		void Initialize() { *this = GameFrameTimer(); }
 	};
 	// タイマー
 	GameFrameTimer timer_;

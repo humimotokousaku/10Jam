@@ -28,12 +28,16 @@ void IPart::Update()
 {
 	// グローバルうんたら
 	ApplyGlobalVariables();
-
+	// 落下処理
 	if (!isGround_) {
 		velocity_.y -= (4.5f * GameSystemManager::sDeltaTime);
 	}
 	else {
 		velocity_.y = 0.0f;
+	}
+	// 一番下の段じゃなかった場合リストの後ろに
+	if (index_ == 0 && (!removeStatus_.isOverHead && !removeStatus_.isPart)) {
+		index_ = 10;
 	}
 	// 削除処理
 	removeStatus_.Update(20);

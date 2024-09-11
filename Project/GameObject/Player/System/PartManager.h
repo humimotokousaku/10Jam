@@ -44,6 +44,7 @@ namespace PlayerContext
 	private:
 		Player* player_ = nullptr;
 		Vector3 generatePosition_;
+		int32_t listIndex_ = 0;
 
 	};
 

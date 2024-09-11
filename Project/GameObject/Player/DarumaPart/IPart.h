@@ -88,6 +88,13 @@ public:
 	Vector3 acceleration_{};
 	uint32_t index_ = 0;
 
+	struct AliveCheck {
+		bool isTerrain;
+		bool isOverHead;
+	};
+
+	AliveCheck isAlive_;
+
 	bool isOtherFoot_ = true;
 	bool isTerrain_ = true;
 

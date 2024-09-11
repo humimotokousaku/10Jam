@@ -52,16 +52,16 @@ void IPart::Update()
 
 	// 一番下の場合のみ
 	if ((!isOtherFoot_ && isGround_) && index_ == 0 && groundTimer_ > 30) {
-		isDead_ = true;
-		return;
+		//isDead_ = true;
+		//return;
 	}
 	else if ((isTerrain_ && isGround_) && index_ != 0 && groundTimer_ > 30) {
-		isDead_ = true;
-		return;
+		//isDead_ = true;
+		//return;
 	}
 	isOtherFoot_ = false;
 	isTerrain_ = false;
-
+	isAlive_ = {};
 	//float mass = 20.0f;
 	//float gravity = -9.8f;
 	//float miu = 0.65f;
@@ -112,8 +112,9 @@ void IPart::Update()
 void IPart::ImGuiDraw()
 {
 	ImGui::SeparatorText(partTag_.c_str());
-	std::string name = "Position" + partTag_;
-	if (ImGui::TreeNode("Transform")) {
+	std::string name = "Transform" + partTag_;
+	if (ImGui::TreeNode(name.c_str())) {
+		name = "Position" + partTag_;
 		ImGui::DragFloat3(name.c_str(), &object3D_->worldTransform.translate.x, 0.01f);
 		name = "Rotate" + partTag_;
 		ImGui::DragFloat3(name.c_str(), &object3D_->worldTransform.rotate.x, 0.01f);
@@ -121,6 +122,7 @@ void IPart::ImGuiDraw()
 		ImGui::DragFloat3(name.c_str(), &object3D_->worldTransform.scale.x, 0.01f);
 		ImGui::TreePop();
 	}
+	ImGui::Separator();
 	name = "Velocity" + partTag_;
 	ImGui::DragFloat3(name.c_str(), &velocity_.x);
 	name = "IsGround : %d " + partTag_;
@@ -128,6 +130,10 @@ void IPart::ImGuiDraw()
 	name = "Index" + partTag_;
 	int in = index_;
 	ImGui::InputInt(name.c_str(), &in);
+	name = "IsTerrain" + partTag_;
+	ImGui::Checkbox(name.c_str(), &isAlive_.isTerrain);
+	name = "IsOverHead" + partTag_;
+	ImGui::Checkbox(name.c_str(), &isAlive_.isOverHead);
 }
 
 void IPart::ApplyGlobalVariables()
@@ -240,6 +246,11 @@ void IPart::OnCollision(Collider* collider)
 	}
 	if (isTerrain) {
 		isTerrain_ = true;
+		isAlive_.isTerrain = isTerrain;
 	}
+	if ((isFoot && !isTrue)) {
+		isAlive_.isOverHead = true;
+	}
+
 	object3D_->worldTransform.UpdateMatrix();
 }

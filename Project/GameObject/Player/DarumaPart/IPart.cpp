@@ -134,6 +134,8 @@ void IPart::ImGuiDraw()
 	ImGui::Checkbox(name.c_str(), &isAlive_.isTerrain);
 	name = "IsOverHead" + partTag_;
 	ImGui::Checkbox(name.c_str(), &isAlive_.isOverHead);
+	name = "isPart" + partTag_;
+	ImGui::Checkbox(name.c_str(), &isAlive_.isPart);
 }
 
 void IPart::ApplyGlobalVariables()
@@ -251,6 +253,8 @@ void IPart::OnCollision(Collider* collider)
 	if ((isFoot && !isTrue)) {
 		isAlive_.isOverHead = true;
 	}
-
+	if (isPart && !isTrue) {
+		isAlive_.isPart = true;
+	}
 	object3D_->worldTransform.UpdateMatrix();
 }

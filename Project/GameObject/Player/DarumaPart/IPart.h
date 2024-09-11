@@ -91,6 +91,7 @@ public:
 	struct AliveCheck {
 		bool isTerrain;
 		bool isOverHead;
+		bool isPart;
 	};
 
 	AliveCheck isAlive_;

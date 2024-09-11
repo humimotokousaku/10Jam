@@ -53,51 +53,20 @@ void PlayerContext::PartManager::InputUpdate()
 		leftStick *= 0.1f;
 	}
 	else {
-		//float moveValue = 0.1f;
-		//bool isA = false;
-		//bool isD = false;
-		//bool isW = false;
-		//bool isS = false;
-		//Vector2 moveSpeed = { moveValue,moveValue };
-
-		//// 入力処理
-		//if (input->PressKey(DIK_A)) {
-		//	isA = true;
-		//	moveSpeed.x *= -1.0f;
-		//}
-		//if (input->PressKey(DIK_D)) {
-		//	isD = true;
-		//}
-		//if (input->PressKey(DIK_W)) {
-		//	isW = true;
-		//}
-		//if (input->PressKey(DIK_S)) {
-		//	isS = true;
-		//	moveSpeed.y *= -1.0f;
-		//}
-
-		//// スピードの調整
-		//if (isA || isD) {
-		//	if (isW || isS) {
-		//		moveSpeed.x *= (1.0f / 2.0f);
-		//		moveSpeed.y *= (1.0f / 2.0f);
-		//	}
-		//	else {
-		//		moveSpeed.y = 0.0f;
-		//	}
-		//}
-		//else if (isW || isS) {
-		//	if (isA || isD) {
-		//		moveSpeed.x *= (1.0f / 2.0f);
-		//		moveSpeed.y *= (1.0f / 2.0f);
-		//	}
-		//	else {
-		//		moveSpeed.x = 0.0f;
-		//	}
-		//}
-		//else {
-		//	moveSpeed = { 0.0f,0.0f };
-		//}
+		if (input->PressKey(DIK_A)) {
+			leftStick.x -= 1.0f;
+		}
+		else if (input->PressKey(DIK_D)) {
+			leftStick.x += 1.0f;
+		}
+		if (input->PressKey(DIK_W)) {
+			leftStick.y += 1.0f;
+		}
+		else if (input->PressKey(DIK_S)) {
+			leftStick.y -= 1.0f;
+		}
+		leftStick = Normalize(leftStick);
+		leftStick *= 0.1f;
 	}
 	float contIndex = 1.0f;
 

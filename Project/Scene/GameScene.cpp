@@ -71,8 +71,9 @@ void GameScene::Update() {
 #endif // _DEBUG
 
 	// シーンの切り替え処理
+
 #ifdef _DEBUG
-	if (Input::GetInstance()->TriggerKey(DIK_SPACE)) {
+	if (Input::GetInstance()->TriggerKey(DIK_RETURN)) {
 		SceneTransition::GetInstance()->Start();
 	}
 #endif // _DEBUG

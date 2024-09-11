@@ -31,60 +31,16 @@ void IPart::Update()
 
 	if (!isGround_) {
 		velocity_.y -= (4.5f * GameSystemManager::sDeltaTime);
-		// 上の段
-		if (index_ != 0) {
-			groundTimer_ = 0;
-		}
-		// 下の段
-		else if (index_ == 0 && isOtherFoot_) {
-			groundTimer_++;
-		}
 	}
 	else {
 		velocity_.y = 0.0f;
-		if (index_ != 0) {
-			groundTimer_++;
-		}
-		else if (index_ == 0 && !isOtherFoot_) {
-			groundTimer_++;
-		}
 	}
-
-	//if(isAlive_.isTerrain)
-
-	// 一番下の場合のみ
-	if ((!isOtherFoot_ && isGround_) && index_ == 0 && groundTimer_ > 30) {
-		//isDead_ = true;
-		//return;
+	// 削除処理
+	isAlive_.Update(30);
+	if (isAlive_.isDelete) {
+		isDead_ = true;
 	}
-	else if ((isTerrain_ && isGround_) && index_ != 0 && groundTimer_ > 30) {
-		//isDead_ = true;
-		//return;
-	}
-	isOtherFoot_ = false;
-	isTerrain_ = false;
-	isAlive_.Initialize();
-	//float mass = 20.0f;
-	//float gravity = -9.8f;
-	//float miu = 0.65f;
-	//float magnitude = miu * (-mass * (gravity));
-	//float frictForce = 0.0f;
-
-	//if (std::fabsf(velocity_.x) > 0.01f) {
-	//	Vector3 normalize = Normalize(velocity_);
-	//	if (normalize.x > 0) {
-	//		frictForce = magnitude * (-1.0f);
-	//	}
-	//	else if (normalize.x < 0) {
-	//		frictForce = magnitude * (1.0f);
-	//	}
-	//}
-	//else{
-	//	velocity_.x = 0.0f;
-	//}
-	//acceleration_.x = frictForce / mass;
-	//// 速度計算
-	//velocity_.x += acceleration_.x * (1.0f / 60.0f);
+	isAlive_.FlagReset();
 
 	// 速度を更新（加速度を考慮）
 	velocity_ = PlayerContext::PhysicsSystem::ApplyX_ZFriction(velocity_, physics_);
@@ -96,13 +52,12 @@ void IPart::Update()
 	if (std::fabsf(velocity_.z) < 0.01f) {
 		velocity_.z = 0.0f;
 	}
-
+	// 座標計算
 	object3D_->worldTransform.translate += velocity_;
-	//velocity_ = Lerps::Lerp(velocity_, Vector3(0.0f, 0.0f, 0.0f), 0.01f);
-
 	// 行列更新
 	object3D_->worldTransform.UpdateMatrix();
 
+	// コライダーの更新
 	ColliderUpdate();
 	footCollider_->Update();
 

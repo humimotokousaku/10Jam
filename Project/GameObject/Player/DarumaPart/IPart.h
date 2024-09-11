@@ -98,20 +98,30 @@ public:
 		bool isTerrain = false;	// 地形接地
 		bool isOverHead = false;	// 頭上になにかいる
 		bool isPart = false;	// 身体と接地
-
-		bool isDelete = false;
+		int32_t deleteCount_;	// 削除までのカウント
+		bool isDelete = false;	// 削除フラグ
 		// 消すタイマーの処理を行うかどうか
-		bool IsReadyCountDown() { return isTerrain && (!isOverHead && !isPart); }
+		bool IsReadyCountDown() {
+			bool isGame = isTerrain && (!isOverHead && !isPart);
+			//bool isException = !isTerrain && (!isOverHead && !isPart);
+			return (isGame);
+		}
+		// 値の全てをリセット
 		void Initialize() {
 			*this = RemoveStatus();
 		}
-		int32_t deathCount_;
+		// フラグのリセット
+		void FlagReset() {
+			isTerrain = false;
+			isOverHead = false;
+			isPart = false;
+		}
 		void Update(int32_t max) {
 			// フラグがtrueなら消すカウントダウン
 			if (IsReadyCountDown()) {
-				deathCount_++;
+				deleteCount_++;
 				// 消すフラグを上げる
-				if (deathCount_ > max) {
+				if (deleteCount_ > max) {
 					isDelete = true;
 				}
 			}
@@ -121,11 +131,6 @@ public:
 			}
 		}
 	};
-
+	// 削除用の変数
 	RemoveStatus isAlive_;
-
-	bool isOtherFoot_ = true;
-	bool isTerrain_ = true;
-
-	uint32_t groundTimer_ = 0;
 };

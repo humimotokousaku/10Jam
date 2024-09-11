@@ -9,7 +9,7 @@ void FootCollider::OnCollision(Collider* collider)
 
 	if (collider->GetCollisionAttribute() == kCollisionAttributeTerrain) {
 		part_->SetIsGround(true);
-		part_->isTerrain_ = true;
+
 	}
 	else if(collider->GetCollisionAttribute() == kCollisionAttributeDarumaPart){
 		part_->SetIsGround(true);

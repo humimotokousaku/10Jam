@@ -36,7 +36,7 @@ void IPart::Update()
 		velocity_.y = 0.0f;
 	}
 	// 削除処理
-	isAlive_.Update(30);
+	isAlive_.Update(20);
 	if (isAlive_.isDelete) {
 		isDead_ = true;
 	}
@@ -197,14 +197,7 @@ void IPart::OnCollision(Collider* collider)
 			CorrectPosition(collider);
 		}
 	}
-	else if(isFoot){
-		if (!isTrue && index_ == 0) {
-			isOtherFoot_ = true;
-			return;
-		}
-	}
 	if (isTerrain) {
-		isTerrain_ = true;
 		isAlive_.isTerrain = isTerrain;
 	}
 	if ((isFoot && !isTrue)) {

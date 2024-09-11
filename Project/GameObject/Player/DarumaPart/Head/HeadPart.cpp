@@ -66,18 +66,6 @@ void HeadPart::Update()
 	//	}
 	//}
 
-	// 一番下の場合のみ
-	if ((!isOtherFoot_ && isGround_) && index_ == 0 && groundTimer_ > 30) {
-		isDead_ = true;
-		return;
-	}
-	else if ((isTerrain_ && isGround_) && index_ != 0 && groundTimer_ > 30) {
-		isDead_ = true;
-		return;
-	}
-	isOtherFoot_ = false;
-	isTerrain_ = false;
-
 	// 速度を更新（加速度を考慮）
 	velocity_ = PlayerContext::PhysicsSystem::ApplyX_ZFriction(velocity_, physics_);
 
@@ -163,15 +151,6 @@ void HeadPart::OnCollision(Collider* collider)
 		if (velocity_.y != 0.0f) {
 			velocity_.y = 0.0f;
 		}
-	}
-	else if (isFoot) {
-		if (!isTrue && index_ == 0) {
-			isOtherFoot_ = true;
-			return;
-		}
-	}
-	if (isTerrain) {
-		isTerrain_ = true;
 	}
 	object3D_->worldTransform.UpdateMatrix();
 }

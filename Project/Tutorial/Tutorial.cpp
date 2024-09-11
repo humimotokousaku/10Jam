@@ -97,8 +97,8 @@ void Tutorial::Update() {
 		// ゲーム開始できる状態なら遷移開始
 		if (isGameStart_) {
 			sceneTransition_->Start();
+			// カウントダウンのフラグ
 			isCountDown_ = true;
-			player_->GenerateInitialize();
 		}
 	}
 
@@ -123,6 +123,8 @@ void Tutorial::Update() {
 		// 始めのアニメーションを開始
 		buttonAnim_[0].SetIsStart(true);
 		buttonAnim_[3].SetIsStart(true);
+		// プレイヤーの座標設定
+		player_->GenerateInitialize();
 	}
 
 	// ひとつ前のアニメーションが終了したらアニメーション開始

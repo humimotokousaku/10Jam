@@ -100,10 +100,10 @@ void GameSystemManager::CSVActionControll()
 	if (actionNow_ >= actionManager_->actionContainer_.size()) {
 		return;
 	}
-	else {
-		float alpha = ((float)actionManager_->actionContainer_[actionNow_].time * 60.0f) / ((float)timer_.elapsed * 60.0f + (float)timer_.frameCount);
-		attackDirection_->SetColor({ 1.0f,1.0f,1.0f,alpha });
-	}
+	//else {
+	//	float alpha = ((float)actionManager_->actionContainer_[actionNow_].time * 60.0f) / ((float)timer_.elapsed * 60.0f + (float)timer_.frameCount);
+	//	attackDirection_->SetColor({ 1.0f,1.0f,1.0f,alpha });
+	//}
 	// 画像の方向設定
 	attackDirection_->SetArrowDirection(actionManager_->actionContainer_[actionNow_].direct);
 	// 押し出すアクション
@@ -119,4 +119,9 @@ void GameSystemManager::CSVActionControll()
 	else {
 		timer_.isAction = false;
 	}
+
+	if (actionManager_->actionContainer_[actionNow_].time + 2 == timer_.elapsed) {
+		attackDirection_->StartAfterImage();
+	}
+
 }

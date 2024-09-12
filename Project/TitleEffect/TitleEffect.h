@@ -53,4 +53,7 @@ private:
 	int currentFrame_;
 	// だるまを押し出す回数
 	int count_;
+
+	int delayCurrentFrame_ = 0;
+
 };

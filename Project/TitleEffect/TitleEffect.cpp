@@ -1,5 +1,6 @@
 #include "TitleEffect.h"
 #include "SceneTransition/SceneTransition.h"
+#include "ImGuiManager.h"
 
 void TitleEffect::Initialize() {
 	// インスタンスを取得
@@ -33,7 +34,7 @@ void TitleEffect::Initialize() {
 	player_->SetCollisionManager(collisionManager_.get());
 	player_->Initialize(camera_.get());
 	player_->GetPartManager()->AddDaruma(PlayerContext::DarumaPattern::kL2M2H);
-	player_->GetPartManager()->AddHead(Vector3{ 0,40,0 });
+	player_->GetPartManager()->AddHead(Vector3{ 0.5f,40,0 });
 	// エネミー
 	enemy_ = std::make_unique<Enemy>();
 
@@ -70,12 +71,21 @@ void TitleEffect::Initialize() {
 	isStart_ = false;
 	currentFrame_ = kAllEffectFrame;
 	count_ = kPushCount;
+	delayCurrentFrame_ = 0;
 }
 
 void TitleEffect::Update() {
+#ifdef _DEBUG
+	ImGui::Begin("TitleEffect");
+	ImGui::InputInt("Delay", &delayCurrentFrame_);
+	ImGui::End();
+#endif // _DEBUG
+	if (delayCurrentFrame_ < 90) {
+		delayCurrentFrame_++;
+	}
 	// シーン遷移前のアニメーション開始
-	if (input_->TriggerKey(DIK_SPACE) || input_->GamePadTrigger(XINPUT_GAMEPAD_A)) {
-		isStart_ = true;
+	if ((input_->TriggerKey(DIK_SPACE) || input_->GamePadTrigger(XINPUT_GAMEPAD_A)) && (delayCurrentFrame_ > 45)) {
+  		isStart_ = true;
 		// Aボタンアニメーション開始
 		for (int i = 0; i < buttonAnim_.size(); i++) {
 			buttonAnim_[i].SetIsStart(true);

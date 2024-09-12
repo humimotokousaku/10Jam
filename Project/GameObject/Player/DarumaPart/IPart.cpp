@@ -1,4 +1,5 @@
 #include "IPart.h"
+#include "GlobalVariables.h"
 
 uint32_t IPart::sSerialNumber = 0;
 
@@ -59,10 +60,12 @@ void IPart::Update()
 	velocity_ = PlayerContext::PhysicsSystem::ApplyX_ZFriction(velocity_, physics_);
 
 	// 速度が小さい場合は停止とみなす
-	if (std::fabsf(velocity_.x) < 0.001f) {
+	GlobalVariables* global = GlobalVariables::GetInstance();
+	float threshold = global->GetFloatValue("HeadPart", "SpeedThreshold");
+	if (std::fabsf(velocity_.x) < threshold) {
 		velocity_.x = 0.0f;
 	}
-	if (std::fabsf(velocity_.z) < 0.001f) {
+	if (std::fabsf(velocity_.z) < threshold) {
 		velocity_.z = 0.0f;
 	}
 	// 座標計算

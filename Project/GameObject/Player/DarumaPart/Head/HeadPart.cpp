@@ -14,11 +14,16 @@ void HeadPart::Initialize(CollisionManager* manager)
 	IPart::Initialize(manager);
 	SetCollisionAttribute(kCollisionAttributeDarumaHead);
 
-	GlobalVariables* global = GlobalVariables::GetInstance();
 	std::string groupName = "HeadPart";
+
+#ifdef _DEBUG
+	GlobalVariables* global = GlobalVariables::GetInstance();
 	global->CreateGroup(groupName);
 	Vector3 value = { 2.5f,2.5f,2.5f };
 	global->AddItem(groupName, "Scale", value);
+	global->AddItem(groupName, "SpeedThreshold", 0.005f);
+#endif // _DEBUG
+
 	object3D_->worldTransform.scale = global->GetVector3Value(groupName, "Scale");
 	SetOBBLength(object3D_->worldTransform.scale);
 	SetTag(partTag_);
@@ -56,10 +61,12 @@ void HeadPart::Update()
 	velocity_ = PlayerContext::PhysicsSystem::ApplyX_ZFriction(velocity_, physics_);
 
 	// 速度が小さい場合は停止とみなす
-	if (std::fabsf(velocity_.x) < 0.01f) {
+	GlobalVariables* global = GlobalVariables::GetInstance();
+	float threshold = global->GetFloatValue("HeadPart", "SpeedThreshold");
+	if (std::fabsf(velocity_.x) < threshold) {
 		velocity_.x = 0.0f;
 	}
-	if (std::fabsf(velocity_.z) < 0.01f) {
+	if (std::fabsf(velocity_.z) < threshold) {
 		velocity_.z = 0.0f;
 	}
 

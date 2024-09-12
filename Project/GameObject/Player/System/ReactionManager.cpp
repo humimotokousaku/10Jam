@@ -1,5 +1,6 @@
 #include "ReactionManager.h"
 #include "GameObjectLists.h"
+#include "GlobalVariables.h"
 
 #include <cassert>
 
@@ -8,6 +9,13 @@ void PlayerContext::ReactionManager::Initialize(Player* player)
 	assert(player);
 	player_ = player;
 	partManager_ = player_->GetPartManager();
+
+#ifdef _DEBUG
+	GlobalVariables* global = GlobalVariables::GetInstance();
+	global->CreateGroup("Reaction");
+	global->AddItem("Reaction", "OtherRatio", 0.15f);
+#endif // _DEBUG
+
 
 }
 
@@ -38,7 +46,8 @@ void PlayerContext::ReactionManager::PushAction(const Vector3& direct, float pow
 			if ((*it)->GetTag() == "Head") {
 				continue;
 			}
-			(*it)->velocity_ += moveDirect * 0.15f;
+			float value = GlobalVariables::GetInstance()->GetFloatValue("Reaction", "OtherRatio");
+			(*it)->velocity_ += moveDirect * value;
 		}
 	}
 }

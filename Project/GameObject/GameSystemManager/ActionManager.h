@@ -19,7 +19,6 @@ public:
 	std::vector<EnemyActionData>* GetContainer() { return &actionContainer_; }
 	// 
 	std::vector<EnemyActionData> actionContainer_;
-
 	// 降順ソート
 	void SortByTimeDescending();
 };

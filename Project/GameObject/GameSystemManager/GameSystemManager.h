@@ -75,7 +75,6 @@ private: // 時間関係
 		void Update(int32_t value) {
 			// フレームカウント
 			frameCount++;
-			elapsedFrame++;
 			// ゲーム内時間進む
 			if (frameCount >= 60) {
 				elapsed += value;

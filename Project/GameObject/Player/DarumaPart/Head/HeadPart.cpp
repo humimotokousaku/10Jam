@@ -105,36 +105,40 @@ void HeadPart::ImGuiDraw()
 
 void HeadPart::AddTorque(Collider* collider)
 {
+	float torque = 0.0f;
 	// 当たったオブジェクトの最大最小
 	Vector3 min = collider->GetWorldPosition() - collider->GetOBB().m_fLength;
 	Vector3 max = collider->GetWorldPosition() + collider->GetOBB().m_fLength;
-	float torque = 0.0f;
+
+	Vector3 scope = GetOBB().m_fLength;
+	float coefficient = 0.0f;
+
 	// z軸回転
 	if (GetWorldPosition().x < min.x) {
-		if (object3D_->worldTransform.rotate.z * (180.0f / float(std::numbers::pi)) < 30.0f) {
-			object3D_->worldTransform.rotate.z += float(std::numbers::pi) / 180.0f;
-		}
+		coefficient = std::fabs(object3D_->worldTransform.translate.x - min.x) / scope.x;
+		object3D_->worldTransform.rotate.z = Lerps::Lerp(0.0f, 45.0f * float(std::numbers::pi) / 180.0f, coefficient);
 	}
 	else if (GetWorldPosition().x > max.x) {
-		if (object3D_->worldTransform.rotate.z * (180.0f / float(std::numbers::pi)) > -30.0f) {
-			object3D_->worldTransform.rotate.z -= float(std::numbers::pi) / 180.0f;
-		}
+		coefficient = std::fabs(object3D_->worldTransform.translate.x - max.x) / scope.x;
+		object3D_->worldTransform.rotate.z = Lerps::Lerp(0.0f, -45.0f * float(std::numbers::pi) / 180.0f, coefficient);
 	}
-	torque = -0.1f * object3D_->worldTransform.rotate.z;
-	object3D_->worldTransform.rotate.z += torque;
+	else {
+		torque = -0.1f * object3D_->worldTransform.rotate.z;
+		object3D_->worldTransform.rotate.z += torque;
+	}
 	// x軸回転
 	if (GetWorldPosition().z < min.z) {
-		if (object3D_->worldTransform.rotate.x * (180.0f / float(std::numbers::pi)) > -30.0f) {
-			object3D_->worldTransform.rotate.x -= float(std::numbers::pi) / 180.0f;
-		}
+		coefficient = std::fabs(object3D_->worldTransform.translate.z - min.z) / scope.z;
+		object3D_->worldTransform.rotate.x = Lerps::Lerp(0.0f, -45.0f * float(std::numbers::pi) / 180.0f, coefficient);
 	}
 	else if (GetWorldPosition().z > max.z) {
-		if (object3D_->worldTransform.rotate.x * (180.0f / float(std::numbers::pi)) < 30.0f) {
-			object3D_->worldTransform.rotate.x += float(std::numbers::pi) / 180.0f;
-		}
+		coefficient = std::fabs(object3D_->worldTransform.translate.z - max.z) / scope.z;
+		object3D_->worldTransform.rotate.x = Lerps::Lerp(0.0f, 45.0f * float(std::numbers::pi) / 180.0f, coefficient);
 	}
-	torque = -0.1f * object3D_->worldTransform.rotate.x;
-	object3D_->worldTransform.rotate.x += torque;
+	else {
+		torque = -0.1f * object3D_->worldTransform.rotate.x;
+		object3D_->worldTransform.rotate.x += torque;
+	}
 }
 
 void HeadPart::OnCollision(Collider* collider)

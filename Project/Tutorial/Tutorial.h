@@ -62,6 +62,7 @@ private:
 	bool isGameStart_;
 	// チュートリアル終了
 	bool isEnd_;
+	// カウントダウン中のフラグ
 	bool isCountDown_ = false;
 
 	// 経過時間

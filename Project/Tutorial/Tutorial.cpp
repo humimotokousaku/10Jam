@@ -92,6 +92,11 @@ void Tutorial::Update() {
 	// チュートリアル終了しているなら処理しない
 	if (isEnd_) { return; }
 
+	// 頭を落としたら体を生成しなおす
+	if (player_->IsDead()) {
+		player_->GenerateInitialize();
+	}
+
 	// シーン遷移前のアニメーション開始
 	if (input_->TriggerKey(DIK_SPACE) || input_->GamePadTrigger(XINPUT_GAMEPAD_A)) {
 		// ゲーム開始できる状態なら遷移開始

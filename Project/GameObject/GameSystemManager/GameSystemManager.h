@@ -13,7 +13,8 @@ class GameSystemManager
 {
 public:
 	static float sDeltaTime;
-
+	// クリア時の数
+	static int sClearPartCount;
 public:
 	// 初期化
 	void Initialize(Player* player, Enemy* enemy);

@@ -3,6 +3,7 @@
 #include <cassert>
 
 float GameSystemManager::sDeltaTime = 1.0f / 60.0f;
+int GameSystemManager::sClearPartCount = 0;
 
 void GameSystemManager::Initialize(Player* player, Enemy* enemy)
 {
@@ -33,6 +34,9 @@ void GameSystemManager::Initialize(Player* player, Enemy* enemy)
 	actionManager_ = std::make_unique<ActionManager>();
 	actionManager_->LoadActionData();
 	attackDirection_->SetArrowDirection(actionManager_->actionContainer_[0].direct);
+
+	// クリア時の数リセット
+	sClearPartCount = 0;
 }
 
 void GameSystemManager::Update(bool isTutorial)

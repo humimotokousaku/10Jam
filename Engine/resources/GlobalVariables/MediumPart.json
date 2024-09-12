@@ -1,8 +1,8 @@
 {
     "MediumPart": {
-        "FrictionCoeff": 0.42500001192092896,
+        "FrictionCoeff": 0.44999998807907104,
         "Gravity": 9.800000190734863,
-        "Mass": 10.0,
+        "Mass": 15.0,
         "Scale": [
             9.5,
             2.0,

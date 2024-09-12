@@ -37,7 +37,16 @@ void IPart::Update()
 	}
 	// 一番下の段じゃなかった場合リストの後ろに
 	if (index_ == 0 && (!removeStatus_.isOverHead && !removeStatus_.isPart)) {
-		index_ = 10;
+		sortStatus_.Update();
+		if (sortStatus_.isActive) {
+			index_ = 10;
+			sortStatus_.Initialize();
+		}
+	}
+	else {
+		if (sortStatus_.activeCount == 0) {
+			sortStatus_.Initialize();
+		}
 	}
 	// 削除処理
 	removeStatus_.Update(20);

@@ -41,11 +41,11 @@ void AttackDirection::Initialize() {
 
 	GlobalVariables* global = GlobalVariables::GetInstance();
 	global->CreateGroup("DirectInfo");
-	global->AddItem("DirectInfo", "Position", worldTransform_.scale);
-	//global->AddItem("DirectInfo","Scale",)
+	global->AddItem("DirectInfo", "PositionY", worldTransform_.translate.y);
+	global->AddItem("DirectInfo", "Scale", worldTransform_.scale);
 
 #endif // _DEBUG
-
+	ApplyGlobalVariables();
 
 }
 
@@ -84,4 +84,12 @@ void AttackDirection::Update() {
 
 void AttackDirection::Draw() {
 	arrow_->Draw(arrowTex_);
+}
+
+void AttackDirection::ApplyGlobalVariables()
+{
+	GlobalVariables* global = GlobalVariables::GetInstance();
+	worldTransform_.translate.y = global->GetFloatValue("DirectInfo", "PositionY");
+	worldTransform_.scale = global->GetVector3Value("DirectInfo", "Scale");
+
 }

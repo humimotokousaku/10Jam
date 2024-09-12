@@ -21,7 +21,7 @@ public:
 	void Finalize()override;
 private:
 	// UI
-	std::array<std::unique_ptr<Sprite>, 3> guideUI_;
+	std::array<std::unique_ptr<Sprite>, 4> guideUI_;
 
 	// ボタンのアニメーション
 	std::array<Animation, 4> buttonAnim_;

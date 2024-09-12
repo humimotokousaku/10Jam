@@ -19,6 +19,10 @@ public:
 	/// 描画
 	/// </summary>
 	void Draw();
+	/// <summary>
+	/// Globalの値を適応する処理
+	/// </summary>
+	void ApplyGlobalVariables();
 	
 #pragma region Setter
 	// 矢印の方向ベクトルを設定

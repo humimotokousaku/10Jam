@@ -5,6 +5,7 @@
 
 void GameScene::Initialize() {
 	sceneNum = GAME_SCENE;
+
 	textureManager_ = TextureManager::GetInstance();
 	modelManager_ = ModelManager::GetInstance();
 	audio_ = Audio::GetInstance();
@@ -53,7 +54,7 @@ void GameScene::Initialize() {
 	tutorial_ = std::make_unique<Tutorial>();
 	tutorial_->Initialize();
 	tutorial_->SetPlayer(player_.get());
-	tutorial_->Start();
+	//tutorial_->Start();
 }
 
 void GameScene::Update() {
@@ -78,15 +79,16 @@ void GameScene::Update() {
 	}
 #endif // _DEBUG
 	if (gameSystemManager_->IsGameEnd()) {
-		//SceneTransition::GetInstance()->Start();
+		SceneTransition::GetInstance()->Start();
+		preSceneNum = GAME_SCENE;
 	}
 	if (SceneTransition::GetInstance()->GetSceneTransitionSignal()) {
 		if (!tutorial_->GetIsStart()) {
 			if (gameSystemManager_->IsGameClear()) {
-				sceneNum = TITLE_SCENE;
+				sceneNum = GAMECLEAR_SCENE;
 			}
 			else if (gameSystemManager_->IsGameOver()) {
-				//sceneNum = GAME_SCENE;
+				sceneNum = GAMEOVER_SCENE;
 			}
 		}
 	}

@@ -3,6 +3,7 @@
 
 void TitleScene::Initialize() {
 	sceneNum = TITLE_SCENE;
+
 	// インスタンスを取得
 	input_ = Input::GetInstance();
 	modelManager_ = ModelManager::GetInstance();
@@ -19,6 +20,7 @@ void TitleScene::Update() {
 	// シーンを切り替える合図があったら切り替える
 	if (SceneTransition::GetInstance()->GetSceneTransitionSignal()) {
 		sceneNum = GAME_SCENE;
+		preSceneNum = TITLE_SCENE;
 	}
 }
 

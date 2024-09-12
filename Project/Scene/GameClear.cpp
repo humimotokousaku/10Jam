@@ -41,6 +41,7 @@ void GameClear::Update() {
 
 	if (buttonAnim_[1].GetIsEnd()) {
 		SceneTransition::GetInstance()->Start();
+		preSceneNum = GAMECLEAR_SCENE;
 	}
 	if (SceneTransition::GetInstance()->GetSceneTransitionSignal()) {
 		sceneNum = TITLE_SCENE;

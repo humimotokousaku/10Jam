@@ -4,6 +4,7 @@
 #include "../../externals/nlohmann/json.hpp"
 
 int IScene::sceneNum;
+int IScene::preSceneNum;
 
 IScene::~IScene() {
 

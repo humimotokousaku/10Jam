@@ -120,21 +120,22 @@ void GameSystemManager::CSVActionControll()
 		actionNow_++;
 		attackDirection_->SetColor({ 1.0f,1.0f,1.0f,0.75 });
 	}
+	// 衝撃アラート
 	else if (timer_.elapsed == 25) {
 		// 一度行っているなら早期
 		if (timer_.isAction) {
 			return;
 		}
 		attackAlert_->Start();
-		attackDirection_->SetColor({ 1.0f,1.0f,1.0f,1.0f });
 		timer_.isAction = true;
 	}
 	// その番号の時間と一致していなければフラグリセット
 	else {
 		timer_.isAction = false;
 	}
-
+	// 矢印点滅
 	if (actionManager_->actionContainer_[actionNow_].time + 2 == timer_.elapsed) {
+		attackDirection_->SetColor({ 1.0f,1.0f,1.0f,1.0f });
 		attackDirection_->StartAfterImage();
 	}
 

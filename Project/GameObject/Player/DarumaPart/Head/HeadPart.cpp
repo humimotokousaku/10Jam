@@ -41,6 +41,8 @@ void HeadPart::Update()
 	// グローバルうんたら
 	ApplyGlobalVariables();
 
+	object3D_->worldTransform.rotate.y = player_->GetCamera()->GetRotate().y;
+
 	// 落下処理
 	velocity_.y -= (4.5f * GameSystemManager::sDeltaTime);
 	/*if (!isGround_) {

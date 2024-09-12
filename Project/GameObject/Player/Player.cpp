@@ -62,3 +62,8 @@ void Player::GenerateInitialize()
 	partManager_.AddDaruma(PlayerContext::DarumaPattern::kL2M2H);
 	partManager_.AddHead(Vector3{ 0,50,0 });
 }
+
+void Player::SolveConstraints()
+{
+	partManager_.Pushback();
+}

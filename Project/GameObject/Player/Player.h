@@ -32,6 +32,10 @@ public:
 	/// 生成初期化
 	/// </summary>
 	void GenerateInitialize();
+	/// <summary>
+	/// 衝突解決処理
+	/// </summary>
+	void SolveConstraints();
 
 public: // アクセッサ
 	void SetCollisionManager(CollisionManager* collisionManager) { collisionManager_ = collisionManager; }

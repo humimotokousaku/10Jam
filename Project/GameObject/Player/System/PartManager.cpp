@@ -88,6 +88,15 @@ void PlayerContext::PartManager::InputUpdate()
 	}
 }
 
+void PlayerContext::PartManager::Pushback()
+{
+	for (std::vector<std::unique_ptr<IPart>>::iterator it = parts_.begin(); it != parts_.end(); ++it) {
+		(*it)->SetPosition((*it)->GetWorldPosition() + (*it)->totalPushback_);
+		(*it)->totalPushback_ = { 0.0f, 0.0f, 0.0f };
+		(*it)->pushback_ = { 0.0f, 0.0f, 0.0f };
+	}
+}
+
 void PlayerContext::PartManager::AddHead(const Vector3& position)
 {
 	std::unique_ptr<IPart> instance = std::make_unique<HeadPart>();

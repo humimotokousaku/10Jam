@@ -130,6 +130,7 @@ void IPart::ColliderUpdate()
 
 void IPart::CorrectPosition(Collider* collider)
 {
+
 	float minPenetrationDepth = (std::numeric_limits<float>::max)();
 	Vector3 minPenetrationAxis;
 
@@ -192,9 +193,10 @@ void IPart::CorrectPosition(Collider* collider)
 		minPenetrationAxis = Vector3(0, minPenetrationAxis.y, 0);
 	}
 
-	Vector3 pushback_ = Multiply(minPenetrationDepth, minPenetrationAxis);
+	pushback_ = Multiply(minPenetrationDepth * 0.5f, minPenetrationAxis);
+	totalPushback_ += pushback_;
 
-	object3D_->worldTransform.translate += Multiply(minPenetrationDepth, minPenetrationAxis);
+	//object3D_->worldTransform.translate += Multiply(minPenetrationDepth, minPenetrationAxis);
 }
 
 void IPart::OnCollision(Collider* collider)
@@ -206,9 +208,10 @@ void IPart::OnCollision(Collider* collider)
 	bool isCollision = (isPart || isTerrain);
 	bool isTrue = collider->GetTag() == this->partTag_;
 	if (isCollision && !isTrue) {
-		if (!isHead) {
+		/*if (!isHead) {
 			CorrectPosition(collider);
-		}
+		}*/
+		CorrectPosition(collider);
 	}
 	if (isTerrain) {
 		removeStatus_.isTerrain = isTerrain;
@@ -219,6 +222,6 @@ void IPart::OnCollision(Collider* collider)
 	if (isPart && !isTrue) {
 		removeStatus_.isPart = true;
 	}
-	object3D_->worldTransform.UpdateMatrix();
+	//object3D_->worldTransform.UpdateMatrix();
 }
 

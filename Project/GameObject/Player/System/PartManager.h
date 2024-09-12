@@ -30,6 +30,8 @@ namespace PlayerContext
 		void ImGuiPart();
 		// 入力処理
 		void InputUpdate();
+		// 押し返し処理
+		void Pushback();
 	public:
 		// 追加
 		template<typename T>

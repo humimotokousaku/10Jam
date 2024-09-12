@@ -96,6 +96,9 @@ void TitleEffect::Update() {
 	// 衝突マネージャー
 	collisionManager_->CheckAllCollisions();
 
+	// 押し返し
+	player_->SolveConstraints();
+
 	// 演出開始
 	if (isStart_) {
 		if (count_ > 0) {

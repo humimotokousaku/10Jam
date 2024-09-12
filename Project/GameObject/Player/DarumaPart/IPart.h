@@ -87,6 +87,10 @@ public:
 	// 速さ
 	Vector3 velocity_;
 	uint32_t index_ = 0;
+	// 全ての押し返しベクトル
+	Vector3 totalPushback_;
+	// 単体の押し返しベクトル
+	Vector3 pushback_;
 
 private:
 	// 一番下はTerrainとPart

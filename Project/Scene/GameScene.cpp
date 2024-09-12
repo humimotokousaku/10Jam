@@ -113,6 +113,9 @@ void GameScene::Update() {
 	// 当たり判定
 	collisionManager_->CheckAllCollisions();
 
+	// 押し返し
+	player_->SolveConstraints();
+
 }
 
 void GameScene::Draw() {

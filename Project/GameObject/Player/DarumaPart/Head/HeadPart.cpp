@@ -155,7 +155,7 @@ void HeadPart::OnCollision(Collider* collider)
 	bool isTrue = collider->GetTag() == this->partTag_;
 	if (isCollision && !isTrue) {
 		CorrectPosition(collider);
-		AddTorque(collider);
+		//AddTorque(collider);
 		if (velocity_.y != 0.0f) {
 			velocity_.y = 0.0f;
 		}

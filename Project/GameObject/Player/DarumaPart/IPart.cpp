@@ -216,9 +216,9 @@ void IPart::CorrectPosition(Collider* collider)
 		minPenetrationAxis = Vector3(0, minPenetrationAxis.y, 0);
 	}
 
+	Vector3 pushback_ = Multiply(minPenetrationDepth, minPenetrationAxis);
 
-
-	object3D_->worldTransform.translate += Multiply(minPenetrationDepth * 0.5f, minPenetrationAxis);
+	object3D_->worldTransform.translate += Multiply(minPenetrationDepth, minPenetrationAxis);
 }
 
 void IPart::OnCollision(Collider* collider)

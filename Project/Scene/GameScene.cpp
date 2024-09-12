@@ -74,7 +74,7 @@ void GameScene::Update() {
 
 #ifdef _DEBUG
 	if (Input::GetInstance()->TriggerKey(DIK_RETURN)) {
-		SceneTransition::GetInstance()->Start();
+		sceneNum = TITLE_SCENE;
 	}
 #endif // _DEBUG
 	if (gameSystemManager_->IsGameEnd()) {

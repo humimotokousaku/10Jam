@@ -31,7 +31,7 @@ void TitleEffect::Initialize() {
 	player_->SetCollisionManager(collisionManager_.get());
 	player_->Initialize(camera_.get());
 	player_->GetPartManager()->AddDaruma(PlayerContext::DarumaPattern::kL2M2H);
-	player_->GetPartManager()->AddHead(Vector3{ 0,50,0 });
+	player_->GetPartManager()->AddHead(Vector3{ 0,40,0 });
 	// エネミー
 	enemy_ = std::make_unique<Enemy>();
 

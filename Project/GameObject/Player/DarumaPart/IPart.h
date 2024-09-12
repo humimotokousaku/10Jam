@@ -93,6 +93,22 @@ private:
 	// 中はOverHeadとPart
 	// Terrainのみの場合削除
 	// 頭は例外
+	struct SortStatus {
+		bool isActive = false;
+		int32_t activeCount = 0;
+		int32_t maxCount = 25;
+		void Initialize() { 
+			isActive = false;
+			activeCount = 0;
+		}
+		void Update() {
+			activeCount++;
+			if (activeCount > maxCount) {
+				isActive = true;
+			}
+		}
+	};
+
 	struct RemoveStatus {
 		bool isTerrain = false;	// 地形接地
 		bool isOverHead = false;	// 頭上になにかいる
@@ -102,8 +118,10 @@ private:
 		// 消すタイマーの処理を行うかどうか
 		bool IsReadyCountDown() {
 			bool isGame = isTerrain && (!isOverHead && !isPart);
-			//bool isException = !isTerrain && (!isOverHead && !isPart);
 			return (isGame);
+		}
+		bool IsAllFalse() {
+			return !isTerrain && !isOverHead && !isPart;
 		}
 		// 値の全てをリセット
 		void Initialize() {
@@ -132,4 +150,5 @@ private:
 	};
 	// 削除用の変数
 	RemoveStatus removeStatus_;
+	SortStatus sortStatus_;
 };

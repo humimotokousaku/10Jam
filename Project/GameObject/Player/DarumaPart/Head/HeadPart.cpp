@@ -30,10 +30,7 @@ void HeadPart::Initialize(CollisionManager* manager)
 	global->AddItem(groupName, "Mass", 10.0f);
 	global->AddItem(groupName, "FrictionCoeff", 0.3f);
 	global->AddItem(groupName, "Gravity", 9.8f);
-	physics_.mass = global->GetFloatValue(groupName, "Mass");
-	physics_.frictionCoeff = global->GetFloatValue(groupName, "FrictionCoeff");
-	physics_.gravity = global->GetFloatValue(groupName, "Gravity");
-	physics_.normalForce = physics_.mass * physics_.gravity;
+	ApplyGlobalVariables();
 
 	texture_ = TextureManager::GetInstance()->GetSrvIndex("", "uvChecker.png");
 }
@@ -43,28 +40,13 @@ void HeadPart::Update()
 	// グローバルうんたら
 	ApplyGlobalVariables();
 
-	//if (!isGround_) {
-	//	velocity_.y -= (4.5f * (1.0f / 60.0f));
-	//	// 上の段
-	//	if (index_ != 0) {
-	//		groundTimer_ = 0;
-	//	}
-	//	// 下の段
-	//	else if (index_ == 0 && isOtherFoot_) {
-	//		groundTimer_++;
-	//	}
-	//}
-	//else {
-	//	velocity_.y = 0.0f;
-	//	if (velocity_.x == 0.0f || velocity_.z == 0.0f) {
-	//		if (index_ != 0) {
-	//			groundTimer_++;
-	//		}
-	//		else if (index_ == 0 && !isOtherFoot_) {
-	//			groundTimer_++;
-	//		}
-	//	}
-	//}
+	// 落下処理
+	if (!isGround_) {
+		velocity_.y -= (4.5f * GameSystemManager::sDeltaTime);
+	}
+	else {
+		velocity_.y = 0.0f;
+	}
 
 	// 速度を更新（加速度を考慮）
 	velocity_ = PlayerContext::PhysicsSystem::ApplyX_ZFriction(velocity_, physics_);
@@ -88,7 +70,7 @@ void HeadPart::Update()
 	if (GetWorldPosition().y <= -40.0f) {
 		isDead_ = true;
 	}
-	IPart::Update();
+	//IPart::Update();
 }
 
 void HeadPart::Draw()

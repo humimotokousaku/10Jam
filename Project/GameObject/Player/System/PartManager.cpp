@@ -1,10 +1,17 @@
 #include "PartManager.h"
 #include "../../GameObjectLists.h"
 #include "ModelManager.h"
+#include "GlobalVariables.h"
 
 void PlayerContext::PartManager::Initialize(Player* player)
 {
 	player_ = player;
+
+	GlobalVariables* global = GlobalVariables::GetInstance();
+	global->CreateGroup("InputInfo");
+	global->AddItem("InputInfo", "InputRatio", 0.1f);
+	global->AddItem("InputInfo", "IndexAddValue", 0.1f);
+
 }
 
 void PlayerContext::PartManager::Update()
@@ -51,7 +58,7 @@ void PlayerContext::PartManager::InputUpdate()
 		leftStick.x += (float)leftThumbX / SHRT_MAX;
 		leftStick.y += (float)leftThumbY / SHRT_MAX;
 		leftStick = Normalize(leftStick);
-		leftStick *= 0.1f;
+		leftStick *= GlobalVariables::GetInstance()->GetFloatValue("InputInfo", "InputRatio");
 	}
 	else {
 		if (input->PressKey(DIK_A)) {
@@ -67,7 +74,7 @@ void PlayerContext::PartManager::InputUpdate()
 			leftStick.y -= 1.0f;
 		}
 		leftStick = Normalize(leftStick);
-		leftStick *= 0.1f;
+		leftStick *= GlobalVariables::GetInstance()->GetFloatValue("InputInfo", "InputRatio");;
 	}
 	float contIndex = 1.0f;
 
@@ -77,7 +84,7 @@ void PlayerContext::PartManager::InputUpdate()
 			(*it)->velocity_.x += leftStick.x * (contIndex);
 			(*it)->velocity_.z += leftStick.y * (contIndex);
 		}
-		contIndex += 0.05f;
+		contIndex += GlobalVariables::GetInstance()->GetFloatValue("InputInfo", "IndexAddValue");;
 	}
 }
 
@@ -109,11 +116,11 @@ void PlayerContext::PartManager::AddDaruma(DarumaPattern pattern)
 		}
 		break;
 	case PlayerContext::DarumaPattern::kL2M2H:
-		AddParts<LightPart>(Vector3(0.0f, float(index) * 3.85f, 0.0f));
+		AddParts<LightPart>(Vector3(0.0f, float(index) * 3.0f, 0.0f));
 		index++;
-		AddParts<MediumPart>(Vector3(0.0f, float(index) * 3.85f, 0.0f));
+		AddParts<MediumPart>(Vector3(0.0f, float(index) * 3.0f, 0.0f));
 		index++;
-		AddParts<HeavyPart>(Vector3(0.0f, float(index) * 3.85f, 0.0f));
+		AddParts<HeavyPart>(Vector3(0.0f, float(index) * 3.0f, 0.0f));
 		break;
 	case PlayerContext::DarumaPattern::kH2M2L:
 		AddParts<HeavyPart>(Vector3(0.0f, float(index) * 3.85f, 0.0f));

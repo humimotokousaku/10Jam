@@ -30,6 +30,8 @@ public:
 	void SetCamera(Camera* camera) { camera_ = camera; }
 	// 色の設定
 	void SetColor(Vector4 RGBA) { materialData_->color = RGBA; }
+	// 色のアドレス
+	Vector4* GetColorP() { return &materialData_->color; }
 
 private:// プライベートなメンバ関数
 	Microsoft::WRL::ComPtr<ID3D12Resource> CreateBufferResource(const Microsoft::WRL::ComPtr<ID3D12Device>& device, size_t sizeInBytes);

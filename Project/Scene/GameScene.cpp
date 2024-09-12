@@ -59,10 +59,17 @@ void GameScene::Initialize() {
 	tutorial_ = std::make_unique<Tutorial>();
 	tutorial_->Initialize();
 	tutorial_->SetPlayer(player_.get());
-	//tutorial_->Start();
+	tutorial_->Start();
+
+	// 警告
+	attackAlert_ = std::make_unique<AttackAlert>();
+	attackAlert_->Initialize();
 }
 
 void GameScene::Update() {
+	if (Input::GetInstance()->TriggerKey(DIK_1)) {
+		attackAlert_->Start();
+	}
 #ifdef _DEBUG
 	// ゲームのシステム
 	ImGui::Begin("GameSystem");
@@ -123,6 +130,8 @@ void GameScene::Update() {
 	// 押し返し
 	player_->SolveConstraints();
 
+
+	attackAlert_->Update();
 }
 
 void GameScene::Draw() {

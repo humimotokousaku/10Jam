@@ -107,6 +107,12 @@ void Sprite::Draw() {
 	// 描画しないなら早期リターン
 	if (!isActive_) { return; }
 
+	// uvTransform
+	uvTransformMatrix_ = MakeScaleMatrix(uvTransform_.scale);
+	uvTransformMatrix_ = Multiply(uvTransformMatrix_, MakeRotateZMatrix(uvTransform_.rotate.z));
+	uvTransformMatrix_ = Multiply(uvTransformMatrix_, MakeTranslateMatrix(uvTransform_.translate));
+	materialData_->uvTransform = uvTransformMatrix_;
+
 #pragma region スプライトの大きさを決める 
 	// アンカーポイントから見た頂点座標
 	float left = (0.0f - anchorPoint_.x) * size_.x;
@@ -150,10 +156,6 @@ void Sprite::Draw() {
 	DirectXCommon::GetInstance()->GetCommandList()->DrawIndexedInstanced(6, 1, 0, 0, 0);
 }
 
-void Sprite::Release() {
-
-}
-
 void Sprite::AdjustTextureSize(const std::string& directoryPath, std::string textureFilePath) {
 	Microsoft::WRL::ComPtr<ID3D12Resource> textureBuffer = textureManager_->GetTextureResource(directoryPath, textureFilePath).Get();
 	assert(textureBuffer);
@@ -172,6 +174,7 @@ void Sprite::ImGuiAdjustParameter() {
 	ImGui::DragFloat2("AnchorPoint", &anchorPoint_.x, 0.01f, -1.0f, 1.0f, "%.2f");
 	ImGui::DragFloat2("Size", &size_.x, 0.1f, 0, 1280, "%.1f");
 	ImGui::CheckboxFlags("isLighting", &materialData_->enableLighting, 1);
+	ImGui::DragFloat3("UvTranslate", &uvTransform_.translate.x, 0.1f, 0, 1280, "%.1f");
 	ImGui::End();
 }
 

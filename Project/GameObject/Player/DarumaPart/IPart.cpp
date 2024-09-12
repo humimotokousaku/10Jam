@@ -123,9 +123,14 @@ void IPart::FootInitialize(CollisionManager* manager)
 
 void IPart::ColliderUpdate()
 {
-	this->SetOBBCenterPos(GetWorldPosition());
-	this->SetOBBLength(object3D_->worldTransform.scale);
-	this->SetOBBDirect(0);
+	SetOBBCenterPos(GetWorldPosition());
+	collisionScale_ = object3D_->worldTransform.scale;
+	collisionScale_.x *= 0.95f;
+	collisionScale_.z *= 0.95f;
+	SetOBBLength(collisionScale_);
+	for (int i = 0; i < 3; i++) {
+		SetOBBDirect(i);
+	}
 }
 
 void IPart::CorrectPosition(Collider* collider)
@@ -210,14 +215,8 @@ void IPart::OnCollision(Collider* collider)
 			CorrectPosition(collider);
 		}
 	}
-	if (isTerrain) {
-		removeStatus_.isTerrain = isTerrain;
-	}
 	if ((isFoot && !isTrue)) {
 		removeStatus_.isOverHead = true;
-	}
-	if (isPart && !isTrue) {
-		removeStatus_.isPart = true;
 	}
 	object3D_->worldTransform.UpdateMatrix();
 }

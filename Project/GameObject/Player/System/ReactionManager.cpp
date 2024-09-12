@@ -25,7 +25,7 @@ void PlayerContext::ReactionManager::PushAction(const Vector3& direct, float pow
 {
 	Vector3 moveDirect = Normalize(direct);
 	moveDirect *= power;
-
+	int index = 0;
 	for (std::vector<std::unique_ptr<IPart>>::iterator it = partManager_->parts_.begin();
 		it != partManager_->parts_.end(); ++it) {
 		if ((*it)->IsTerrain()) {
@@ -33,7 +33,13 @@ void PlayerContext::ReactionManager::PushAction(const Vector3& direct, float pow
 				continue;
 			}
 			(*it)->velocity_ += moveDirect;
-			(*it)->object3D_->worldTransform.translate += moveDirect;
+			//(*it)->object3D_->worldTransform.translate += moveDirect;
+		}
+		else {
+			if ((*it)->GetTag() == "Head") {
+				continue;
+			}
+			(*it)->velocity_ += moveDirect * 0.15f;
 		}
 	}
 

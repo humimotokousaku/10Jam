@@ -59,10 +59,10 @@ void IPart::Update()
 	velocity_ = PlayerContext::PhysicsSystem::ApplyX_ZFriction(velocity_, physics_);
 
 	// 速度が小さい場合は停止とみなす
-	if (std::fabsf(velocity_.x) < 0.01f) {
+	if (std::fabsf(velocity_.x) < 0.001f) {
 		velocity_.x = 0.0f;
 	}
-	if (std::fabsf(velocity_.z) < 0.01f) {
+	if (std::fabsf(velocity_.z) < 0.001f) {
 		velocity_.z = 0.0f;
 	}
 	// 座標計算

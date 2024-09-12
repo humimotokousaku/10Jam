@@ -132,7 +132,7 @@ void PlayerContext::PartManager::AddDaruma(DarumaPattern pattern)
 		//index++;
 		AddParts<MediumPart>(Vector3(0.0f, float(index) * 3.0f, 0.0f));
 		index++;
-		AddParts<HeavyPart>(Vector3(0.0f, float(index) * 3.0f, 0.0f));
+		AddParts<LightPart>(Vector3(0.0f, float(index) * 3.0f, 0.0f));
 		index++;
 		AddParts<HeavyPart>(Vector3(0.0f, float(index) * 3.0f, 0.0f));
 		break;
@@ -142,6 +142,8 @@ void PlayerContext::PartManager::AddDaruma(DarumaPattern pattern)
 		AddParts<MediumPart>(Vector3(0.0f, float(index) * 3.85f, 0.0f));
 		index++;
 		AddParts<LightPart>(Vector3(0.0f, float(index) * 3.85f, 0.0f));
+		index++;
+		AddParts<MediumPart>(Vector3(0.0f, float(index) * 3.85f, 0.0f));
 		break;
 	default:
 		break;

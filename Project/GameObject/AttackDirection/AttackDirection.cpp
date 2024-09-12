@@ -36,13 +36,26 @@ void AttackDirection::Initialize() {
 	// 大きさ
 	afterImageAnim_[0].SetAnimData(&arrow_[1]->worldTransform.scale, Vector3{ 1,1,1 }, Vector3{ 1.5f,0.0f,1.5f }, 60, "s", Easings::EaseOutExpo);
 	// 透明度
-	afterImageAnim_[1].SetAnimData(arrow_[1]->GetColorP(), Vector4{1,1,1,1}, Vector4{1.0f,1.0f,1.0f, 0.0f}, 60, "s", Easings::EaseOutExpo);
+	afterImageAnim_[1].SetAnimData(arrow_[1]->GetColorP(), Vector4{ 1,1,1,1 }, Vector4{ 1.0f,1.0f,1.0f, 0.0f }, 60, "s", Easings::EaseOutExpo);
+
+	// 30フレームごとに伸縮する
+	afterImageAnim_[2].SetAnimData(&arrow_[0]->worldTransform.scale, Vector3{ 1,1,1 }, Vector3{ 0.85f,0.0f,0.85f }, 5, "s", Easings::EaseInOutSine);
+	afterImageAnim_[3].SetAnimData(&arrow_[1]->worldTransform.scale, Vector3{ 1,1,1 }, Vector3{ 0.85f,0.0f,0.85f }, 5, "s", Easings::EaseInOutSine);
 
 	// 矢印の方向ベクトル
 	dirVel_ = { 0,0,0 };
 
 	// 矢印の表示開始
 	isStart_ = false;
+
+	// 残像表示開始
+	isAfterImage_ = false;
+
+	isPulsation_ = false;
+
+	pulsationCount_ = 0;
+
+	currentFrame_ = 0;
 
 #ifdef _DEBUG
 
@@ -89,16 +102,52 @@ void AttackDirection::Update() {
 	// 更新
 	worldTransform_.UpdateMatrix();
 
-#pragma region 残像の処理
-	// アニメーションの更新
-	for (int i = 0; i < afterImageAnim_.size(); i++) {
-		afterImageAnim_[i].Update();
+#pragma region 3回伸縮する
+	if (isPulsation_) {	
+		if (pulsationCount_ < 4) {
+			if (currentFrame_ >= 30) {
+				afterImageAnim_[2].ResetData();
+				afterImageAnim_[3].ResetData();
+				afterImageAnim_[2].SetIsStart(true);
+				afterImageAnim_[3].SetIsStart(true);
+				currentFrame_ = 0;
+				pulsationCount_++;
+				// 3回伸縮したら残像開始
+				if (pulsationCount_ == 3) {
+					isPulsation_ = false;
+					isAfterImage_ = true;
+					currentFrame_ = 0;
+					pulsationCount_ = 0;
+					afterImageAnim_[2].ResetData();
+					afterImageAnim_[3].ResetData();
+
+					afterImageAnim_[0].SetIsStart(true);
+					afterImageAnim_[1].SetIsStart(true);
+				}
+			}
+		}
+
+		// アニメーションの更新
+		for (int i = 2; i < afterImageAnim_.size(); i++) {
+			afterImageAnim_[i].Update();
+		}
+
+		currentFrame_++;
 	}
-	
-	// 透明になったら終了
-	if (afterImageAnim_[1].GetIsEnd()) {
-		for (int i = 0; i < afterImageAnim_.size(); i++) {
-			afterImageAnim_[i].SetIsStart(false);
+#pragma endregion
+#pragma region 残像の処理
+	if (isAfterImage_) {
+		// アニメーションの更新
+		for (int i = 0; i < afterImageAnim_.size() - 2; i++) {
+			afterImageAnim_[i].Update();
+		}
+
+		// 残像が透明になったら終了
+		if (afterImageAnim_[1].GetIsEnd()) {
+			isAfterImage_ = false;
+			for (int i = 0; i < afterImageAnim_.size(); i++) {
+				afterImageAnim_[i].ResetData();
+			}
 		}
 	}
 #pragma endregion

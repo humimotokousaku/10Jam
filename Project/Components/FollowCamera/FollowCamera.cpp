@@ -24,19 +24,17 @@ void FollowCamera::Update() {
 	}
 	else {
 		if (Input::GetInstance()->PressKey(DIK_RIGHT)) {
-			rot.y += 0.1f;
+			rot.x -= 0.01f;
 			destinationAngle_.y += 0.1f;
 		}
 		if (Input::GetInstance()->PressKey(DIK_LEFT)) {
-			rot.y -= 0.1f;
+			rot.x += 0.01f;
 			destinationAngle_.y -= 0.1f;
 		}
 		if (Input::GetInstance()->PressKey(DIK_UP)) {
-			rot.x -= 0.1f;
 			destinationAngle_.x -= 0.01f;
 		}
 		if (Input::GetInstance()->PressKey(DIK_DOWN)) {
-			rot.x += 0.1f;
 			destinationAngle_.x += 0.01f;
 		}
 	}

@@ -21,7 +21,8 @@ void AttackDirection::Initialize() {
 	// 初期化
 	worldTransform_.Initialize();
 	worldTransform_.translate = { 0,0,0 };
-	worldTransform_.scale = { 10.0f,0,10.0f };
+	worldTransform_.scale = { 20.0f,0,20.0f };
+	worldTransform_.UpdateMatrix();
 	// 矢印のスプライトを生成
 	arrow_ = std::make_unique<Plane>();
 	arrow_->Initialize();

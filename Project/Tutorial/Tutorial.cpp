@@ -16,24 +16,28 @@ void Tutorial::Initialize() {
 	guideUI_[1]->Initialize("Textures/UI", "guide_move.png");
 	guideUI_[1]->SetPos(Vector2{ (float)WinApp::kClientWidth_ / 2,(float)WinApp::kClientHeight_ / 4 });
 	guideUI_[2] = std::make_unique<Sprite>();
-	guideUI_[2]->Initialize("Textures/UI", "guide_gameStart.png");
-	guideUI_[2]->SetPos(Vector2{ (float)WinApp::kClientWidth_ - (guideUI_[2]->GetSize().x / 2 + 32.0f),(float)WinApp::kClientHeight_ - 64.0f});
-	guideUI_[2]->isActive_ = false;
+	guideUI_[2]->Initialize("Textures/UI", "guide_moveGuide.png");
+	guideUI_[2]->SetPos(Vector2{ (float)WinApp::kClientWidth_ / 2,(float)WinApp::kClientHeight_ / 6 });
+
 	guideUI_[3] = std::make_unique<Sprite>();
-	guideUI_[3]->Initialize("Textures/UI", "guide_pad_A.png");
-	guideUI_[3]->SetSize(Vector2{ 32,32 });
-	guideUI_[3]->SetPos(Vector2{ (float)WinApp::kClientWidth_ - (guideUI_[2]->GetSize().x + 48.0f),(float)WinApp::kClientHeight_ - 64.0f });
+	guideUI_[3]->Initialize("Textures/UI", "guide_gameStart.png");
+	guideUI_[3]->SetPos(Vector2{ (float)WinApp::kClientWidth_ - (guideUI_[3]->GetSize().x / 2 + 32.0f),(float)WinApp::kClientHeight_ - 64.0f});
 	guideUI_[3]->isActive_ = false;
-	// "開始"
 	guideUI_[4] = std::make_unique<Sprite>();
-	guideUI_[4]->Initialize("Textures/UI", "guide_start.png");
-	guideUI_[4]->SetPos(Vector2{ (float)WinApp::kClientWidth_ / 2,(float)WinApp::kClientHeight_ / 4 });
+	guideUI_[4]->Initialize("Textures/UI", "guide_pad_A.png");
+	guideUI_[4]->SetSize(Vector2{ 32,32 });
+	guideUI_[4]->SetPos(Vector2{ (float)WinApp::kClientWidth_ - (guideUI_[3]->GetSize().x + 48.0f),(float)WinApp::kClientHeight_ - 64.0f });
 	guideUI_[4]->isActive_ = false;
-	// "開始"の残像用
+	// "開始"
 	guideUI_[5] = std::make_unique<Sprite>();
 	guideUI_[5]->Initialize("Textures/UI", "guide_start.png");
 	guideUI_[5]->SetPos(Vector2{ (float)WinApp::kClientWidth_ / 2,(float)WinApp::kClientHeight_ / 4 });
 	guideUI_[5]->isActive_ = false;
+	// "開始"の残像用
+	guideUI_[6] = std::make_unique<Sprite>();
+	guideUI_[6]->Initialize("Textures/UI", "guide_start.png");
+	guideUI_[6]->SetPos(Vector2{ (float)WinApp::kClientWidth_ / 2,(float)WinApp::kClientHeight_ / 4 });
+	guideUI_[6]->isActive_ = false;
 	for (int i = 0; i < guideUI_.size(); i++) {
 		// ポストエフェクトを使用しない
 		postEffectManager_->AddSpriteList(guideUI_[i].get());
@@ -74,13 +78,13 @@ void Tutorial::Initialize() {
 	buttonAnim_[5].SetAnimData(&countUI_[2]->worldTransform_.rotate, Vector3{ 0.0f,0.0f,0.0f }, Vector3{ 0.0f,0.0f,(float)std::numbers::pi * 2 }, 60, "s", Easings::EaseOutExpo);
 
 	// "開始"スプライトの残像を出す
-	startFontAnim_[0].SetAnimData(&guideUI_[5]->worldTransform_.scale, Vector3{ 1,1,1 }, Vector3{ 2,2,2 }, 50, "s", Easings::EaseOutExpo);
-	startFontAnim_[1].SetAnimData(guideUI_[5]->GetColorP(), Vector4{ 1,1,1,0.6f }, Vector4{ 1,1,1,0 }, 50, "s1", Easings::EaseOutExpo);
+	startFontAnim_[0].SetAnimData(&guideUI_[6]->worldTransform_.scale, Vector3{ 1,1,1 }, Vector3{ 2,2,2 }, 50, "s", Easings::EaseOutExpo);
+	startFontAnim_[1].SetAnimData(guideUI_[6]->GetColorP(), Vector4{ 1,1,1,0.6f }, Vector4{ 1,1,1,0 }, 50, "s1", Easings::EaseOutExpo);
 	// "開始"スプライトの拡大と縮小
-	startFontAnim_[2].SetAnimData(&guideUI_[4]->worldTransform_.scale, Vector3{ 1,1,1 }, Vector3{ 0.75f,0.75f,0.75f }, 5, "s", Easings::EaseInOutSine);
+	startFontAnim_[2].SetAnimData(&guideUI_[5]->worldTransform_.scale, Vector3{ 1,1,1 }, Vector3{ 0.75f,0.75f,0.75f }, 5, "s", Easings::EaseInOutSine);
 	// だんだん大きくなる
-	startFontAnim_[2].SetAnimData(&guideUI_[4]->worldTransform_.scale, Vector3{ 1,1,1 }, Vector3{ 1.5f,1.5f,1.5f }, 40, "s", Easings::EaseOutExpo);
-	startFontAnim_[2].SetAnimData(guideUI_[4]->GetColorP(), Vector4{ 1,1,1,1 }, Vector4{ 1,1,1,0 }, 10, "s1", Easings::EaseInExpo);
+	startFontAnim_[2].SetAnimData(&guideUI_[5]->worldTransform_.scale, Vector3{ 1,1,1 }, Vector3{ 1.5f,1.5f,1.5f }, 40, "s", Easings::EaseOutExpo);
+	startFontAnim_[2].SetAnimData(guideUI_[5]->GetColorP(), Vector4{ 1,1,1,1 }, Vector4{ 1,1,1,0 }, 10, "s1", Easings::EaseInExpo);
 #pragma endregion
 
 	isStart_ = true;
@@ -155,8 +159,8 @@ void Tutorial::Update() {
 		}
 
 		// "開始"を表示
-		guideUI_[4]->isActive_ = true;
 		guideUI_[5]->isActive_ = true;
+		guideUI_[6]->isActive_ = true;
 		// アニメーション開始
 		for (int i = 0; i < startFontAnim_.size(); i++) {
 			startFontAnim_[i].SetIsStart(true);

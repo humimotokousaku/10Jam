@@ -204,6 +204,7 @@
     <ClCompile Include="Project\SampleObject\SampleObject.cpp" />
     <ClCompile Include="Project\TitleEffect\TitleEffect.cpp" />
     <ClCompile Include="Project\Tutorial\Tutorial.cpp" />
+    <ClCompile Include="Project\GameObject\AttackAlert\AttackAlert.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Math\Vector2.cpp" />
@@ -491,6 +492,7 @@
     <ClInclude Include="Project\GameObject\Player\DarumaPart\Head\HeadPart.h" />
     <ClInclude Include="Project\GameObject\GameSystemManager\ActionManager.h" />
     <ClInclude Include="Project\Tutorial\Tutorial.h" />
+    <ClInclude Include="Project\GameObject\AttackAlert\AttackAlert.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="engine\resources\sharder\Line.hlsli" />

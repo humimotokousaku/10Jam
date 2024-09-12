@@ -55,4 +55,9 @@ private:
 	Vector3 interTarget_;
 
 	Vector2 destinationAngle_;
+
+	// カメラの傾き
+	Vector2 tilt_;
+
+	Vector3 offset_ = { 0,0,-70 };
 };

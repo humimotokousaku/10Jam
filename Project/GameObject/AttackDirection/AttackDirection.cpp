@@ -1,4 +1,5 @@
 #include "AttackDirection.h"
+#include "GlobalVariables.h"
 
 AttackDirection::AttackDirection(Camera* camera) {
 	camera_ = camera;
@@ -20,8 +21,8 @@ void AttackDirection::Initialize() {
 
 	// 初期化
 	worldTransform_.Initialize();
-	worldTransform_.translate = { 0,0,0 };
-	worldTransform_.scale = { 20.0f,0,20.0f };
+	worldTransform_.translate = { 0,-16.8f,0 };
+	worldTransform_.scale = { 26.0f,0,26.0f };
 	worldTransform_.UpdateMatrix();
 	// 矢印のスプライトを生成
 	arrow_ = std::make_unique<Plane>();
@@ -35,6 +36,17 @@ void AttackDirection::Initialize() {
 
 	// 矢印の表示開始
 	isStart_ = false;
+
+#ifdef _DEBUG
+
+	GlobalVariables* global = GlobalVariables::GetInstance();
+	global->CreateGroup("DirectInfo");
+	global->AddItem("DirectInfo", "Position", worldTransform_.scale);
+	//global->AddItem("DirectInfo","Scale",)
+
+#endif // _DEBUG
+
+
 }
 
 void AttackDirection::Update() {

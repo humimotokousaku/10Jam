@@ -59,7 +59,6 @@ void PlayerContext::PartManager::InputUpdate()
 		leftStick.x += (float)leftThumbX / SHRT_MAX;
 		leftStick.y += (float)leftThumbY / SHRT_MAX;
 		leftStick = Normalize(leftStick);
-		leftStick *= GlobalVariables::GetInstance()->GetFloatValue("InputInfo", "InputRatio");
 	}
 	else {
 		if (input->PressKey(DIK_A)) {
@@ -75,9 +74,14 @@ void PlayerContext::PartManager::InputUpdate()
 			leftStick.y -= 1.0f;
 		}
 		leftStick = Normalize(leftStick);
-		leftStick *= GlobalVariables::GetInstance()->GetFloatValue("InputInfo", "InputRatio");;
 	}
 	float contIndex = 1.0f;
+
+	// カメラの回転に合わせた方向に変換
+	Matrix4x4 yawMatrix = MakeRotateYMatrix(player_->GetCamera()->worldTransform_.rotate.y);
+	Vector3 rotateVector = TransformNormal({ leftStick.x,0.0f,leftStick.y }, yawMatrix);
+	leftStick = { rotateVector.x,rotateVector.z };
+	leftStick *= GlobalVariables::GetInstance()->GetFloatValue("InputInfo", "InputRatio");
 
 	// 入力による速度の計算
 	for (std::vector<std::unique_ptr<IPart>>::iterator it = parts_.begin(); it != parts_.end(); ++it) {

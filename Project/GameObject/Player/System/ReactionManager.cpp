@@ -33,7 +33,6 @@ void PlayerContext::ReactionManager::PushAction(const Vector3& direct, float pow
 				continue;
 			}
 			(*it)->velocity_ += moveDirect;
-			//(*it)->object3D_->worldTransform.translate += moveDirect;
 		}
 		else {
 			if ((*it)->GetTag() == "Head") {
@@ -42,13 +41,4 @@ void PlayerContext::ReactionManager::PushAction(const Vector3& direct, float pow
 			(*it)->velocity_ += moveDirect * 0.15f;
 		}
 	}
-
-	//partManager_->partsIt_ = partManager_->parts_.begin();
-	//if (partManager_->partsIt_ != partManager_->parts_.end()) {
-	//	if ((*partManager_->partsIt_)->GetTag() == "Head") {
-	//		return;
-	//	}
-	//	(*partManager_->partsIt_)->velocity_ += moveDirect;
-	//	(*partManager_->partsIt_)->object3D_->worldTransform.translate += moveDirect;
-	//}
 }

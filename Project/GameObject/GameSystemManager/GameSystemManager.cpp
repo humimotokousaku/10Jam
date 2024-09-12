@@ -21,7 +21,7 @@ void GameSystemManager::Initialize(Player* player, Enemy* enemy)
 	attackDirection_ = std::make_unique<AttackDirection>(player_->GetCamera());
 	attackDirection_->Start();
 	attackDirection_->worldTransform_.translate.y = -16.8f;
-	attackDirection_->worldTransform_.scale *= 3.0f;
+	//attackDirection_->worldTransform_.scale *= 3.0f;
 	attackDirection_->SetColor({ 1.0f,1.0f,1.0f,0.8f });
 	// 経過時間
 	gameTimer_.Initialize();

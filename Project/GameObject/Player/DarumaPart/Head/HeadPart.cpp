@@ -105,34 +105,36 @@ void HeadPart::ImGuiDraw()
 
 void HeadPart::AddTorque(Collider* collider)
 {
-	/*Vector3 min = collider->GetWorldPosition() - collider->GetOBB().m_fLength;
-	Vector3 max = collider->GetWorldPosition() + collider->GetOBB().m_fLength;*/
-
-	Vector3 diff = Normalize(GetWorldPosition() - collider->GetWorldPosition());
-	float dot = Dot({0.0f, 1.0f, 0.0f}, diff);
-	float lenght = Length({ 0.0f, 1.0f, 0.0f }) * Length(diff);
-
-	if (lenght != 0) {
-		float cosTheta = dot / lenght;
-		cosTheta = std::fmax(-1.0f, std::fmin(1.0f, cosTheta));
-
-		float angleRadians = std::acos(cosTheta);
-		float angle = angleRadians * float(180.0f / std::numbers::pi);
-		if (angleRadians * float(180.0f / std::numbers::pi) > 30.0f) {
-			if (diff.x > 0.0f) {
-				object3D_->worldTransform.rotate.z += -0.1f * angleRadians;
-			}
-			else {
-				object3D_->worldTransform.rotate.z += 0.1f * angleRadians;
-			}
+	// 当たったオブジェクトの最大最小
+	Vector3 min = collider->GetWorldPosition() - collider->GetOBB().m_fLength;
+	Vector3 max = collider->GetWorldPosition() + collider->GetOBB().m_fLength;
+	float torque = 0.0f;
+	// z軸回転
+	if (GetWorldPosition().x < min.x) {
+		if (object3D_->worldTransform.rotate.z * (180.0f / float(std::numbers::pi)) < 30.0f) {
+			object3D_->worldTransform.rotate.z += float(std::numbers::pi) / 180.0f;
 		}
 	}
-
-	float attenuation = -0.5f * object3D_->worldTransform.rotate.z;
-	if (std::fabs(attenuation) > std::fabs(object3D_->worldTransform.rotate.z)) {
-		attenuation = -object3D_->worldTransform.rotate.z;
+	else if (GetWorldPosition().x > max.x) {
+		if (object3D_->worldTransform.rotate.z * (180.0f / float(std::numbers::pi)) > -30.0f) {
+			object3D_->worldTransform.rotate.z -= float(std::numbers::pi) / 180.0f;
+		}
 	}
-	object3D_->worldTransform.rotate.z += attenuation;
+	torque = -0.1f * object3D_->worldTransform.rotate.z;
+	object3D_->worldTransform.rotate.z += torque;
+	// x軸回転
+	if (GetWorldPosition().z < min.z) {
+		if (object3D_->worldTransform.rotate.x * (180.0f / float(std::numbers::pi)) > -30.0f) {
+			object3D_->worldTransform.rotate.x -= float(std::numbers::pi) / 180.0f;
+		}
+	}
+	else if (GetWorldPosition().z > max.z) {
+		if (object3D_->worldTransform.rotate.x * (180.0f / float(std::numbers::pi)) < 30.0f) {
+			object3D_->worldTransform.rotate.x += float(std::numbers::pi) / 180.0f;
+		}
+	}
+	torque = -0.1f * object3D_->worldTransform.rotate.x;
+	object3D_->worldTransform.rotate.x += torque;
 }
 
 void HeadPart::OnCollision(Collider* collider)
@@ -147,7 +149,7 @@ void HeadPart::OnCollision(Collider* collider)
 	}
 	if (isCollision && !isTrue) {
 		CorrectPosition(collider);
-		//AddTorque(collider);
+		AddTorque(collider);
 		if (velocity_.y != 0.0f) {
 			velocity_.y = 0.0f;
 		}

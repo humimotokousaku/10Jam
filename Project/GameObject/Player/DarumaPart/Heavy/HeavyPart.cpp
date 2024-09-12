@@ -58,4 +58,5 @@ void HeavyPart::ApplyGlobalVariables()
 	physics_.mass = global->GetFloatValue(groupName, "Mass");
 	physics_.frictionCoeff = global->GetFloatValue(groupName, "FrictionCoeff");
 	physics_.gravity = global->GetFloatValue(groupName, "Gravity");
+	physics_.normalForce = physics_.mass * physics_.gravity;
 }

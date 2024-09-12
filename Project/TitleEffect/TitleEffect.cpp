@@ -85,7 +85,7 @@ void TitleEffect::Update() {
 	}
 
 	// プレイヤー
-	player_->Update();
+	player_->Update(true);
 
 	// 地面
 	terrain_->Update();

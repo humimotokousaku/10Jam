@@ -1,8 +1,8 @@
 {
     "HeadPart": {
-        "FrictionCoeff": 0.30000001192092896,
+        "FrictionCoeff": 0.4000000059604645,
         "Gravity": 9.800000190734863,
-        "Mass": 10.0,
+        "Mass": 8.0,
         "Scale": [
             4.5,
             4.5,

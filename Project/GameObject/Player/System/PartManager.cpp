@@ -9,20 +9,18 @@ void PlayerContext::PartManager::Initialize(Player* player)
 
 void PlayerContext::PartManager::Update()
 {
-	// 入力処理
-	InputUpdate();
-
 	// 更新
+	listIndex_ = 0;
 	for (std::vector<std::unique_ptr<IPart>>::iterator it = parts_.begin(); it != parts_.end(); ++it) {
-		if (it == parts_.begin()) {
-			(*it)->index_ = 0;
-		}
-		else
-		{
-			(*it)->index_ = 1;
-		}
+		(*it)->index_ = listIndex_;
 		(*it)->Update();
+		listIndex_++;
 	}
+	// ソート
+	std::sort(parts_.begin(), parts_.end(),
+		[](const std::unique_ptr<IPart>& a, const std::unique_ptr<IPart>& b) {
+			return a->index_ < b->index_;
+		});
 
 	// 削除処理
 	parts_.erase(std::remove_if(parts_.begin(), parts_.end(), [this](const std::unique_ptr<IPart>& obj) {
@@ -56,51 +54,20 @@ void PlayerContext::PartManager::InputUpdate()
 		leftStick *= 0.1f;
 	}
 	else {
-		//float moveValue = 0.1f;
-		//bool isA = false;
-		//bool isD = false;
-		//bool isW = false;
-		//bool isS = false;
-		//Vector2 moveSpeed = { moveValue,moveValue };
-
-		//// 入力処理
-		//if (input->PressKey(DIK_A)) {
-		//	isA = true;
-		//	moveSpeed.x *= -1.0f;
-		//}
-		//if (input->PressKey(DIK_D)) {
-		//	isD = true;
-		//}
-		//if (input->PressKey(DIK_W)) {
-		//	isW = true;
-		//}
-		//if (input->PressKey(DIK_S)) {
-		//	isS = true;
-		//	moveSpeed.y *= -1.0f;
-		//}
-
-		//// スピードの調整
-		//if (isA || isD) {
-		//	if (isW || isS) {
-		//		moveSpeed.x *= (1.0f / 2.0f);
-		//		moveSpeed.y *= (1.0f / 2.0f);
-		//	}
-		//	else {
-		//		moveSpeed.y = 0.0f;
-		//	}
-		//}
-		//else if (isW || isS) {
-		//	if (isA || isD) {
-		//		moveSpeed.x *= (1.0f / 2.0f);
-		//		moveSpeed.y *= (1.0f / 2.0f);
-		//	}
-		//	else {
-		//		moveSpeed.x = 0.0f;
-		//	}
-		//}
-		//else {
-		//	moveSpeed = { 0.0f,0.0f };
-		//}
+		if (input->PressKey(DIK_A)) {
+			leftStick.x -= 1.0f;
+		}
+		else if (input->PressKey(DIK_D)) {
+			leftStick.x += 1.0f;
+		}
+		if (input->PressKey(DIK_W)) {
+			leftStick.y += 1.0f;
+		}
+		else if (input->PressKey(DIK_S)) {
+			leftStick.y -= 1.0f;
+		}
+		leftStick = Normalize(leftStick);
+		leftStick *= 0.1f;
 	}
 	float contIndex = 1.0f;
 
@@ -122,6 +89,7 @@ void PlayerContext::PartManager::AddHead(const Vector3& position)
 	instance->SetModel(ModelManager::GetInstance()->FindModel("Models/SampleBlock", "cube.obj"));
 	instance->GetFootCollider()->Object3DSetting(player_->GetCamera(), ModelManager::GetInstance()->FindModel("Models/SampleBlock", "cube.obj"));
 	instance->SetPosition(position);
+	instance->SetPlayer(player_);
 	parts_.push_back(std::move(instance));
 }
 
@@ -134,13 +102,11 @@ void PlayerContext::PartManager::AddDaruma(DarumaPattern pattern)
 		for (int i = 0; i < 3; i++) {
 			AddParts<MediumPart>(Vector3(0.0f, float(i) * 3.85f, 0.0f));
 		}
-		//AddParts<MediumPart>(Vector3(0.0f, 2.0f, 0.0f));
 		break;
 	case PlayerContext::DarumaPattern::kHeavy:
 		for (int i = 0; i < 3; i++) {
 			AddParts<HeavyPart>(Vector3(0.0f, float(i) * 3.85f, 0.0f));
 		}
-		//AddParts<MediumPart>(Vector3(0.0f, 2.0f, 0.0f));
 		break;
 	case PlayerContext::DarumaPattern::kL2M2H:
 		AddParts<LightPart>(Vector3(0.0f, float(index) * 3.85f, 0.0f));
@@ -161,6 +127,12 @@ void PlayerContext::PartManager::AddDaruma(DarumaPattern pattern)
 	}
 
 }
+
+void PlayerContext::PartManager::ListClear()
+{
+	parts_.clear();
+}
+
 void PlayerContext::PartManager::ImGuiDraw()
 {
 	float dragValue = 0.01f;
@@ -177,6 +149,13 @@ void PlayerContext::PartManager::ImGuiDraw()
 	}
 	if (ImGui::Button("AddHead")) {
 		AddHead(generatePosition_);
+	}
+	if (ImGui::Button("Sort")) {
+		// 昇順に
+		std::sort(parts_.begin(), parts_.end(),
+			[](const std::unique_ptr<IPart>& a, const std::unique_ptr<IPart>& b) {
+				return a->index_ < b->index_;
+			});
 	}
 	ImGui::Separator();
 	if (ImGui::TreeNode("SetTower")) {
@@ -195,7 +174,8 @@ void PlayerContext::PartManager::ImGuiDraw()
 		ImGui::TreePop();
 	}
 	if (ImGui::Button("Reset")) {
-		parts_.clear();
+		player_->SetIsDead(false);
+		ListClear();
 	}
 }
 

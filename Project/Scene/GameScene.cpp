@@ -25,19 +25,17 @@ void GameScene::Initialize() {
 	followCamera_->Initialize();
 	cameraTargetPoint_.Initialize();
 	followCamera_->SetParent(&cameraTargetPoint_);
+	cameraTargetPoint_.translate = GlobalVariables::GetInstance()->GetVector3Value("FollowCamera", "OffsetPoint");
 
 	GlobalVariables* global = GlobalVariables::GetInstance();
 	global->CreateGroup("FollowCamera");
 	global->AddItem("FollowCamera", "OffsetPoint", cameraTargetPoint_.translate);
-
-	//camera_->worldTransform_.translate = Vector3(0.0f, 0.0f, -45.0f);
 	
 	// プレイヤー
 	player_ = std::make_unique<Player>();
 	player_->SetCollisionManager(collisionManager_.get());
 	player_->Initialize(followCamera_->GetCamera());
-	//player_->GetPartManager()->AddDaruma(PlayerContext::DarumaPattern::kL2M2H);
-	//player_->GetPartManager()->AddHead(Vector3{ 0,50,0 });
+	player_->GenerateInitialize();
 	// エネミー
 	enemy_ = std::make_unique<Enemy>();
 
@@ -51,27 +49,31 @@ void GameScene::Initialize() {
 	gameSystemManager_ = std::make_unique<GameSystemManager>();
 	gameSystemManager_->Initialize(player_.get(),enemy_.get());
 
-
+	// チュートリアル
+	tutorial_ = std::make_unique<Tutorial>();
+	tutorial_->Initialize();
+	tutorial_->SetPlayer(player_.get());
+	tutorial_->Start();
 }
 
 void GameScene::Update() {
+#ifdef _DEBUG
 	// ゲームのシステム
 	ImGui::Begin("GameSystem");
 	ImGui::DragFloat3("CameraPosition", &cameraTargetPoint_.translate.x, 0.01f);
 	cameraTargetPoint_.translate = GlobalVariables::GetInstance()->GetVector3Value("FollowCamera", "OffsetPoint");
 	gameSystemManager_->ImGuiDraw();
-
 	ImGui::End();
-	if (gameSystemManager_->isGameStop_) {
-		return;
-	}
-
-	gameSystemManager_->Update();
-
+	// プレイヤー
+	player_->ImGuiDraw();
+	// 地形
+	terrain_->ImGuiDraw();
+#endif // _DEBUG
 
 	// シーンの切り替え処理
+
 #ifdef _DEBUG
-	if (Input::GetInstance()->TriggerKey(DIK_SPACE)) {
+	if (Input::GetInstance()->TriggerKey(DIK_RETURN)) {
 		SceneTransition::GetInstance()->Start();
 	}
 #endif // _DEBUG
@@ -79,20 +81,38 @@ void GameScene::Update() {
 		//SceneTransition::GetInstance()->Start();
 	}
 	if (SceneTransition::GetInstance()->GetSceneTransitionSignal()) {
-		sceneNum = TITLE_SCENE;
+		if (!tutorial_->GetIsStart()) {
+			if (gameSystemManager_->IsGameClear()) {
+				sceneNum = TITLE_SCENE;
+			}
+			else if (gameSystemManager_->IsGameOver()) {
+				//sceneNum = GAME_SCENE;
+			}
+		}
 	}
 
+	// ゲームマネージャー側でゲームを止める処理
+	if (gameSystemManager_->IsGameStop()) {
+		return;
+	}
+
+	gameSystemManager_->Update(tutorial_->GetIsStart());
+
+	// チュートリアル
+	tutorial_->Update();
+
+	// 追従カメラ
 	cameraTargetPoint_.UpdateMatrix();
 	followCamera_->Update();
 	// プレイヤー
-	player_->ImGuiDraw();
-	player_->Update();
+	player_->Update(tutorial_->IsCountDown());
 
+	// 地面
 	terrain_->Update();
-	terrain_->ImGuiDraw();
 
 	// 当たり判定
 	collisionManager_->CheckAllCollisions();
+
 }
 
 void GameScene::Draw() {

@@ -44,8 +44,6 @@ void GameManager::Update() {
 		sceneArr_[preSceneNum_].reset();
 		sceneArr_[sceneNum_]->Initialize();
 
-		// シーン遷移演出開始
-		sceneTransition_->SetSceneTransitionSignal(false);
 		// シーン遷移で使うスプライトはポストエフェクトを使用しない
 		sceneTransition_->SetSpriteList();
 
@@ -70,6 +68,9 @@ void GameManager::Update() {
 	/// 更新処理
 	/// 
 	sceneArr_[sceneNum_]->Update();
+
+	// シーン遷移の信号を切る
+	sceneTransition_->SetSceneTransitionSignal(false);
 
 #ifdef _DEBUG
 	// FPSカウンターの表示

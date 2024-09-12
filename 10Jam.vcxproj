@@ -196,6 +196,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" </Command>
     <ClCompile Include="Engine\Components\Model\Model.cpp" />
     <ClCompile Include="Engine\Components\Model\ModelStructs.cpp" />
     <ClCompile Include="engine\Components\WorldTransform.cpp" />
+    <ClCompile Include="Project\GameObject\GameSystemManager\ActionManager.cpp" />
     <ClCompile Include="Project\GameObject\GameSystemManager\GameSystemManager.cpp" />
     <ClCompile Include="Project\GameObject\Player\DarumaPart\Foot\FootCollider.cpp" />
     <ClCompile Include="Project\GameObject\Player\DarumaPart\Head\HeadPart.cpp" />
@@ -251,6 +252,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" </Command>
     <ClCompile Include="Project\Components\SceneTransition\SceneTransition.cpp" />
     <ClCompile Include="Project\SampleObject\SampleObject.cpp" />
     <ClCompile Include="Project\TitleEffect\TitleEffect.cpp" />
+    <ClCompile Include="Project\Tutorial\Tutorial.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Project\GameObject\AttackDirection\AttackDirection.h" />
@@ -292,6 +294,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" </Command>
     <ClInclude Include="engine\Components\WorldTransform.h" />
     <ClInclude Include="Project\GameObject\Enemy\Enemy.h" />
     <ClInclude Include="Project\GameObject\GameObjectLists.h" />
+    <ClInclude Include="Project\GameObject\GameSystemManager\ActionManager.h" />
     <ClInclude Include="Project\GameObject\GameSystemManager\GameSystemManager.h" />
     <ClInclude Include="Project\GameObject\Player\DarumaPart\Foot\FootCollider.h" />
     <ClInclude Include="Project\GameObject\Player\DarumaPart\Head\HeadPart.h" />
@@ -351,6 +354,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" </Command>
     <ClInclude Include="Project\Components\SceneTransition\SceneTransition.h" />
     <ClInclude Include="Project\SampleObject\SampleObject.h" />
     <ClInclude Include="Project\TitleEffect\TitleEffect.h" />
+    <ClInclude Include="Project\Tutorial\Tutorial.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\ImGui\LICENSE.txt" />

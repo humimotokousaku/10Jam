@@ -19,7 +19,7 @@ public:
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update();
+	void Update(bool isCountDown);
 	/// <summary>
 	/// 描画
 	/// </summary>
@@ -28,6 +28,10 @@ public:
 	/// ImGuiの処理
 	/// </summary>
 	void ImGuiDraw();
+	/// <summary>
+	/// 生成初期化
+	/// </summary>
+	void GenerateInitialize();
 
 public: // アクセッサ
 	void SetCollisionManager(CollisionManager* collisionManager) { collisionManager_ = collisionManager; }

@@ -5,7 +5,7 @@ void Terrain::Initialize()
 	object3D_ = std::make_unique<Object3D>();
 	object3D_->Initialize();
 	object3D_->worldTransform.translate = Vector3(0.0f, 0.0f, 0.0f);
-	object3D_->worldTransform.scale = Vector3(200.0f, 3.0f, 50.0f);
+	object3D_->worldTransform.scale = Vector3(75.0f, 3.0f, 75.0f);
 	object3D_->worldTransform.rotate = Vector3(0.0f, 0.0f, 0.0f);
 	// コライダー登録
 	SetCollisionPrimitive(kCollisionOBB);

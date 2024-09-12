@@ -9,7 +9,7 @@ void FootCollider::OnCollision(Collider* collider)
 
 	if (collider->GetCollisionAttribute() == kCollisionAttributeTerrain) {
 		part_->SetIsGround(true);
-		part_->isTerrain_ = true;
+
 	}
 	else if(collider->GetCollisionAttribute() == kCollisionAttributeDarumaPart){
 		part_->SetIsGround(true);
@@ -22,7 +22,7 @@ void FootCollider::Initialize(IPart* part)
 	object3D_ = std::make_unique<Object3D>();
 	object3D_->Initialize();
 	object3D_->worldTransform.parent_ = part_->GetWorldTransform();
-	object3D_->worldTransform.scale = Vector3(part_->GetWorldTransform()->scale.x, 0.15f, part_->GetWorldTransform()->scale.z);
+	object3D_->worldTransform.scale = Vector3(part_->GetWorldTransform()->scale.x, 0.25f, part_->GetWorldTransform()->scale.z);
 	object3D_->worldTransform.translate.y -= 1.0f;
 
 	SetCollisionPrimitive(kCollisionOBB);

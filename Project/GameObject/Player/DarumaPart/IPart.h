@@ -3,10 +3,13 @@
 #include "Collider.h"
 #include "CollisionManager.h"
 #include "Player/System/PhysicsSystem.h"
+#include "GameSystemManager/GameSystemManager.h"
 
 #include "Foot/FootCollider.h"
 
 #include <memory>
+
+class Player;
 
 struct PartParameter {
 	float gravity;
@@ -50,6 +53,8 @@ public: // アクセッサ
 		object3D_->worldTransform.UpdateMatrix();
 	}
 
+	void SetPlayer(Player* player) { player_ = player; }
+public: // ゲッター
 	WorldTransform* GetWorldTransform() { return &object3D_->worldTransform; }
 	FootCollider* GetFootCollider() { return footCollider_.get(); }
 	bool IsGround() { return isGround_; }
@@ -71,6 +76,8 @@ protected:
 	std::unique_ptr<FootCollider> footCollider_;
 	// 物理のパラメータ
 	PlayerContext::PhysicsParam physics_;
+	// プレイヤー
+	Player* player_ = nullptr;
 private:
 	// コライダーのマネージャ
 	CollisionManager* collisionManager_;
@@ -79,11 +86,50 @@ public:
 	std::unique_ptr<Object3D> object3D_;
 	// 速さ
 	Vector3 velocity_;
-	Vector3 acceleration_{};
 	uint32_t index_ = 0;
 
-	bool isOtherFoot_ = true;
-	bool isTerrain_ = true;
-
-	uint32_t groundTimer_ = 0;
+private:
+	// 一番下はTerrainとPart
+	// 中はOverHeadとPart
+	// Terrainのみの場合削除
+	// 頭は例外
+	struct RemoveStatus {
+		bool isTerrain = false;	// 地形接地
+		bool isOverHead = false;	// 頭上になにかいる
+		bool isPart = false;	// 身体と接地
+		int32_t deleteCount_;	// 削除までのカウント
+		bool isDelete = false;	// 削除フラグ
+		// 消すタイマーの処理を行うかどうか
+		bool IsReadyCountDown() {
+			bool isGame = isTerrain && (!isOverHead && !isPart);
+			//bool isException = !isTerrain && (!isOverHead && !isPart);
+			return (isGame);
+		}
+		// 値の全てをリセット
+		void Initialize() {
+			*this = RemoveStatus();
+		}
+		// フラグのリセット
+		void FlagReset() {
+			isTerrain = false;
+			isOverHead = false;
+			isPart = false;
+		}
+		void Update(int32_t max) {
+			// フラグがtrueなら消すカウントダウン
+			if (IsReadyCountDown()) {
+				deleteCount_++;
+				// 消すフラグを上げる
+				if (deleteCount_ > max) {
+					isDelete = true;
+				}
+			}
+			// 削除フラグがなければ
+			else {
+				Initialize();
+			}
+		}
+	};
+	// 削除用の変数
+	RemoveStatus removeStatus_;
 };

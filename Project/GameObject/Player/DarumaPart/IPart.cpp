@@ -28,63 +28,23 @@ void IPart::Update()
 {
 	// グローバルうんたら
 	ApplyGlobalVariables();
-
+	// 落下処理
 	if (!isGround_) {
-		velocity_.y -= (4.5f * (1.0f / 60.0f));
-		// 上の段
-		if (index_ != 0) {
-			groundTimer_ = 0;
-		}
-		// 下の段
-		else if (index_ == 0 && isOtherFoot_) {
-			groundTimer_++;
-		}
+		velocity_.y -= (4.5f * GameSystemManager::sDeltaTime);
 	}
 	else {
 		velocity_.y = 0.0f;
-		if (velocity_.x == 0.0f || velocity_.z == 0.0f) {
-			if (index_ != 0) {
-				groundTimer_++;
-			}
-			else if (index_ == 0 && !isOtherFoot_) {
-				groundTimer_++;
-			}
-		}
 	}
-
-	// 一番下の場合のみ
-	if ((!isOtherFoot_ && isGround_) && index_ == 0 && groundTimer_ > 30) {
+	// 一番下の段じゃなかった場合リストの後ろに
+	if (index_ == 0 && (!removeStatus_.isOverHead && !removeStatus_.isPart)) {
+		index_ = 10;
+	}
+	// 削除処理
+	removeStatus_.Update(20);
+	if (removeStatus_.isDelete) {
 		isDead_ = true;
-		return;
 	}
-	else if ((isTerrain_ && isGround_) && index_ != 0 && groundTimer_ > 30) {
-		isDead_ = true;
-		return;
-	}
-	isOtherFoot_ = false;
-	isTerrain_ = false;
-
-	//float mass = 20.0f;
-	//float gravity = -9.8f;
-	//float miu = 0.65f;
-	//float magnitude = miu * (-mass * (gravity));
-	//float frictForce = 0.0f;
-
-	//if (std::fabsf(velocity_.x) > 0.01f) {
-	//	Vector3 normalize = Normalize(velocity_);
-	//	if (normalize.x > 0) {
-	//		frictForce = magnitude * (-1.0f);
-	//	}
-	//	else if (normalize.x < 0) {
-	//		frictForce = magnitude * (1.0f);
-	//	}
-	//}
-	//else{
-	//	velocity_.x = 0.0f;
-	//}
-	//acceleration_.x = frictForce / mass;
-	//// 速度計算
-	//velocity_.x += acceleration_.x * (1.0f / 60.0f);
+	removeStatus_.FlagReset();
 
 	// 速度を更新（加速度を考慮）
 	velocity_ = PlayerContext::PhysicsSystem::ApplyX_ZFriction(velocity_, physics_);
@@ -96,13 +56,12 @@ void IPart::Update()
 	if (std::fabsf(velocity_.z) < 0.01f) {
 		velocity_.z = 0.0f;
 	}
-
+	// 座標計算
 	object3D_->worldTransform.translate += velocity_;
-	//velocity_ = Lerps::Lerp(velocity_, Vector3(0.0f, 0.0f, 0.0f), 0.01f);
-
 	// 行列更新
 	object3D_->worldTransform.UpdateMatrix();
 
+	// コライダーの更新
 	ColliderUpdate();
 	footCollider_->Update();
 
@@ -114,8 +73,9 @@ void IPart::Update()
 void IPart::ImGuiDraw()
 {
 	ImGui::SeparatorText(partTag_.c_str());
-	std::string name = "Position" + partTag_;
-	if (ImGui::TreeNode("Transform")) {
+	std::string name = "Transform" + partTag_;
+	if (ImGui::TreeNode(name.c_str())) {
+		name = "Position" + partTag_;
 		ImGui::DragFloat3(name.c_str(), &object3D_->worldTransform.translate.x, 0.01f);
 		name = "Rotate" + partTag_;
 		ImGui::DragFloat3(name.c_str(), &object3D_->worldTransform.rotate.x, 0.01f);
@@ -123,6 +83,7 @@ void IPart::ImGuiDraw()
 		ImGui::DragFloat3(name.c_str(), &object3D_->worldTransform.scale.x, 0.01f);
 		ImGui::TreePop();
 	}
+	ImGui::Separator();
 	name = "Velocity" + partTag_;
 	ImGui::DragFloat3(name.c_str(), &velocity_.x);
 	name = "IsGround : %d " + partTag_;
@@ -130,6 +91,12 @@ void IPart::ImGuiDraw()
 	name = "Index" + partTag_;
 	int in = index_;
 	ImGui::InputInt(name.c_str(), &in);
+	name = "IsTerrain" + partTag_;
+	ImGui::Checkbox(name.c_str(), &removeStatus_.isTerrain);
+	name = "IsOverHead" + partTag_;
+	ImGui::Checkbox(name.c_str(), &removeStatus_.isOverHead);
+	name = "isPart" + partTag_;
+	ImGui::Checkbox(name.c_str(), &removeStatus_.isPart);
 }
 
 void IPart::ApplyGlobalVariables()
@@ -234,14 +201,15 @@ void IPart::OnCollision(Collider* collider)
 			CorrectPosition(collider);
 		}
 	}
-	else if(isFoot){
-		if (!isTrue && index_ == 0) {
-			isOtherFoot_ = true;
-			return;
-		}
-	}
 	if (isTerrain) {
-		isTerrain_ = true;
+		removeStatus_.isTerrain = isTerrain;
+	}
+	if ((isFoot && !isTrue)) {
+		removeStatus_.isOverHead = true;
+	}
+	if (isPart && !isTrue) {
+		removeStatus_.isPart = true;
 	}
 	object3D_->worldTransform.UpdateMatrix();
 }
+

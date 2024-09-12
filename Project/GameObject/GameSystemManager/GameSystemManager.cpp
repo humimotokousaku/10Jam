@@ -2,6 +2,8 @@
 #include "GameObjectLists.h"
 #include <cassert>
 
+float GameSystemManager::sDeltaTime = 1.0f / 60.0f;
+
 void GameSystemManager::Initialize(Player* player, Enemy* enemy)
 {
 	// ポインタ
@@ -10,7 +12,7 @@ void GameSystemManager::Initialize(Player* player, Enemy* enemy)
 	player_ = player;
 	enemy_ = enemy;
 
-	timer_.elapsed = 5;
+	timer_.elapsed = 60;
 	timer_.frameCount = 0;
 
 	// 方向
@@ -23,16 +25,29 @@ void GameSystemManager::Initialize(Player* player, Enemy* enemy)
 	attackDirection_->SetColor({ 1.0f,1.0f,1.0f,0.8f });
 	// 経過時間
 	gameTimer_.Initialize();
+	gameTimer_.SetDrawTime(GetElapsedTime());
+
+	// 外部の行動データ
+	actionManager_ = std::make_unique<ActionManager>();
+	actionManager_->LoadActionData();
+	attackDirection_->SetArrowDirection(actionManager_->actionContainer_[0].direct);
 }
 
-void GameSystemManager::Update()
+void GameSystemManager::Update(bool isTutorial)
 {
+	// チュートリアル中なら処理しない
+	if (isTutorial) {
+		return;
+	}
 	// ゲーム終了の判定
 	if (timer_.elapsed <= 0) {
 		isGameEnd_ = true;
+		isGameClear_ = true;
 	}
+	// 失敗の場合
 	if (player_->IsDead()) {
 		isGameEnd_ = true;
+		isGameOver_ = true;
 	}
 
 	// ゲーム停止中
@@ -47,15 +62,9 @@ void GameSystemManager::Update()
 
 	// 攻撃方向表示
 	attackDirection_->Update();
-	attackDirection_->SetArrowDirection(actionDirect_);
 
-	PushActionTimeReference();
-
-	//actionTime.coolTime.current++;
-	//if (actionTime.coolTime.current > actionTime.coolTime.max) {
-	//	Action(actionPower_);
-	//	actionTime.coolTime.current = 0;
-	//}
+	// CSVのデータを使ったアクション処理
+	CSVActionControll();
 }
 
 void GameSystemManager::ImGuiDraw()
@@ -65,7 +74,7 @@ void GameSystemManager::ImGuiDraw()
 	ImGui::DragFloat3("ActionDirect", &actionDirect_.x, 0.01f);
 	ImGui::DragFloat("ActionPower", &actionPower_, 0.01f);
 	if (ImGui::Button("PushAction")) {
-		Action(actionPower_);
+		Action(actionDirect_, actionPower_);
 	}
 	ImGui::Checkbox("GameStop", &isGameStop_);
 	actionDirect_ = Normalize(actionDirect_);
@@ -77,38 +86,32 @@ void GameSystemManager::Draw()
 	attackDirection_->Draw();
 }
 
-void GameSystemManager::Action(float power)
+void GameSystemManager::Action(const Vector3& direct, float power)
 {
 	// ここで力とアニメーションのセットアップ
-	player_->GetReactionManager()->PushAction(actionDirect_, power);
+	player_->GetReactionManager()->PushAction(direct, power);
 	// アクションしたか
 	timer_.isAction = true;
 }
 
-void GameSystemManager::PushActionTimeReference()
+void GameSystemManager::CSVActionControll()
 {
-	// 押し出しのやつをタイマーで
-	if (timer_.elapsed == 10) {
+	// 配列を超過しないように
+	if (actionNow_ >= actionManager_->actionContainer_.size()) {
+		return;
+	}
+	// 画像の方向設定
+	attackDirection_->SetArrowDirection(actionManager_->actionContainer_[actionNow_].direct);
+	// 押し出すアクション
+	if (actionManager_->actionContainer_[actionNow_].time == timer_.elapsed) {
+		// 一度行っているなら早期
 		if (timer_.isAction) {
 			return;
 		}
-		Action(2.0f);
-		actionDirect_ = { 1.0f,0.0f,1.0f };
+		Action(actionManager_->actionContainer_[actionNow_].direct, actionManager_->actionContainer_[actionNow_].power);
+		actionNow_++;
 	}
-	else if (timer_.elapsed == 15) {
-		if (timer_.isAction) {
-			return;
-		}
-		Action(1.5f);
-		actionDirect_ = { 1.0f,0.0f,-1.0f };
-	}
-	else if (timer_.elapsed == 25) {
-		if (timer_.isAction) {
-			return;
-		}
-		Action(1.0f);
-		actionDirect_ = { -1.0f,0.0f,-1.0f };
-	}
+	// その番号の時間と一致していなければフラグリセット
 	else {
 		timer_.isAction = false;
 	}

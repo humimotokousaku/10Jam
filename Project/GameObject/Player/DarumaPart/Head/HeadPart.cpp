@@ -1,6 +1,7 @@
 #include "HeadPart.h"
 #include "TextureManager.h"
 #include "GlobalVariables.h"
+#include "GameObjectLists.h"
 
 void HeadPart::Initialize(CollisionManager* manager)
 {
@@ -64,18 +65,6 @@ void HeadPart::Update()
 	//		}
 	//	}
 	//}
-
-	// 一番下の場合のみ
-	if ((!isOtherFoot_ && isGround_) && index_ == 0 && groundTimer_ > 30) {
-		isDead_ = true;
-		return;
-	}
-	else if ((isTerrain_ && isGround_) && index_ != 0 && groundTimer_ > 30) {
-		isDead_ = true;
-		return;
-	}
-	isOtherFoot_ = false;
-	isTerrain_ = false;
 
 	// 速度を更新（加速度を考慮）
 	velocity_ = PlayerContext::PhysicsSystem::ApplyX_ZFriction(velocity_, physics_);
@@ -153,21 +142,15 @@ void HeadPart::OnCollision(Collider* collider)
 	bool isFoot = collider->GetCollisionAttribute() == kCollisionAttributeDarumaFoot;
 	bool isCollision = (isPart || isTerrain);
 	bool isTrue = collider->GetTag() == this->partTag_;
+	if (isTerrain) {
+		player_->SetIsDead(true);
+	}
 	if (isCollision && !isTrue) {
 		CorrectPosition(collider);
 		//AddTorque(collider);
 		if (velocity_.y != 0.0f) {
 			velocity_.y = 0.0f;
 		}
-	}
-	else if (isFoot) {
-		if (!isTrue && index_ == 0) {
-			isOtherFoot_ = true;
-			return;
-		}
-	}
-	if (isTerrain) {
-		isTerrain_ = true;
 	}
 	object3D_->worldTransform.UpdateMatrix();
 }

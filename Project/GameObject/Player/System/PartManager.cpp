@@ -160,6 +160,16 @@ void PlayerContext::PartManager::ListClear()
 	parts_.clear();
 }
 
+IPart* PlayerContext::PartManager::GetDarumaHead()
+{
+	for (std::vector<std::unique_ptr<IPart>>::iterator it = parts_.begin(); it != parts_.end(); ++it) {
+		if ((*it)->GetTag() == "Head") {
+			return (*it).get();
+		}
+	}
+	return nullptr;
+}
+
 void PlayerContext::PartManager::ImGuiDraw()
 {
 	float dragValue = 0.01f;

@@ -13,5 +13,5 @@ public:
 	void ApplyGlobalVariables() override;
 
 private:
-	uint32_t texture_;
+	uint32_t texture_[2];
 };

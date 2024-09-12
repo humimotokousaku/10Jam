@@ -13,11 +13,13 @@ void GameScene::Initialize() {
 	/// テクスチャの読み込み
 	textureManager_->LoadTexture("", "uvChecker.png");
 	textureManager_->LoadTexture("DefaultTexture", "white.png");
+	textureManager_->LoadTexture("Models/DarumaHead", "DarumaHeadWeak.png");
 	// テクスチャの番号を取得
 	textureHandle_ = textureManager_->GetSrvIndex("DefaultTexture", "white.png");
 	
 	// モデル読み込み
 	modelManager_->LoadModel("Models/SampleBlock", "cube.obj");
+	modelManager_->LoadModel("Models/DarumaHead", "DarumaHead.obj");
 	modelManager_->LoadModel("Models/DarumaBody", "DarumaBody.obj");
 	collisionManager_ = std::make_unique<CollisionManager>();
 

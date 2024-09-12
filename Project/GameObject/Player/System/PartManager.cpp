@@ -107,8 +107,8 @@ void PlayerContext::PartManager::AddHead(const Vector3& position)
 	std::unique_ptr<IPart> instance = std::make_unique<HeadPart>();
 	instance->Initialize(player_->GetCollision());
 	instance->SetCamera(player_->GetCamera());
-	instance->SetModel(ModelManager::GetInstance()->FindModel("Models/SampleBlock", "cube.obj"));
-	instance->GetFootCollider()->Object3DSetting(player_->GetCamera(), ModelManager::GetInstance()->FindModel("Models/SampleBlock", "cube.obj"));
+	instance->SetModel(ModelManager::GetInstance()->FindModel("Models/DarumaHead", "DarumaHead.obj"));
+	instance->GetFootCollider()->Object3DSetting(player_->GetCamera(), ModelManager::GetInstance()->FindModel("Models/DarumaHead", "DarumaHead.obj"));
 	instance->SetPosition(position);
 	instance->SetPlayer(player_);
 	parts_.push_back(std::move(instance));

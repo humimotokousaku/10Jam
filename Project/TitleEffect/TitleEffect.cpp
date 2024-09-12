@@ -10,10 +10,12 @@ void TitleEffect::Initialize() {
 #pragma region テクスチャとモデルの読み込み
 	// テクスチャの読み込み
 	textureManager_->LoadTexture("", "uvChecker.png");
+	textureManager_->LoadTexture("Models/DarumaHead", "DarumaHeadWeak.png");
 	// テクスチャの番号を取得
 	textureHandle_ = textureManager_->GetSrvIndex("", "uvChecker.png");
 	// 使用するモデルの読み込み
 	modelManager_->LoadModel("Models/SampleBlock", "cube.obj");
+	modelManager_->LoadModel("Models/DarumaHead", "DarumaHead.obj");
 	modelManager_->LoadModel("Models/DarumaBody", "DarumaBody.obj");
 #pragma endregion
 

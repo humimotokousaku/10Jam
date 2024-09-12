@@ -32,7 +32,8 @@ void HeadPart::Initialize(CollisionManager* manager)
 	global->AddItem(groupName, "Gravity", 9.8f);
 	ApplyGlobalVariables();
 
-	texture_ = TextureManager::GetInstance()->GetSrvIndex("", "uvChecker.png");
+	texture_[0] = TextureManager::GetInstance()->GetSrvIndex("Models/DarumaHead", "DarumaHead.png");
+	texture_[1] = TextureManager::GetInstance()->GetSrvIndex("Models/DarumaHead", "DarumaHeadWeak.png");
 }
 
 void HeadPart::Update()
@@ -77,7 +78,12 @@ void HeadPart::Update()
 void HeadPart::Draw()
 {
 	// 描画
-	object3D_->Draw(texture_);
+	if (object3D_->worldTransform.rotate.z != 0.0f || object3D_->worldTransform.rotate.x != 0.0f) {
+		object3D_->Draw(texture_[1]);
+	}
+	else {
+		object3D_->Draw(texture_[0]);
+	}
 	footCollider_->Draw();
 }
 
@@ -107,8 +113,10 @@ void HeadPart::AddTorque(Collider* collider)
 			object3D_->worldTransform.rotate.z = Lerps::Lerp(0.0f, -45.0f * float(std::numbers::pi) / 180.0f, coefficient);
 		}
 		else {
-			torque = -0.1f * object3D_->worldTransform.rotate.z;
-			object3D_->worldTransform.rotate.z += torque;
+			/*torque = -0.1f * object3D_->worldTransform.rotate.z;
+			object3D_->worldTransform.rotate.z += torque;*/
+			object3D_->worldTransform.rotate.z = 0.0f;
+
 		}
 		// x軸回転
 		if (GetWorldPosition().z < min.z) {
@@ -120,8 +128,9 @@ void HeadPart::AddTorque(Collider* collider)
 			object3D_->worldTransform.rotate.x = Lerps::Lerp(0.0f, 45.0f * float(std::numbers::pi) / 180.0f, coefficient);
 		}
 		else {
-			torque = -0.1f * object3D_->worldTransform.rotate.x;
-			object3D_->worldTransform.rotate.x += torque;
+			/*torque = -0.1f * object3D_->worldTransform.rotate.x;
+			object3D_->worldTransform.rotate.x += torque;*/
+			object3D_->worldTransform.rotate.x = 0.0f;
 		}
 	}
 	

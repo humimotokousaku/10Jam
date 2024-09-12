@@ -12,9 +12,11 @@ void Terrain::Initialize()
 	SetCollisionPrimitive(kCollisionOBB);
 	SetCollisionAttribute(kCollisionAttributeTerrain);
 	SetCollisionMask(~kCollisionAttributeTerrain);
+#ifdef _DEBUG
 	GlobalVariables* global = GlobalVariables::GetInstance();
 	global->CreateGroup("Terrain");
 	global->AddItem("Terrain", "Scale", object3D_->worldTransform.scale);
+#endif // _DEBUG
 	ApplyGlobalVariables();
 }
 

@@ -6,11 +6,12 @@
 void PlayerContext::PartManager::Initialize(Player* player)
 {
 	player_ = player;
-
+#ifdef _DEBUG
 	GlobalVariables* global = GlobalVariables::GetInstance();
 	global->CreateGroup("InputInfo");
 	global->AddItem("InputInfo", "InputRatio", 0.1f);
 	global->AddItem("InputInfo", "IndexAddValue", 0.1f);
+#endif // _DEBUG
 
 }
 

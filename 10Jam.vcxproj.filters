@@ -205,6 +205,7 @@
     <ClCompile Include="Project\TitleEffect\TitleEffect.cpp" />
     <ClCompile Include="Project\Tutorial\Tutorial.cpp" />
     <ClCompile Include="Project\GameObject\AttackAlert\AttackAlert.cpp" />
+    <ClCompile Include="Project\GameObject\GameSystemManager\GameSoundManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Math\Vector2.cpp" />

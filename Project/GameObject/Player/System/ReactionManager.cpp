@@ -27,7 +27,7 @@ void PlayerContext::ReactionManager::PushAction(const Vector3& direct, float pow
 	moveDirect *= power;
 	partManager_->partsIt_ = partManager_->parts_.begin();
 	if (partManager_->partsIt_ != partManager_->parts_.end()) {
-		if ((*partManager_->partsIt_)->GetTag() == "HeadPart") {
+		if ((*partManager_->partsIt_)->GetTag() == "Head") {
 			return;
 		}
 		(*partManager_->partsIt_)->velocity_ += moveDirect;

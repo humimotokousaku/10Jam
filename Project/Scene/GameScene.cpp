@@ -25,8 +25,11 @@ void GameScene::Initialize() {
 	followCamera_ = std::make_unique<FollowCamera>();
 	followCamera_->Initialize();
 	cameraTargetPoint_.Initialize();
+
 	followCamera_->SetParent(&cameraTargetPoint_);
 	cameraTargetPoint_.translate = GlobalVariables::GetInstance()->GetVector3Value("FollowCamera", "OffsetPoint");
+	cameraTargetPoint_.translate = { 0,0,10 };
+	cameraTargetPoint_.UpdateMatrix();
 
 	GlobalVariables* global = GlobalVariables::GetInstance();
 	global->CreateGroup("FollowCamera");

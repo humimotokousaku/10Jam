@@ -159,6 +159,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Project\GameObject\AttackAlert\AttackAlert.cpp" />
     <ClCompile Include="Project\GameObject\AttackDirection\AttackDirection.cpp" />
     <ClCompile Include="Engine\Math\Vector2.cpp" />
     <ClCompile Include="Engine\PostProcess\Dissolve.cpp" />
@@ -255,6 +256,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" </Command>
     <ClCompile Include="Project\Tutorial\Tutorial.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Project\GameObject\AttackAlert\AttackAlert.h" />
     <ClInclude Include="Project\GameObject\AttackDirection\AttackDirection.h" />
     <ClInclude Include="Engine\PostProcess\Dissolve.h" />
     <ClInclude Include="engine\PostProcess\Bloom.h" />

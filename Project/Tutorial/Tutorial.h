@@ -3,6 +3,7 @@
 #include "Animation.h"
 #include "../GameObjectLists.h"
 #include "../GameSystemManager/GameSystemManager.h"
+#include "FollowCamera/FollowCamera.h"
 #include "SceneTransition/SceneTransition.h"
 #include "PostEffectManager.h"
 
@@ -30,6 +31,7 @@ public:
 	void Start() { isStart_ = true; }
 
 	void SetPlayer(Player* player) { player_ = player; }
+	void SetFollowCamera(FollowCamera* camera) { followCamera_ = camera; }
 
 #pragma region Getter
 	// チュートリアルが開始しているか
@@ -69,5 +71,5 @@ private:
 	int currentFrame_;
 
 	Player* player_ = nullptr;
-
+	FollowCamera* followCamera_ = nullptr;
 };

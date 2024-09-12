@@ -134,6 +134,7 @@ void Tutorial::Update() {
 		buttonAnim_[3].SetIsStart(true);
 		// プレイヤーの座標設定
 		player_->GenerateInitialize();
+		followCamera_->RotateReset();
 	}
 
 	// ひとつ前のアニメーションが終了したらアニメーション開始

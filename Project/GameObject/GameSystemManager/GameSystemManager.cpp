@@ -22,7 +22,7 @@ void GameSystemManager::Initialize(Player* player, Enemy* enemy)
 	attackDirection_->Start();
 	attackDirection_->worldTransform_.translate.y = -16.8f;
 	//attackDirection_->worldTransform_.scale *= 3.0f;
-	attackDirection_->SetColor({ 1.0f,1.0f,1.0f,0.8f });
+	attackDirection_->SetColor({ 1.0f,1.0f,1.0f,0.75f });
 	// 経過時間
 	gameTimer_.Initialize();
 	gameTimer_.SetDrawTime(GetElapsedTime());
@@ -118,13 +118,15 @@ void GameSystemManager::CSVActionControll()
 		}
 		Action(actionManager_->actionContainer_[actionNow_].direct, actionManager_->actionContainer_[actionNow_].power);
 		actionNow_++;
+		attackDirection_->SetColor({ 1.0f,1.0f,1.0f,0.75 });
 	}
-	else if (timer_.elapsed == 28) {
+	else if (timer_.elapsed == 25) {
 		// 一度行っているなら早期
 		if (timer_.isAction) {
 			return;
 		}
 		attackAlert_->Start();
+		attackDirection_->SetColor({ 1.0f,1.0f,1.0f,1.0f });
 		timer_.isAction = true;
 	}
 	// その番号の時間と一致していなければフラグリセット

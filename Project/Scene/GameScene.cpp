@@ -59,6 +59,7 @@ void GameScene::Initialize() {
 	tutorial_ = std::make_unique<Tutorial>();
 	tutorial_->Initialize();
 	tutorial_->SetPlayer(player_.get());
+	tutorial_->SetFollowCamera(followCamera_.get());
 	tutorial_->Start();
 
 }

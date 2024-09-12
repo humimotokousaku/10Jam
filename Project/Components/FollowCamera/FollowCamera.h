@@ -43,6 +43,13 @@ public:
 		return result;
 	}
 
+	void RotateReset() {
+		destinationAngle_ = {};
+		camera_->worldTransform_.rotate.x = destinationAngle_.x;
+		camera_->worldTransform_.rotate.y = destinationAngle_.y;
+		camera_->Update();
+	}
+
 public:
 	// カメラ補間の精度
 	const float followRate = 0.1f;

@@ -297,6 +297,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" </Command>
     <ClInclude Include="Project\GameObject\Enemy\Enemy.h" />
     <ClInclude Include="Project\GameObject\GameObjectLists.h" />
     <ClInclude Include="Project\GameObject\GameSystemManager\ActionManager.h" />
+    <ClInclude Include="Project\GameObject\GameSystemManager\GameSoundManager.h" />
     <ClInclude Include="Project\GameObject\GameSystemManager\GameSystemManager.h" />
     <ClInclude Include="Project\GameObject\Player\DarumaPart\Foot\FootCollider.h" />
     <ClInclude Include="Project\GameObject\Player\DarumaPart\Head\HeadPart.h" />

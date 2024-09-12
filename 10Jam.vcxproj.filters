@@ -493,6 +493,7 @@
     <ClInclude Include="Project\GameObject\GameSystemManager\ActionManager.h" />
     <ClInclude Include="Project\Tutorial\Tutorial.h" />
     <ClInclude Include="Project\GameObject\AttackAlert\AttackAlert.h" />
+    <ClInclude Include="Project\GameObject\GameSystemManager\GameSoundManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="engine\resources\sharder\Line.hlsli" />

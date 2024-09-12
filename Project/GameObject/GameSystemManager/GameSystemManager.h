@@ -29,7 +29,7 @@ public:
 private:
 	// CSVのやつ
 	void CSVActionControll();
-
+	int alertSE_;
 public:
 	// 経過時間の取得
 	uint32_t GetElapsedTime() { return timer_.elapsed; }

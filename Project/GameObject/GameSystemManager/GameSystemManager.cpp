@@ -1,5 +1,6 @@
 #include "GameSystemManager.h"
 #include "GameObjectLists.h"
+#include "Audio/Audio.h"
 #include <cassert>
 
 float GameSystemManager::sDeltaTime = 1.0f / 60.0f;
@@ -37,6 +38,8 @@ void GameSystemManager::Initialize(Player* player, Enemy* enemy)
 
 	// クリア時の数リセット
 	sClearPartCount = 0;
+
+	alertSE_ = Audio::GetInstance()->SoundLoadWave("Music/fanfare.wav");
 }
 
 void GameSystemManager::Update(bool isTutorial)
@@ -113,6 +116,7 @@ void GameSystemManager::CSVActionControll()
 		if (actionManager_->actionContainer_[actionNow_].time + 2 == timer_.elapsed) {
 			attackDirection_->SetColor({ 1.0f,1.0f,1.0f,1.0f });
 			attackDirection_->StartAfterImage();
+			Audio::GetInstance()->SoundPlayWave(alertSE_);
 		}
 	}
 	// 画像の方向設定

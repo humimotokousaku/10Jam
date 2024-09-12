@@ -41,12 +41,13 @@ void HeadPart::Update()
 	ApplyGlobalVariables();
 
 	// 落下処理
-	if (!isGround_) {
+	velocity_.y -= (4.5f * GameSystemManager::sDeltaTime);
+	/*if (!isGround_) {
 		velocity_.y -= (4.5f * GameSystemManager::sDeltaTime);
 	}
 	else {
 		velocity_.y = 0.0f;
-	}
+	}*/
 
 	// 速度を更新（加速度を考慮）
 	velocity_ = PlayerContext::PhysicsSystem::ApplyX_ZFriction(velocity_, physics_);

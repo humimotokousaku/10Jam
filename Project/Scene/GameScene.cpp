@@ -57,9 +57,16 @@ void GameScene::Initialize() {
 	tutorial_->Initialize();
 	tutorial_->SetPlayer(player_.get());
 	tutorial_->Start();
+
+	// 警告
+	attackAlert_ = std::make_unique<AttackAlert>();
+	attackAlert_->Initialize();
 }
 
 void GameScene::Update() {
+	if (Input::GetInstance()->TriggerKey(DIK_1)) {
+		attackAlert_->Start();
+	}
 #ifdef _DEBUG
 	// ゲームのシステム
 	ImGui::Begin("GameSystem");
@@ -116,6 +123,8 @@ void GameScene::Update() {
 	// 当たり判定
 	collisionManager_->CheckAllCollisions();
 
+
+	attackAlert_->Update();
 }
 
 void GameScene::Draw() {

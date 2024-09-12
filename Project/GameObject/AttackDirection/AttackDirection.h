@@ -2,6 +2,7 @@
 #include "Object3d.h"
 #include "Plane.h"
 #include "PostEffectManager.h"
+#include "Animation.h"
 
 class AttackDirection {
 public:
@@ -23,11 +24,18 @@ public:
 #pragma region Setter
 	// 矢印の方向ベクトルを設定
 	void SetArrowDirection(Vector3 dirVel) { dirVel_ = dirVel; }
-	void SetColor(const Vector4& color) { arrow_->SetColor(color); }
+	void SetColor(const Vector4& color) { arrow_[0]->SetColor(color); }
 	// 矢印の描画開始
 	void Start() { isStart_ = true; }
 	// 矢印の描画終了
 	void End() { isStart_ = false; }
+	// 矢印の残像を表示する
+	void StartAfterImage() { 
+		// アニメーションの更新
+		for (int i = 0; i < afterImageAnim_.size(); i++) {
+			afterImageAnim_[i].SetIsStart(true);
+		}
+	}
 #pragma endregion
 
 #pragma region Getter
@@ -49,13 +57,15 @@ private:
 	Camera* camera_;
 
 	// 矢印のスプライト
-	//std::unique_ptr<Object3D> arrow_;
-	std::unique_ptr<Plane> arrow_;
+	std::array<std::unique_ptr<Plane>, 2> arrow_;
 
 	// 使用するモデル
 	Model* model_;
 	// 矢印のテクスチャ番号
 	uint32_t arrowTex_;
+
+	// 残像用のアニメーション
+	std::array<Animation, 2> afterImageAnim_;
 
 	// 方向ベクトル
 	Vector3 dirVel_;

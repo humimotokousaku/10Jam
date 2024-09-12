@@ -57,8 +57,8 @@ public:
 	void SetOBB(OBB obb) { obb_ = obb; }
 	void SetOBBCenterPos(Vector3 centerPos) { obb_.m_Pos = centerPos; }
 	void SetOBBDirect(int index) { 
-		Vector3 rotateResult = TransformNormal(obb_.m_NormaDirect[index], MakeRotateMatrix(GetRotation()));
-		obb_.m_NormaDirect[index] = Normalize(rotateResult);
+		Matrix4x4 rotate = MakeRotateMatrix(GetRotation());
+		obb_.m_NormaDirect[index] = { rotate.m[index][0], rotate.m[index][1], rotate.m[index][2] };
 	}
 	void SetOBBLength(const Vector3& length = {1.0f,1.0f,1.0f}) { obb_.m_fLength = length; }
 

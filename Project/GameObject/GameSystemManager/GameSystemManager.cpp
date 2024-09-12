@@ -26,7 +26,9 @@ void GameSystemManager::Initialize(Player* player, Enemy* enemy)
 	// 経過時間
 	gameTimer_.Initialize();
 	gameTimer_.SetDrawTime(GetElapsedTime());
-
+	// 警告
+	attackAlert_ = std::make_unique<AttackAlert>();
+	attackAlert_->Initialize();
 	// 外部の行動データ
 	actionManager_ = std::make_unique<ActionManager>();
 	actionManager_->LoadActionData();
@@ -62,6 +64,8 @@ void GameSystemManager::Update(bool isTutorial)
 
 	// 攻撃方向表示
 	attackDirection_->Update();
+	// アラートの更新
+	attackAlert_->Update();
 
 	// CSVのデータを使ったアクション処理
 	CSVActionControll();
@@ -114,6 +118,14 @@ void GameSystemManager::CSVActionControll()
 		}
 		Action(actionManager_->actionContainer_[actionNow_].direct, actionManager_->actionContainer_[actionNow_].power);
 		actionNow_++;
+	}
+	else if (timer_.elapsed == 28) {
+		// 一度行っているなら早期
+		if (timer_.isAction) {
+			return;
+		}
+		attackAlert_->Start();
+		timer_.isAction = true;
 	}
 	// その番号の時間と一致していなければフラグリセット
 	else {

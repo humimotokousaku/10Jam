@@ -67,8 +67,6 @@ private: // USER
 	std::unique_ptr<GameSystemManager> gameSystemManager_;
 	// チュートリアル
 	std::unique_ptr<Tutorial> tutorial_;
-	// 警告
-	std::unique_ptr<AttackAlert> attackAlert_;
 
 	// 追従カメラの見ている座標
 	WorldTransform cameraTargetPoint_;

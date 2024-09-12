@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <memory>
 #include "../AttackDirection/AttackDirection.h"
+#include "../AttackAlert/AttackAlert.h"
 #include "GameTimer/GameTimer.h"
 #include "ActionManager.h"
 
@@ -44,6 +45,13 @@ private: // ゲームの管理
 	bool isGameOver_ = false;
 	// 停止
 	bool isGameStop_ = false;
+private: // システムクラス
+	// 攻撃方向の表示
+	std::unique_ptr<AttackDirection> attackDirection_;
+	// 行動マネージャー
+	std::unique_ptr<ActionManager> actionManager_;
+	// 警告
+	std::unique_ptr<AttackAlert> attackAlert_;
 
 private:
 	// ポインタ
@@ -55,10 +63,6 @@ private:
 	float actionPower_ = 0.15f;
 	// 現在のインデックス
 	int32_t actionNow_ = 0;
-	// 攻撃方向の表示
-	std::unique_ptr<AttackDirection> attackDirection_;
-	// 行動マネージャー
-	std::unique_ptr<ActionManager> actionManager_;
 	// ゲームのタイム
 	GameTimer gameTimer_;
 private: // 時間関係

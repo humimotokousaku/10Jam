@@ -61,14 +61,11 @@ void GameScene::Initialize() {
 	tutorial_->SetPlayer(player_.get());
 	tutorial_->Start();
 
-	// 警告
-	attackAlert_ = std::make_unique<AttackAlert>();
-	attackAlert_->Initialize();
 }
 
 void GameScene::Update() {
 	if (Input::GetInstance()->TriggerKey(DIK_1)) {
-		attackAlert_->Start();
+
 	}
 #ifdef _DEBUG
 	// ゲームのシステム
@@ -131,7 +128,6 @@ void GameScene::Update() {
 	player_->SolveConstraints();
 
 
-	attackAlert_->Update();
 }
 
 void GameScene::Draw() {

@@ -35,10 +35,10 @@ public:
 	void End() { isStart_ = false; }
 	// 矢印の残像を表示する
 	void StartAfterImage() { 
-		// アニメーションの更新
-		for (int i = 0; i < afterImageAnim_.size(); i++) {
-			afterImageAnim_[i].SetIsStart(true);
-		}
+		isPulsation_ = true;
+		// 伸縮アニメーション開始
+		afterImageAnim_[2].SetIsStart(true);
+		afterImageAnim_[3].SetIsStart(true);
 	}
 #pragma endregion
 
@@ -69,11 +69,19 @@ private:
 	uint32_t arrowTex_;
 
 	// 残像用のアニメーション
-	std::array<Animation, 2> afterImageAnim_;
+	std::array<Animation, 4> afterImageAnim_;
 
 	// 方向ベクトル
 	Vector3 dirVel_;
 
 	// 矢印の表示開始
 	bool isStart_;
+	// 残像表示開始
+	bool isAfterImage_ = false;
+	bool isPulsation_ = false;
+
+	// 伸縮する回数
+	int pulsationCount_;
+
+	int currentFrame_;
 };

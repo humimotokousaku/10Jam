@@ -25,12 +25,24 @@ void PlayerContext::ReactionManager::PushAction(const Vector3& direct, float pow
 {
 	Vector3 moveDirect = Normalize(direct);
 	moveDirect *= power;
-	partManager_->partsIt_ = partManager_->parts_.begin();
-	if (partManager_->partsIt_ != partManager_->parts_.end()) {
-		if ((*partManager_->partsIt_)->GetTag() == "Head") {
-			return;
+
+	for (std::vector<std::unique_ptr<IPart>>::iterator it = partManager_->parts_.begin();
+		it != partManager_->parts_.end(); ++it) {
+		if ((*it)->IsTerrain()) {
+			if ((*it)->GetTag() == "Head") {
+				continue;
+			}
+			(*it)->velocity_ += moveDirect;
+			(*it)->object3D_->worldTransform.translate += moveDirect;
 		}
-		(*partManager_->partsIt_)->velocity_ += moveDirect;
-		(*partManager_->partsIt_)->object3D_->worldTransform.translate += moveDirect;
 	}
+
+	//partManager_->partsIt_ = partManager_->parts_.begin();
+	//if (partManager_->partsIt_ != partManager_->parts_.end()) {
+	//	if ((*partManager_->partsIt_)->GetTag() == "Head") {
+	//		return;
+	//	}
+	//	(*partManager_->partsIt_)->velocity_ += moveDirect;
+	//	(*partManager_->partsIt_)->object3D_->worldTransform.translate += moveDirect;
+	//}
 }

@@ -26,6 +26,7 @@ public:
 	void Update();
 	void Draw();
 	void Object3DSetting(Camera* camera, Model* model);
+	void ApplyGlobalVariables();
 private:
 	//
 	std::unique_ptr<Object3D> object3D_;

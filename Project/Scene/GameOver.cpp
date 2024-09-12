@@ -41,6 +41,7 @@ void GameOver::Update() {
 
 	if (buttonAnim_[1].GetIsEnd()) {
 		SceneTransition::GetInstance()->Start();
+		preSceneNum = GAMEOVER_SCENE;
 	}
 	if (SceneTransition::GetInstance()->GetSceneTransitionSignal()) {
 		sceneNum = TITLE_SCENE;

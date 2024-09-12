@@ -6,11 +6,12 @@
 void PlayerContext::PartManager::Initialize(Player* player)
 {
 	player_ = player;
-
+#ifdef _DEBUG
 	GlobalVariables* global = GlobalVariables::GetInstance();
 	global->CreateGroup("InputInfo");
 	global->AddItem("InputInfo", "InputRatio", 0.1f);
 	global->AddItem("InputInfo", "IndexAddValue", 0.1f);
+#endif // _DEBUG
 
 }
 
@@ -127,7 +128,11 @@ void PlayerContext::PartManager::AddDaruma(DarumaPattern pattern)
 	case PlayerContext::DarumaPattern::kL2M2H:
 		AddParts<LightPart>(Vector3(0.0f, float(index) * 3.0f, 0.0f));
 		index++;
+		//AddParts<LightPart>(Vector3(0.0f, float(index) * 3.0f, 0.0f));
+		//index++;
 		AddParts<MediumPart>(Vector3(0.0f, float(index) * 3.0f, 0.0f));
+		index++;
+		AddParts<HeavyPart>(Vector3(0.0f, float(index) * 3.0f, 0.0f));
 		index++;
 		AddParts<HeavyPart>(Vector3(0.0f, float(index) * 3.0f, 0.0f));
 		break;

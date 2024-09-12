@@ -57,7 +57,11 @@ public: // アクセッサ
 public: // ゲッター
 	WorldTransform* GetWorldTransform() { return &object3D_->worldTransform; }
 	FootCollider* GetFootCollider() { return footCollider_.get(); }
+	// 全てのオブジェクトへの接地
 	bool IsGround() { return isGround_; }
+	// 地形への接地
+	bool IsTerrain() { return removeStatus_.isTerrain; }
+	// 死亡フラグ
 	bool IsDead() { return isDead_; }
 public: // コライダー
 	// 衝突時に呼ばれる関数
@@ -67,6 +71,8 @@ public: // コライダー
 	Vector3 GetRotation() override { return Vector3(object3D_->worldTransform.rotate); };
 	void OnCollision(Collider* collider) override;
 
+	void SetIsTerrain(bool isTerrain) { removeStatus_.isTerrain = isTerrain; }
+	void SetIsPart(bool isPart) { removeStatus_.isPart = isPart; }
 protected:
 	// 接地フラグ
 	bool isGround_;
@@ -78,6 +84,8 @@ protected:
 	PlayerContext::PhysicsParam physics_;
 	// プレイヤー
 	Player* player_ = nullptr;
+
+	Vector3 collisionScale_{};
 private:
 	// コライダーのマネージャ
 	CollisionManager* collisionManager_;

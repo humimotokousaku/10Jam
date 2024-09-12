@@ -30,6 +30,7 @@ public:
 	int GetSceneNum() { return sceneNum; }
 protected:
 	static int sceneNum;
+	static int preSceneNum;
 	// ブレンダーで読み込むオブジェクト
 	std::vector<Object3D*> levelObjects_;
 	// レールカメラの移動ルートの制御点

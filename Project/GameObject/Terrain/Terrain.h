@@ -10,6 +10,7 @@ public:
 	void Update();
 	void Draw(uint32_t texture);
 	void ImGuiDraw();
+	void ApplyGlobalVariables();
 public:
 	void SetCamera(Camera* camera) { object3D_->SetCamera(camera); }
 	void SetModel(Model* model) { object3D_->SetModel(model); }

@@ -1,4 +1,5 @@
 #include "FootCollider.h"
+#include "GlobalVariables.h"
 #include "../../../GameObjectLists.h"
 
 void FootCollider::OnCollision(Collider* collider)
@@ -9,10 +10,11 @@ void FootCollider::OnCollision(Collider* collider)
 
 	if (collider->GetCollisionAttribute() == kCollisionAttributeTerrain) {
 		part_->SetIsGround(true);
-
+		part_->SetIsTerrain(true);
 	}
 	else if(collider->GetCollisionAttribute() == kCollisionAttributeDarumaPart){
 		part_->SetIsGround(true);
+		part_->SetIsPart(true);
 	}
 }
 
@@ -30,16 +32,21 @@ void FootCollider::Initialize(IPart* part)
 	SetCollisionMask(~kCollisionAttributeDarumaFoot);
 	SetTag(part_->partTag_);
 	SetOBBLength(object3D_->worldTransform.scale);
+
+	// 受け取り
+#ifdef _DEBUG
+	GlobalVariables* global = GlobalVariables::GetInstance();
+	global->CreateGroup("FootCollider");
+	global->AddItem("FootCollider", "ScaleY", object3D_->worldTransform.scale.y);
+#endif // _DEBUG
+
+	ApplyGlobalVariables();
 }
 
 void FootCollider::Update()
 {
+	ApplyGlobalVariables();
 	part_->SetIsGround(false);
-	//if (part_->GetWorldPosition().y <= -25.0f) {
-	//	part_->SetIsGround(true);
-	//}
-
-	//object3D_->worldTransform.scale = GetOBB().m_fLength;
 	object3D_->worldTransform.UpdateMatrix();
 }
 
@@ -52,4 +59,10 @@ void FootCollider::Object3DSetting(Camera* camera, Model* model)
 {
 	object3D_->SetCamera(camera);
 	object3D_->SetModel(model);
+}
+
+void FootCollider::ApplyGlobalVariables()
+{
+	GlobalVariables* global = GlobalVariables::GetInstance();
+	object3D_->worldTransform.scale.y = global->GetFloatValue("FootCollider", "ScaleY");
 }

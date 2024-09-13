@@ -15,6 +15,7 @@ void AttackDirection::Initialize() {
 	SE_[0] = audio_->SoundLoadWave("Music/SE/attack.wav");
 	SE_[1] = audio_->SoundLoadWave("Music/SE/afterImage.wav");
 	SE_[2] = audio_->SoundLoadWave("Music/SE/arrowPulsation.wav");
+	SE_[3] = audio_->SoundLoadWave("Music/SE/damage.wav");
 
 	// 矢印テクスチャの読み込み
 	textureManager_->LoadTexture("Textures", "arrow.png");
@@ -128,14 +129,14 @@ void AttackDirection::Update() {
 
 					afterImageAnim_[0].SetIsStart(true);
 					afterImageAnim_[1].SetIsStart(true);
-					audio_->SoundPlayWave(SE_[1], false, 0.1f);
+					audio_->SoundPlayWave(SE_[1], false, 0.6f);
 				}
 				
 			}
 			// アニメーション開始時に音を鳴らす
 			// elseの影響で処理が1フレ遅れているので1フレの時に鳴らしている
 			else if (currentFrame_ == 1) {
-				audio_->SoundPlayWave(SE_[2], false, 0.4f);
+				audio_->SoundPlayWave(SE_[2], false, 0.8f);
 			}
 		}
 		// アニメーションの更新
@@ -155,7 +156,10 @@ void AttackDirection::Update() {
 
 		// 残像が透明になったら終了
 		if (afterImageAnim_[1].GetIsEnd()) {
-			audio_->SoundPlayWave(SE_[0], false, 0.5f);
+			// 攻撃タイミング音
+			audio_->SoundPlayWave(SE_[0], false, 0.8f);
+			// ダメージ音
+			audio_->SoundPlayWave(SE_[3], false, 0.8f);
 			isAfterImage_ = false;
 			for (int i = 0; i < afterImageAnim_.size(); i++) {
 				afterImageAnim_[i].ResetData();

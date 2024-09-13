@@ -10,6 +10,9 @@ void GameScene::Initialize() {
 	modelManager_ = ModelManager::GetInstance();
 	audio_ = Audio::GetInstance();
 
+	GameSoundManager::GetInstance()->LoadAudio("Game", "Music/game.wav");
+	GameSoundManager::GetInstance()->PlayBGMAudio("Game");
+
 	/// テクスチャの読み込み
 	textureManager_->LoadTexture("", "uvChecker.png");
 	textureManager_->LoadTexture("DefaultTexture", "white.png");
@@ -98,14 +101,17 @@ void GameScene::Update() {
 #endif // _DEBUG
 	if (gameSystemManager_->IsGameEnd()) {
 		// 頭が地面につくとカメラ演出開始
-		if (player_->GetPartManager()->GetDarumaHead()->IsGround() && player_->IsDead()) {
-			followCamera_->GameOverAngle(&player_->GetPartManager()->GetDarumaHead()->object3D_->worldTransform, player_->GetPartManager()->GetDarumaHead()->object3D_->worldTransform.rotate);
+		if (player_->IsDead()) {
+			// 落下で死んだ場合はすぐに遷移
+			if (player_->GetPartManager()->GetDarumaHead()->object3D_->worldTransform.translate.y <= terrain_->GetWorldPosition().y) {
+				SceneTransition::GetInstance()->Start();
+				preSceneNum = GAME_SCENE;
+			}
+			else {
+				followCamera_->GameOverAngle(&player_->GetPartManager()->GetDarumaHead()->object3D_->worldTransform, player_->GetPartManager()->GetDarumaHead()->object3D_->worldTransform.rotate);
+			}
 		}
-		// 落下で死んだ場合はすぐに遷移
-		else {
-			SceneTransition::GetInstance()->Start();
-			preSceneNum = GAME_SCENE;
-		}
+
 		// 死亡時のカメラ演出が終了したら
 		if (!followCamera_->CheckGameOverEffect()) {
 			SceneTransition::GetInstance()->Start();

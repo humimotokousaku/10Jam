@@ -71,7 +71,7 @@ private:
 	uint32_t arrowTex_;
 
 	// SE
-	std::array<uint32_t, 3> SE_;
+	std::array<uint32_t, 4> SE_;
 
 	// 残像用のアニメーション
 	std::array<Animation, 4> afterImageAnim_;

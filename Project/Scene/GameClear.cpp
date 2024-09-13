@@ -5,6 +5,9 @@
 void GameClear::Initialize() {
 	sceneNum = GAMECLEAR_SCENE;
 
+	GameSoundManager::GetInstance()->LoadAudio("Title", "Music/title.wav");
+	GameSoundManager::GetInstance()->PlayBGMAudio("Title");
+
 	// UIのスプライトを作成
 	guideUI_[0] = std::make_unique<Sprite>();
 	guideUI_[0]->Initialize("Models/Skydome", "background.png");
@@ -33,7 +36,7 @@ void GameClear::Initialize() {
 	buttonAnim_[0].SetAnimData(&guideUI_[3]->worldTransform_.scale, Vector3{ 1,1,1 }, Vector3{ 2,2,2 }, 60, "s", Easings::EaseOutExpo);
 	buttonAnim_[1].SetAnimData(guideUI_[3]->GetColorP(), Vector4{ 1,1,1,0.6f }, Vector4{ 1,1,1,0 }, 60, "s1", Easings::EaseOutExpo);
 	// ボタンの拡大と縮小
-	buttonAnim_[2].SetAnimData(&guideUI_[2]->worldTransform_.scale, Vector3{ 1,1,1 }, Vector3{ 0.75f,0.75f,0.75f }, 5, "s", Easings::EaseInOutSine);
+	buttonAnim_[2].SetAnimData(&guideUI_[4]->worldTransform_.scale, Vector3{ 1,1,1 }, Vector3{ 0.75f,0.75f,0.75f }, 5, "s", Easings::EaseInOutSine);
 }
 
 void GameClear::Update() {

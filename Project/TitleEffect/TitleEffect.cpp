@@ -1,12 +1,14 @@
 #include "TitleEffect.h"
 #include "SceneTransition/SceneTransition.h"
 #include "ImGuiManager.h"
+#include "../GameSystemManager/GameSoundManager.h"
 
 void TitleEffect::Initialize() {
 	// インスタンスを取得
 	input_ = Input::GetInstance();
 	modelManager_ = ModelManager::GetInstance();
 	textureManager_ = TextureManager::GetInstance();
+	GameSoundManager::GetInstance()->LoadAudio("Damage", "Music/SE/damage.wav");
 
 #pragma region テクスチャとモデルの読み込み
 	// テクスチャの読み込み
@@ -134,6 +136,7 @@ void TitleEffect::Update() {
 		if (count_ > 0) {
 			// 三回だるまの体を落とす
 			if (currentFrame_ % 30 == 0) {
+				GameSoundManager::GetInstance()->PlaySEAudio("Damage");
 				//gameSystemManager_->Action(5.0f);
 				player_->GetReactionManager()->PushAction({ 1.0f,0.0f,0.0f }, 5.0f);
 				count_--;

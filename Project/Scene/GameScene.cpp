@@ -66,6 +66,10 @@ void GameScene::Initialize() {
 	tutorial_->SetFollowCamera(followCamera_.get());
 	tutorial_->Start();
 
+	GameSoundManager::GetInstance()->LoadAudio("ArrowSE", "Music/fanfare.wav");
+	GameSoundManager::GetInstance()->LoadAudio("ArrowS", "Music/fanfare.wav");
+	GameSoundManager::GetInstance()->LoadAudio("Arrow", "Music/fanfare.wav");
+
 }
 
 void GameScene::Update() {

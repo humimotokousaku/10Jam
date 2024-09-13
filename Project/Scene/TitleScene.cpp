@@ -1,5 +1,6 @@
 #include "TitleScene.h"
 #include "SceneTransition/SceneTransition.h"
+#include "GameSystemManager/GameSoundManager.h"
 
 void TitleScene::Initialize() {
 	sceneNum = TITLE_SCENE;
@@ -9,6 +10,8 @@ void TitleScene::Initialize() {
 	modelManager_ = ModelManager::GetInstance();
 	textureManager_ = TextureManager::GetInstance();
 
+	GameSoundManager::GetInstance()->LoadAudio("Title", "Music/title.wav");
+	GameSoundManager::GetInstance()->PlayBGMAudio("Title");
 	// タイトルの演出
 	titleEffect_.Initialize();
 }

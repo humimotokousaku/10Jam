@@ -16,11 +16,27 @@ public:
 	// 追従対象からのオフセットを計算する
 	Vector3 TargetOffset() const;
 
+	///
+	/// User Method
+	/// 
+
+	/// <summary>
+	/// ゲームオーバ時のカメラ演出
+	/// </summary>
+	void GameOverAngle(const WorldTransform* worldTransform,Vector3 rotate) {
+		isGameOver_ = true;
+		gameOverAngle_ = rotate;
+		camera_->worldTransform_.parent_ = worldTransform;
+	}
+
+#pragma region Setter
 	// 親子関係を設定
 	void SetParent(const WorldTransform* target) {
 		camera_->worldTransform_.parent_ = target;
 	}
+#pragma endregion
 
+#pragma region Getter
 	/// <summary>
 	/// カメラのアドレスを取得
 	/// </summary>
@@ -42,6 +58,7 @@ public:
 		};
 		return result;
 	}
+#pragma endregion
 
 	void RotateReset() {
 		destinationAngle_ = {};
@@ -67,4 +84,7 @@ private:
 	Vector2 tilt_;
 
 	Vector3 offset_ = { 0,0,-70 };
+
+	Vector3 gameOverAngle_;
+	bool isGameOver_;
 };

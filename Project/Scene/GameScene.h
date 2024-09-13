@@ -63,6 +63,8 @@ private: // USER
 	std::unique_ptr<Enemy> enemy_;
 	// 地面
 	std::unique_ptr<Terrain> terrain_;
+	// 天球
+	std::unique_ptr<Object3D> skydome_;
 	// ゲームのシステム
 	std::unique_ptr<GameSystemManager> gameSystemManager_;
 	// チュートリアル

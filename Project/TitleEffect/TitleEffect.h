@@ -42,6 +42,8 @@ private:
 	std::unique_ptr<Enemy> enemy_;
 	// 地面
 	std::unique_ptr<Terrain> terrain_;
+	// 天球
+	std::unique_ptr<Object3D> skydome_;
 	// UI
 	std::array<std::unique_ptr<Sprite>, 3> guideUI_;
 

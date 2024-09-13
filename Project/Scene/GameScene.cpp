@@ -57,6 +57,14 @@ void GameScene::Initialize() {
 	collisionManager_->SetColliderList(terrain_.get());
 	terrain_->SetPosition(Vector3(0.0f, -20.0f, 0.0f));
 
+	// 天球
+	skydome_ = std::make_unique<Object3D>();
+	skydome_->Initialize();
+	skydome_->SetCamera(followCamera_->GetCamera());
+	skydome_->SetModel(modelManager_->FindModel("Models/Skydome", "Skydome.obj"));
+	skydome_->worldTransform.scale = { 300.0f, 300.0f, 300.0f };
+	skydome_->worldTransform.UpdateMatrix();
+
 	gameSystemManager_ = std::make_unique<GameSystemManager>();
 	gameSystemManager_->Initialize(player_.get(), enemy_.get());
 
@@ -135,6 +143,10 @@ void GameScene::Update() {
 	// 地面
 	terrain_->Update();
 
+	// 天球
+	skydome_->worldTransform.rotate.y += 0.001f;
+	skydome_->worldTransform.UpdateMatrix();
+
 	// 当たり判定
 	collisionManager_->CheckAllCollisions();
 
@@ -145,6 +157,8 @@ void GameScene::Update() {
 }
 
 void GameScene::Draw() {
+	// 天球
+	skydome_->Draw();
 	player_->Draw();
 	terrain_->Draw();
 

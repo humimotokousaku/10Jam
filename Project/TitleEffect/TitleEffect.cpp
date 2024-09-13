@@ -12,6 +12,10 @@ void TitleEffect::Initialize() {
 	// テクスチャの読み込み
 	textureManager_->LoadTexture("", "uvChecker.png");
 	textureManager_->LoadTexture("Models/DarumaHead", "DarumaHeadWeak.png");
+	textureManager_->LoadTexture("Models/DarumaBody", "DarumaBodyBlue.png");
+	textureManager_->LoadTexture("Models/DarumaBody", "DarumaBodyYellow.png");
+	textureManager_->LoadTexture("Models/DarumaBody", "DarumaBodyGreen.png");
+	textureManager_->LoadTexture("Models/DarumaBody", "DarumaBodyPurple.png");
 	// テクスチャの番号を取得
 	textureHandle_ = textureManager_->GetSrvIndex("", "uvChecker.png");
 	// 使用するモデルの読み込み

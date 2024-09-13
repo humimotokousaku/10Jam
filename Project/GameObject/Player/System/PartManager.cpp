@@ -11,6 +11,7 @@ void PlayerContext::PartManager::Initialize(Player* player)
 	global->CreateGroup("InputInfo");
 	global->AddItem("InputInfo", "InputRatio", 0.1f);
 	global->AddItem("InputInfo", "IndexAddValue", 0.1f);
+	global->AddItem("InputInfo", "ClampDeadZone", 0.75f);
 #endif // _DEBUG
 
 }
@@ -58,7 +59,22 @@ void PlayerContext::PartManager::InputUpdate()
 		SHORT leftThumbY = input->ApplyDeadzone(joyState.Gamepad.sThumbLY);
 		leftStick.x += (float)leftThumbX / SHRT_MAX;
 		leftStick.y += (float)leftThumbY / SHRT_MAX;
-		leftStick = Normalize(leftStick);
+		float min = GlobalVariables::GetInstance()->GetFloatValue("InputInfo", "ClampDeadZone");
+		if (leftStick.x > 0) {
+			leftStick.x = std::clamp(leftStick.x, min, 1.0f);
+		}
+		else if (leftStick.x < 0) {
+			leftStick.x = std::clamp(leftStick.x, -1.0f, -min);
+		}
+		if (leftStick.y > 0) {
+			leftStick.y = std::clamp(leftStick.y, min, 1.0f);
+		}
+		else if (leftStick.y < 0) {
+			leftStick.y = std::clamp(leftStick.y, -1.0f, -min);
+		}
+		if (leftStick.x != 0.0f && leftStick.y != 0.0f) {
+			leftStick = Normalize(leftStick);
+		}
 	}
 	else {
 		if (input->PressKey(DIK_A)) {
@@ -187,6 +203,32 @@ void PlayerContext::PartManager::ImGuiDraw()
 	if (ImGui::Button("AddHead")) {
 		AddHead(generatePosition_);
 	}
+	Input* input = Input::GetInstance();
+	Vector2 leftStick = {};
+	XINPUT_STATE joyState;
+	if (input->GetJoystickState(0, joyState)) {
+		SHORT leftThumbX = input->ApplyDeadzone(joyState.Gamepad.sThumbLX);
+		SHORT leftThumbY = input->ApplyDeadzone(joyState.Gamepad.sThumbLY);
+		leftStick.x += (float)leftThumbX / SHRT_MAX;
+		leftStick.y += (float)leftThumbY / SHRT_MAX;
+		float min = GlobalVariables::GetInstance()->GetFloatValue("InputInfo", "ClampDeadZone");
+		if (leftStick.x > 0) {
+			leftStick.x = std::clamp(leftStick.x, min, 1.0f);
+		}
+		else if (leftStick.x < 0) {
+			leftStick.x = std::clamp(leftStick.x, -1.0f, -min);
+		}
+		if (leftStick.y > 0) {
+			leftStick.y = std::clamp(leftStick.y, min, 1.0f);
+		}
+		else if (leftStick.y < 0) {
+			leftStick.y = std::clamp(leftStick.y, -1.0f, -min);
+		}
+		if (leftStick.x != 0.0f && leftStick.y != 0.0f) {
+			leftStick = Normalize(leftStick);
+		}
+	}
+	ImGui::DragFloat2("LeftStick", &leftStick.x);
 	if (ImGui::Button("Sort")) {
 		// 昇順に
 		std::sort(parts_.begin(), parts_.end(),

@@ -1,5 +1,6 @@
 {
     "InputInfo": {
+        "ClampDeadZone": 0.5,
         "IndexAddValue": 0.07500000298023224,
         "InputRatio": 0.07500000298023224
     }

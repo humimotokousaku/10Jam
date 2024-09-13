@@ -158,8 +158,8 @@ void IPart::ColliderUpdate()
 {
 	SetOBBCenterPos(GetWorldPosition());
 	collisionScale_ = object3D_->worldTransform.scale;
-	collisionScale_.x *= 0.95f;
-	collisionScale_.z *= 0.95f;
+	collisionScale_.x *= 0.9f;
+	collisionScale_.z *= 0.9f;
 	SetOBBLength(collisionScale_);
 	for (int i = 0; i < 3; i++) {
 		SetOBBDirect(i);

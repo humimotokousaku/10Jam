@@ -38,8 +38,6 @@ void GameSystemManager::Initialize(Player* player, Enemy* enemy)
 
 	// クリア時の数リセット
 	sClearPartCount = 0;
-
-	GameSoundManager::GetInstance()->LoadAudio("ArrowSE", "Music/SE/attack.wav");
 }
 
 void GameSystemManager::Update(bool isTutorial)
@@ -76,6 +74,7 @@ void GameSystemManager::Update(bool isTutorial)
 
 	// CSVのデータを使ったアクション処理
 	CSVActionControll();
+	//GameSoundManager::GetInstance()->LoadAudio("ArrowSE", "Music/fanfare.wav");
 }
 
 void GameSystemManager::ImGuiDraw()
@@ -109,6 +108,7 @@ void GameSystemManager::CSVActionControll()
 {
 	// 配列を超過しないように
 	if (actionNow_ >= actionManager_->actionContainer_.size()) {
+		attackDirection_->SetColor({ 1.0f,1.0f,1.0f,0.0f });
 		return;
 	}
 	else {
@@ -130,6 +130,7 @@ void GameSystemManager::CSVActionControll()
 		Action(actionManager_->actionContainer_[actionNow_].direct, actionManager_->actionContainer_[actionNow_].power);
 		actionNow_++;
 		attackDirection_->SetColor({ 1.0f,1.0f,1.0f,0.75 });
+		//GameSoundManager::GetInstance()->PlayAudio("PushSE");
 	}
 	// 衝撃アラート
 	else if (timer_.elapsed == 25) {
@@ -139,6 +140,7 @@ void GameSystemManager::CSVActionControll()
 		}
 		attackAlert_->Start();
 		timer_.isAction = true;
+		//GameSoundManager::GetInstance()->PlayAudio("AlertSE");
 	}
 	// その番号の時間と一致していなければフラグリセット
 	else {

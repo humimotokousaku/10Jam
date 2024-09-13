@@ -8,7 +8,7 @@ class Terrain : public Collider
 public:
 	void Initialize();
 	void Update();
-	void Draw(uint32_t texture);
+	void Draw();
 	void ImGuiDraw();
 	void ApplyGlobalVariables();
 public:

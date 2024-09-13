@@ -1,8 +1,8 @@
 {
     "HeavyPart": {
-        "FrictionCoeff": 0.42500001192092896,
+        "FrictionCoeff": 0.41999998688697815,
         "Gravity": 9.800000190734863,
-        "Mass": 20.0,
+        "Mass": 18.5,
         "Scale": [
             12.0,
             2.0,

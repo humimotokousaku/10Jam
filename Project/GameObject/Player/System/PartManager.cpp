@@ -12,6 +12,7 @@ void PlayerContext::PartManager::Initialize(Player* player)
 	global->AddItem("InputInfo", "InputRatio", 0.1f);
 	global->AddItem("InputInfo", "IndexAddValue", 0.1f);
 	global->AddItem("InputInfo", "ClampDeadZone", 0.75f);
+	global->AddItem("InputInfo", "HeadDecrement", 0.85f);
 #endif // _DEBUG
 
 }
@@ -102,8 +103,14 @@ void PlayerContext::PartManager::InputUpdate()
 	// 入力による速度の計算
 	for (std::vector<std::unique_ptr<IPart>>::iterator it = parts_.begin(); it != parts_.end(); ++it) {
 		if ((*it)->IsGround()) {
-			(*it)->velocity_.x += leftStick.x * (contIndex);
-			(*it)->velocity_.z += leftStick.y * (contIndex);
+			if ((*it)->GetTag() == "Head") {
+				(*it)->velocity_.x += leftStick.x * (contIndex) * GlobalVariables::GetInstance()->GetFloatValue("InputInfo", "HeadDecrement");
+				(*it)->velocity_.z += leftStick.y * (contIndex) * GlobalVariables::GetInstance()->GetFloatValue("InputInfo", "HeadDecrement");
+			}
+			else {
+				(*it)->velocity_.x += leftStick.x * (contIndex);
+				(*it)->velocity_.z += leftStick.y * (contIndex);
+			}
 		}
 		contIndex += GlobalVariables::GetInstance()->GetFloatValue("InputInfo", "IndexAddValue");;
 	}

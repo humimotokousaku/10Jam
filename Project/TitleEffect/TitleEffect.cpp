@@ -22,6 +22,7 @@ void TitleEffect::Initialize() {
 	modelManager_->LoadModel("Models/SampleBlock", "cube.obj");
 	modelManager_->LoadModel("Models/DarumaHead", "DarumaHead.obj");
 	modelManager_->LoadModel("Models/DarumaBody", "DarumaBody.obj");
+	modelManager_->LoadModel("Models/Floor", "Floor.obj");
 #pragma endregion
 
 	// カメラの作成
@@ -46,7 +47,7 @@ void TitleEffect::Initialize() {
 	terrain_ = std::make_unique<Terrain>();
 	terrain_->Initialize();
 	terrain_->SetCamera(camera_.get());
-	terrain_->SetModel(modelManager_->FindModel("Models/SampleBlock", "cube.obj"));
+	terrain_->SetModel(modelManager_->FindModel("Models/Floor", "Floor.obj"));
 	collisionManager_->SetColliderList(terrain_.get());
 	terrain_->SetPosition(Vector3(0.0f, -20.0f, 0.0f));
 
@@ -140,5 +141,5 @@ void TitleEffect::Draw() {
 	// 自機
 	player_->Draw();
 	// 地面
-	terrain_->Draw(textureHandle_);
+	terrain_->Draw();
 }

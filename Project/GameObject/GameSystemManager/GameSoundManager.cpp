@@ -17,9 +17,6 @@ void GameSoundManager::PlayAudio(std::string tag)
 
 void GameSoundManager::LoadAudio(std::string tag, std::string filePath)
 {
-	if (soundContainer_.find(tag) != soundContainer_.end()) {
-		return;
-	}
 	uint32_t sound = audio_->SoundLoadWave(filePath.c_str());
 	soundContainer_.emplace(tag, sound);
 }

@@ -12,6 +12,7 @@ void GameScene::Initialize() {
 
 	GameSoundManager::GetInstance()->LoadAudio("Game", "Music/game.wav");
 	GameSoundManager::GetInstance()->PlayBGMAudio("Game");
+	GameSoundManager::GetInstance()->LoadAudio("Dead", "Music/SE/deadHead.wav");
 
 	/// テクスチャの読み込み
 	textureManager_->LoadTexture("", "uvChecker.png");
@@ -109,6 +110,10 @@ void GameScene::Update() {
 			}
 			else {
 				followCamera_->GameOverAngle(&player_->GetPartManager()->GetDarumaHead()->object3D_->worldTransform, player_->GetPartManager()->GetDarumaHead()->object3D_->worldTransform.rotate);
+				// 処理の順番で0でできるけど変わったら多分無理
+				if (followCamera_->GetCurrentFrame() == 0) {
+					GameSoundManager::GetInstance()->PlayBGMAudio("Dead");
+				}
 			}
 		}
 

@@ -31,14 +31,6 @@ public:
 		offset_ = { 0,0,-10 };
 	}
 
-#pragma region Setter
-	// 親子関係を設定
-	void SetParent(const WorldTransform* target) {
-		camera_->worldTransform_.parent_ = target;
-	}
-#pragma endregion
-
-#pragma region Getter
 	// ゲームオーバ演出中か
 	bool CheckGameOverEffect() {
 		if (gameOverTime_ <= 60) {
@@ -46,6 +38,12 @@ public:
 		}
 		return false;
 	}
+#pragma region Setter
+	// 親子関係を設定
+	void SetParent(const WorldTransform* target) {
+		camera_->worldTransform_.parent_ = target;
+	}
+#pragma endregion
 
 #pragma region Getter
 	/// <summary>
@@ -69,6 +67,8 @@ public:
 		};
 		return result;
 	}
+
+	int GetCurrentFrame() { return gameOverTime_; }
 #pragma endregion
 
 	void RotateReset() {

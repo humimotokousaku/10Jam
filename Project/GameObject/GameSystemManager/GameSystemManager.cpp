@@ -108,6 +108,7 @@ void GameSystemManager::CSVActionControll()
 {
 	// 配列を超過しないように
 	if (actionNow_ >= actionManager_->actionContainer_.size()) {
+		attackDirection_->SetColor({ 1.0f,1.0f,1.0f,0.0f });
 		return;
 	}
 	else {

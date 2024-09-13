@@ -1,7 +1,7 @@
 {
     "InputInfo": {
         "ClampDeadZone": 0.5,
-        "HeadDecrement": 0.9850000143051147,
+        "HeadDecrement": 0.9549999833106995,
         "IndexAddValue": 0.07500000298023224,
         "InputRatio": 0.07500000298023224
     }

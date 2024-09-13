@@ -47,6 +47,7 @@ void FootCollider::Update()
 {
 	ApplyGlobalVariables();
 	part_->SetIsGround(false);
+	object3D_->worldTransform.scale = Vector3(part_->GetWorldTransform()->scale.x, 0.25f, part_->GetWorldTransform()->scale.z);
 	object3D_->worldTransform.UpdateMatrix();
 }
 

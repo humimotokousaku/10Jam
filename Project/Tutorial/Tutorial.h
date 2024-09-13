@@ -46,12 +46,17 @@ private:// エンジン機能
 	SceneTransition* sceneTransition_;
 	// ポストエフェクト
 	PostEffectManager* postEffectManager_;
+	// 音
+	Audio* audio_;
 
 private:
 	// 文字やコントローラなどのUI
 	std::array<std::unique_ptr<Sprite>, 9> guideUI_;
 	// カウントダウンの数字
 	std::array<std::unique_ptr<Sprite>, 3> countUI_;
+
+	// SE
+	std::array<uint32_t, 2> SE_;
 
 	// カウントダウンの数字アニメーション
 	std::array<Animation, 6> buttonAnim_;

@@ -20,7 +20,7 @@ void GameScene::Initialize() {
 	textureManager_->LoadTexture("Models/DarumaBody", "DarumaBodyPurple.png");
 	// テクスチャの番号を取得
 	textureHandle_ = textureManager_->GetSrvIndex("DefaultTexture", "white.png");
-	
+
 	// モデル読み込み
 	modelManager_->LoadModel("Models/SampleBlock", "cube.obj");
 	modelManager_->LoadModel("Models/DarumaHead", "DarumaHead.obj");
@@ -41,7 +41,7 @@ void GameScene::Initialize() {
 	GlobalVariables* global = GlobalVariables::GetInstance();
 	global->CreateGroup("FollowCamera");
 	global->AddItem("FollowCamera", "OffsetPoint", cameraTargetPoint_.translate);
-	
+
 	// プレイヤー
 	player_ = std::make_unique<Player>();
 	player_->SetCollisionManager(collisionManager_.get());
@@ -66,7 +66,7 @@ void GameScene::Initialize() {
 	skydome_->worldTransform.UpdateMatrix();
 
 	gameSystemManager_ = std::make_unique<GameSystemManager>();
-	gameSystemManager_->Initialize(player_.get(),enemy_.get());
+	gameSystemManager_->Initialize(player_.get(), enemy_.get());
 
 	// チュートリアル
 	tutorial_ = std::make_unique<Tutorial>();

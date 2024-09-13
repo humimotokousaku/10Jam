@@ -3,6 +3,7 @@
 #include "Plane.h"
 #include "PostEffectManager.h"
 #include "Animation.h"
+#include "Audio.h"
 
 class AttackDirection {
 public:
@@ -55,6 +56,7 @@ private:// エンジン機能
 	PostEffectManager* postEffectManager_;
 	ModelManager* modelManager_;
 	TextureManager* textureManager_;
+	Audio* audio_;
 
 private:
 	// カメラ
@@ -67,6 +69,9 @@ private:
 	Model* model_;
 	// 矢印のテクスチャ番号
 	uint32_t arrowTex_;
+
+	// SE
+	std::array<uint32_t, 3> SE_;
 
 	// 残像用のアニメーション
 	std::array<Animation, 4> afterImageAnim_;

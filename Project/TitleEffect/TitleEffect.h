@@ -20,7 +20,7 @@ private:// 定数
 	// 演出時間
 	const int kAllEffectFrame = 120;
 
-private:
+private:// エンジン機能
 	// 入力
 	Input* input_;
 	// モデルの読み込み
@@ -28,6 +28,7 @@ private:
 	// テクスチャの読み込み
 	TextureManager* textureManager_;
 
+private:
 	// テクスチャの番号
 	uint32_t textureHandle_;
 

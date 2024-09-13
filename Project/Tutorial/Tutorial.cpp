@@ -5,6 +5,10 @@ void Tutorial::Initialize() {
 	input_ = Input::GetInstance();
 	sceneTransition_ = SceneTransition::GetInstance();
 	postEffectManager_ = PostEffectManager::GetInstance();
+	audio_ = Audio::GetInstance();
+
+	SE_[0] = audio_->SoundLoadWave("Music/SE/afterImage.wav");
+	SE_[1] = audio_->SoundLoadWave("Music/SE/attack.wav");
 
 #pragma region スプライト
 	// UIのスプライトを作成
@@ -115,9 +119,13 @@ void Tutorial::Update() {
 	if (input_->TriggerKey(DIK_SPACE) || input_->GamePadTrigger(XINPUT_GAMEPAD_A)) {
 		// ゲーム開始できる状態なら遷移開始
 		if (isGameStart_) {
-			sceneTransition_->Start();
-			// カウントダウンのフラグ
-			isCountDown_ = true;
+			if (!isCountDown_) {
+				if (!isEnd_) {
+					sceneTransition_->Start();
+					// カウントダウンのフラグ
+					isCountDown_ = true;
+				}
+			}
 		}
 	}
 
@@ -125,14 +133,17 @@ void Tutorial::Update() {
 	if (currentFrame_ <= 181 && currentFrame_ >= 180) {
 		// ゲーム開始できる状態にする
 		isGameStart_ = true;
-		// ゲーム開始のUIを表示する
-		for (int i = 2; i < guideUI_.size() - 4; i++) {
-			guideUI_[i]->isActive_ = true;
+		if (!isCountDown_) {
+			// ゲーム開始のUIを表示する
+			for (int i = 3; i < 5; i++) {
+				guideUI_[i]->isActive_ = true;
+			}
 		}
 	}
 
 	// 画面暗転時の処理
 	if (sceneTransition_->GetSceneTransitionSignal()) {
+		currentFrame_ = 180;
 		// コントローラのUIを非表示
 		for (int i = 0; i < guideUI_.size(); i++) {
 			guideUI_[i]->isActive_ = false;
@@ -169,6 +180,8 @@ void Tutorial::Update() {
 	if (buttonAnim_[buttonAnim_.size() - 1].GetIsEnd()) {
 		isStart_ = false;
 		isCountDown_ = false;
+		isGameStart_ = false;
+		currentFrame_ = 0;
 		// UIを表示しない
 		for (int i = 0; i < countUI_.size(); i++) {
 			countUI_[i]->isActive_ = false;
@@ -182,10 +195,36 @@ void Tutorial::Update() {
 			startFontAnim_[i].SetIsStart(true);
 		}
 	}
-
 	// 全てのアニメーションが終わっているなら処理しない
 	if (startFontAnim_[2].GetIsEnd()) {
 		isEnd_ = true;
 	}
-	currentFrame_++;
+
+	// カウントダウンの音
+	if (countUI_[0]->isActive_) {
+		// 3
+		if (currentFrame_ == 180) {
+			// SE
+			audio_->SoundPlayWave(SE_[0], false, 0.4f);
+		}
+		// 2
+		if (currentFrame_ == 240) {
+			// SE
+			audio_->SoundPlayWave(SE_[0], false, 0.4f);
+		}
+		// 1
+		if (currentFrame_ == 300) {
+			// SE
+			audio_->SoundPlayWave(SE_[0], false, 0.4f);
+		}
+		// 0
+		if (currentFrame_ == 360) {
+			// SE
+			audio_->SoundPlayWave(SE_[1], false, 0.4f);
+		}
+	}
+
+	if (isStart_) {
+		currentFrame_++;
+	}
 }

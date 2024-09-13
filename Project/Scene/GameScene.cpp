@@ -14,6 +14,10 @@ void GameScene::Initialize() {
 	textureManager_->LoadTexture("", "uvChecker.png");
 	textureManager_->LoadTexture("DefaultTexture", "white.png");
 	textureManager_->LoadTexture("Models/DarumaHead", "DarumaHeadWeak.png");
+	textureManager_->LoadTexture("Models/DarumaBody", "DarumaBodyBlue.png");
+	textureManager_->LoadTexture("Models/DarumaBody", "DarumaBodyYellow.png");
+	textureManager_->LoadTexture("Models/DarumaBody", "DarumaBodyGreen.png");
+	textureManager_->LoadTexture("Models/DarumaBody", "DarumaBodyPurple.png");
 	// テクスチャの番号を取得
 	textureHandle_ = textureManager_->GetSrvIndex("DefaultTexture", "white.png");
 	

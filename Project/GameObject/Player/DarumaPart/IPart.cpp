@@ -1,6 +1,9 @@
 #include "IPart.h"
 #include "GlobalVariables.h"
 
+#include <cstdlib>
+#include <ctime>
+
 uint32_t IPart::sSerialNumber = 0;
 
 IPart::~IPart()
@@ -15,6 +18,33 @@ void IPart::Initialize(CollisionManager* manager)
 	object3D_->Initialize();
 	object3D_->worldTransform.translate = Vector3(0.0f, 0.0f, 0.0f);
 	object3D_->worldTransform.rotate = Vector3(0.0f, 0.0f, 0.0f);
+
+	// ランダムシードを設定
+	std::srand(std::time(0));
+	std::random_device seedGenerator;
+	std::mt19937 randomEngine(seedGenerator());
+
+	// 0から4
+	int random = std::uniform_int_distribution<int32_t>(0, 4)(randomEngine);
+
+	switch (random)
+	{
+	case 0:
+		textureHandle_ = TextureManager::GetInstance()->GetSrvIndex("Models/DarumaBody", "DarumaBodyRed.png");
+		break;
+	case 1:
+		textureHandle_ = TextureManager::GetInstance()->GetSrvIndex("Models/DarumaBody", "DarumaBodyBlue.png");
+		break;
+	case 2:
+		textureHandle_ = TextureManager::GetInstance()->GetSrvIndex("Models/DarumaBody", "DarumaBodyYellow.png");
+		break;
+	case 3:
+		textureHandle_ = TextureManager::GetInstance()->GetSrvIndex("Models/DarumaBody", "DarumaBodyGreen.png");
+		break;
+	case 4:
+		textureHandle_ = TextureManager::GetInstance()->GetSrvIndex("Models/DarumaBody", "DarumaBodyPurple.png");
+		break;
+	}
 
 	collisionManager_ = manager;
 	// コライダー登録

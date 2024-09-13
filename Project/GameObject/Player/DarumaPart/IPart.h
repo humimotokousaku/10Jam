@@ -8,6 +8,7 @@
 #include "Foot/FootCollider.h"
 
 #include <memory>
+#include <random>
 
 class Player;
 
@@ -25,6 +26,7 @@ public:
 public:
 	uint32_t serialNumber_;
 	std::string partTag_;
+	uint32_t textureHandle_;
 public: // 仮想関数
 	// デストラクタ
 	virtual ~IPart();

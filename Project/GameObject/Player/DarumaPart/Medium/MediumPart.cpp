@@ -43,7 +43,7 @@ void MediumPart::Update()
 void MediumPart::Draw()
 {
 	// 描画
-	object3D_->Draw();
+	object3D_->Draw(textureHandle_);
 	footCollider_->Draw();
 }
 

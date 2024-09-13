@@ -10,18 +10,19 @@ void Tutorial::Initialize() {
 	// UIのスプライトを作成
 	guideUI_[0] = std::make_unique<Sprite>();
 	guideUI_[0]->Initialize("Textures/UI", "guide_pad.png");
-	guideUI_[0]->SetPos(Vector2{ (float)WinApp::kClientWidth_ / 2,(float)WinApp::kClientHeight_ / 4 + 32.0f });
+	guideUI_[0]->SetPos(Vector2{ (float)WinApp::kClientWidth_ / 3,(float)WinApp::kClientHeight_ / 4 + 32.0f });
 	guideUI_[0]->SetSize(guideUI_[0]->GetSize() * 2);
 	guideUI_[1] = std::make_unique<Sprite>();
 	guideUI_[1]->Initialize("Textures/UI", "guide_move.png");
-	guideUI_[1]->SetPos(Vector2{ (float)WinApp::kClientWidth_ / 2,(float)WinApp::kClientHeight_ / 4 });
+	guideUI_[1]->SetPos(Vector2{ (float)WinApp::kClientWidth_ / 3,(float)WinApp::kClientHeight_ / 4 });
+
 	guideUI_[2] = std::make_unique<Sprite>();
 	guideUI_[2]->Initialize("Textures/UI", "guide_moveGuide.png");
 	guideUI_[2]->SetPos(Vector2{ (float)WinApp::kClientWidth_ / 2,(float)WinApp::kClientHeight_ / 6 });
 
 	guideUI_[3] = std::make_unique<Sprite>();
 	guideUI_[3]->Initialize("Textures/UI", "guide_gameStart.png");
-	guideUI_[3]->SetPos(Vector2{ (float)WinApp::kClientWidth_ - (guideUI_[3]->GetSize().x / 2 + 32.0f),(float)WinApp::kClientHeight_ - 64.0f});
+	guideUI_[3]->SetPos(Vector2{ (float)WinApp::kClientWidth_ - (guideUI_[3]->GetSize().x / 2 + 32.0f),(float)WinApp::kClientHeight_ - 64.0f });
 	guideUI_[3]->isActive_ = false;
 	guideUI_[4] = std::make_unique<Sprite>();
 	guideUI_[4]->Initialize("Textures/UI", "guide_pad_A.png");
@@ -38,6 +39,15 @@ void Tutorial::Initialize() {
 	guideUI_[6]->Initialize("Textures/UI", "guide_start.png");
 	guideUI_[6]->SetPos(Vector2{ (float)WinApp::kClientWidth_ / 2,(float)WinApp::kClientHeight_ / 4 });
 	guideUI_[6]->isActive_ = false;
+
+	guideUI_[7] = std::make_unique<Sprite>();
+	guideUI_[7]->Initialize("Textures/UI", "guide_pad_camera.png");
+	guideUI_[7]->SetPos(Vector2{ (float)WinApp::kClientWidth_ / 3 * 2,(float)WinApp::kClientHeight_ / 4 + 32.0f });
+	guideUI_[7]->SetSize(guideUI_[7]->GetSize() * 2);
+	guideUI_[8] = std::make_unique<Sprite>();
+	guideUI_[8]->Initialize("Textures/UI", "guide_camera.png");
+	guideUI_[8]->SetPos(Vector2{ (float)WinApp::kClientWidth_ / 3 * 2,(float)WinApp::kClientHeight_ / 4 });
+
 	for (int i = 0; i < guideUI_.size(); i++) {
 		// ポストエフェクトを使用しない
 		postEffectManager_->AddSpriteList(guideUI_[i].get());
@@ -116,7 +126,7 @@ void Tutorial::Update() {
 		// ゲーム開始できる状態にする
 		isGameStart_ = true;
 		// ゲーム開始のUIを表示する
-		for (int i = 2; i < guideUI_.size() - 2; i++) {
+		for (int i = 2; i < guideUI_.size() - 4; i++) {
 			guideUI_[i]->isActive_ = true;
 		}
 	}
@@ -174,7 +184,7 @@ void Tutorial::Update() {
 	}
 
 	// 全てのアニメーションが終わっているなら処理しない
-	if (startFontAnim_[2].GetIsEnd()) { 
+	if (startFontAnim_[2].GetIsEnd()) {
 		isEnd_ = true;
 	}
 	currentFrame_++;

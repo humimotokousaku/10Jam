@@ -83,15 +83,26 @@ void GameScene::Update() {
 #endif // _DEBUG
 
 	// シーンの切り替え処理
-
 #ifdef _DEBUG
 	if (Input::GetInstance()->TriggerKey(DIK_RETURN)) {
 		sceneNum = TITLE_SCENE;
 	}
 #endif // _DEBUG
 	if (gameSystemManager_->IsGameEnd()) {
-		SceneTransition::GetInstance()->Start();
-		preSceneNum = GAME_SCENE;
+		// 頭が地面につくとカメラ演出開始
+		if (player_->GetPartManager()->GetDarumaHead()->IsGround() && player_->IsDead()) {
+			followCamera_->GameOverAngle(&player_->GetPartManager()->GetDarumaHead()->object3D_->worldTransform, player_->GetPartManager()->GetDarumaHead()->object3D_->worldTransform.rotate);
+		}
+		// 落下で死んだ場合はすぐに遷移
+		else {
+			SceneTransition::GetInstance()->Start();
+			preSceneNum = GAME_SCENE;
+		}
+		// 死亡時のカメラ演出が終了したら
+		if (!followCamera_->CheckGameOverEffect()) {
+			SceneTransition::GetInstance()->Start();
+			preSceneNum = GAME_SCENE;
+		}
 	}
 	if (SceneTransition::GetInstance()->GetSceneTransitionSignal()) {
 		if (!tutorial_->GetIsStart()) {
@@ -100,7 +111,6 @@ void GameScene::Update() {
 				GameSystemManager::sClearPartCount = player_->GetPartManager()->parts_.size() - 1;
 			}
 			else if (gameSystemManager_->IsGameOver()) {
-				followCamera_->GameOverAngle(player_->)
 				sceneNum = GAMEOVER_SCENE;
 			}
 		}

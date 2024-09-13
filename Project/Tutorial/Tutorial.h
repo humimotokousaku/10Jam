@@ -49,7 +49,7 @@ private:// エンジン機能
 
 private:
 	// 文字やコントローラなどのUI
-	std::array<std::unique_ptr<Sprite>, 7> guideUI_;
+	std::array<std::unique_ptr<Sprite>, 9> guideUI_;
 	// カウントダウンの数字
 	std::array<std::unique_ptr<Sprite>, 3> countUI_;
 

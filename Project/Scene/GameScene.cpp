@@ -35,7 +35,7 @@ void GameScene::Initialize() {
 
 	followCamera_->SetParent(&cameraTargetPoint_);
 	cameraTargetPoint_.translate = GlobalVariables::GetInstance()->GetVector3Value("FollowCamera", "OffsetPoint");
-	cameraTargetPoint_.translate = { 0,0,10 };
+	cameraTargetPoint_.translate = { 0,0,0 };
 	cameraTargetPoint_.UpdateMatrix();
 
 	GlobalVariables* global = GlobalVariables::GetInstance();
@@ -66,17 +66,9 @@ void GameScene::Initialize() {
 	tutorial_->SetPlayer(player_.get());
 	tutorial_->SetFollowCamera(followCamera_.get());
 	tutorial_->Start();
-
-	GameSoundManager::GetInstance()->LoadAudio("ArrowSE", "Music/fanfare.wav");
-	GameSoundManager::GetInstance()->LoadAudio("ArrowS", "Music/fanfare.wav");
-	GameSoundManager::GetInstance()->LoadAudio("Arrow", "Music/fanfare.wav");
-
 }
 
 void GameScene::Update() {
-	if (Input::GetInstance()->TriggerKey(DIK_1)) {
-
-	}
 #ifdef _DEBUG
 	// ゲームのシステム
 	ImGui::Begin("GameSystem");
@@ -108,6 +100,7 @@ void GameScene::Update() {
 				GameSystemManager::sClearPartCount = player_->GetPartManager()->parts_.size() - 1;
 			}
 			else if (gameSystemManager_->IsGameOver()) {
+				followCamera_->GameOverAngle(player_->)
 				sceneNum = GAMEOVER_SCENE;
 			}
 		}

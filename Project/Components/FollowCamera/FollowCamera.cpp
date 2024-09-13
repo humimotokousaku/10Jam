@@ -7,6 +7,8 @@ void FollowCamera::Initialize() {
 	camera_ = std::make_unique<Camera>();
 	camera_->Initialize();
 	tilt_ = { 0,0 };
+	gameOverAngle_ = { 0,0,0 };
+	isGameOver_ = false;
 }
 
 void FollowCamera::Update() {

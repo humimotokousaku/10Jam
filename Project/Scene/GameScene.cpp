@@ -128,7 +128,7 @@ void GameScene::Update() {
 
 	// 追従カメラ
 	cameraTargetPoint_.UpdateMatrix();
-	followCamera_->Update();
+	followCamera_->Update(tutorial_->IsCountDown());
 	// プレイヤー
 	player_->Update(tutorial_->IsCountDown());
 

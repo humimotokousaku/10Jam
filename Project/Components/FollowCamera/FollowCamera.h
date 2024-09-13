@@ -11,7 +11,7 @@ public:
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	void Update();
+	void Update(bool isCountDown);
 
 	// 追従対象からのオフセットを計算する
 	Vector3 TargetOffset() const;

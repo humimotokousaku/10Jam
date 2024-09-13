@@ -12,18 +12,20 @@ void FollowCamera::Initialize() {
 	gameOverTime_ = 0;
 }
 
-void FollowCamera::Update() {
+void FollowCamera::Update(bool isCountDown) {
 	Vector2 rightStick{};
 	XINPUT_STATE joyState{};
 	Vector2 rot{};
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-		SHORT rightThumbX = Input::GetInstance()->ApplyDeadzone(joyState.Gamepad.sThumbRX);
-		SHORT rightThumbY = Input::GetInstance()->ApplyDeadzone(joyState.Gamepad.sThumbRY);
-		rightStick.x -= (float)rightThumbY / SHRT_MAX;
-		rightStick.y += (float)rightThumbX / SHRT_MAX;
-		rightStick = Normalize(rightStick) * 0.8f;
-		rot.x += rightStick.y * 0.05f;
-		rot.y += rightStick.x * 0.05f;
+		if (!isCountDown) {
+			SHORT rightThumbX = Input::GetInstance()->ApplyDeadzone(joyState.Gamepad.sThumbRX);
+			SHORT rightThumbY = Input::GetInstance()->ApplyDeadzone(joyState.Gamepad.sThumbRY);
+			rightStick.x -= (float)rightThumbY / SHRT_MAX;
+			rightStick.y += (float)rightThumbX / SHRT_MAX;
+			rightStick = Normalize(rightStick) * 0.8f;
+			rot.x += rightStick.y * 0.05f;
+			rot.y += rightStick.x * 0.05f;
+		}
 	}
 	else {
 		if (Input::GetInstance()->PressKey(DIK_RIGHT)) {

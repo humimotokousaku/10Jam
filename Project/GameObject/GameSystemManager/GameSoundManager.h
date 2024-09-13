@@ -12,12 +12,17 @@ public:
 	}
 	GameSoundManager();
 	~GameSoundManager() = default;
-	void PlayAudio(std::string tag);
+	void PlaySEAudio(std::string tag);
+	void PlayBGMAudio(std::string tag);
+	void StopAudio(std::string tag);
 	void LoadAudio(std::string tag, std::string filePath);
+
+public:
+	static float sBGMVolume;
+	static float sSEVolume;
 
 private:
 	Audio* audio_ = nullptr;
-
 	std::unordered_map<std::string, uint32_t> soundContainer_;
 
 };

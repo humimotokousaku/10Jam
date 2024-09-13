@@ -92,6 +92,7 @@ void GameScene::Update() {
 		if (!tutorial_->GetIsStart()) {
 			if (gameSystemManager_->IsGameClear()) {
 				sceneNum = GAMECLEAR_SCENE;
+				GameSystemManager::sClearPartCount = player_->GetPartManager()->parts_.size() - 1;
 			}
 			else if (gameSystemManager_->IsGameOver()) {
 				followCamera_->GameOverAngle(player_->)

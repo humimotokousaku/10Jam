@@ -1,6 +1,7 @@
 #pragma once
 #include "Framework.h"
 #include "SceneTransition/SceneTransition.h"
+#include "../GameSystemManager/GameSoundManager.h"
 
 class GameManager : public Framework
 {	
@@ -43,5 +44,6 @@ private:
 	int preSceneNum_;
 
 	SceneTransition* sceneTransition_;
+	std::unique_ptr<GameSoundManager> gameSoundManager_;
 };
 

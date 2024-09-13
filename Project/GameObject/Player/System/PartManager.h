@@ -40,6 +40,8 @@ namespace PlayerContext
 		void AddDaruma(DarumaPattern pattern);
 		void ListClear();
 
+		IPart* GetDarumaHead();
+
 		std::vector<std::unique_ptr<IPart>>::iterator partsIt_;
 		std::vector<std::unique_ptr<IPart>> parts_;
 

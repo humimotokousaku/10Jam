@@ -198,6 +198,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" </Command>
     <ClCompile Include="Engine\Components\Model\ModelStructs.cpp" />
     <ClCompile Include="engine\Components\WorldTransform.cpp" />
     <ClCompile Include="Project\GameObject\GameSystemManager\ActionManager.cpp" />
+    <ClCompile Include="Project\GameObject\GameSystemManager\GameSoundManager.cpp" />
     <ClCompile Include="Project\GameObject\GameSystemManager\GameSystemManager.cpp" />
     <ClCompile Include="Project\GameObject\Player\DarumaPart\Foot\FootCollider.cpp" />
     <ClCompile Include="Project\GameObject\Player\DarumaPart\Head\HeadPart.cpp" />
@@ -297,6 +298,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" </Command>
     <ClInclude Include="Project\GameObject\Enemy\Enemy.h" />
     <ClInclude Include="Project\GameObject\GameObjectLists.h" />
     <ClInclude Include="Project\GameObject\GameSystemManager\ActionManager.h" />
+    <ClInclude Include="Project\GameObject\GameSystemManager\GameSoundManager.h" />
     <ClInclude Include="Project\GameObject\GameSystemManager\GameSystemManager.h" />
     <ClInclude Include="Project\GameObject\Player\DarumaPart\Foot\FootCollider.h" />
     <ClInclude Include="Project\GameObject\Player\DarumaPart\Head\HeadPart.h" />

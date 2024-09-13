@@ -1,8 +1,10 @@
 #include "GameSystemManager.h"
 #include "GameObjectLists.h"
+#include "GameSoundManager.h"
 #include <cassert>
 
 float GameSystemManager::sDeltaTime = 1.0f / 60.0f;
+int GameSystemManager::sClearPartCount = 0;
 
 void GameSystemManager::Initialize(Player* player, Enemy* enemy)
 {
@@ -33,6 +35,11 @@ void GameSystemManager::Initialize(Player* player, Enemy* enemy)
 	actionManager_ = std::make_unique<ActionManager>();
 	actionManager_->LoadActionData();
 	attackDirection_->SetArrowDirection(actionManager_->actionContainer_[0].direct);
+
+	// クリア時の数リセット
+	sClearPartCount = 0;
+
+	GameSoundManager::GetInstance()->LoadAudio("ArrowSE", "Music/fanfare.wav");
 }
 
 void GameSystemManager::Update(bool isTutorial)
@@ -109,6 +116,7 @@ void GameSystemManager::CSVActionControll()
 		if (actionManager_->actionContainer_[actionNow_].time + 2 == timer_.elapsed) {
 			attackDirection_->SetColor({ 1.0f,1.0f,1.0f,1.0f });
 			attackDirection_->StartAfterImage();
+			//GameSoundManager::GetInstance()->PlayAudio("ArrowSE");
 		}
 	}
 	// 画像の方向設定

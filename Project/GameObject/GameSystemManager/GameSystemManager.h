@@ -13,7 +13,8 @@ class GameSystemManager
 {
 public:
 	static float sDeltaTime;
-
+	// クリア時の数
+	static int sClearPartCount;
 public:
 	// 初期化
 	void Initialize(Player* player, Enemy* enemy);
@@ -28,7 +29,6 @@ public:
 private:
 	// CSVのやつ
 	void CSVActionControll();
-
 public:
 	// 経過時間の取得
 	uint32_t GetElapsedTime() { return timer_.elapsed; }

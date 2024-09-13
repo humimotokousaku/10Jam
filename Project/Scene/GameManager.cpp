@@ -22,6 +22,8 @@ void GameManager::Initialize() {
 
 	sceneTransition_ = SceneTransition::GetInstance();
 	sceneTransition_->Initialize();
+
+	gameSoundManager_ = std::make_unique<GameSoundManager>();
 }
 
 void GameManager::Update() {

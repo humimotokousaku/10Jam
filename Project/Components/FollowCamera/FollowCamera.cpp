@@ -9,6 +9,7 @@ void FollowCamera::Initialize() {
 	tilt_ = { 0,0 };
 	gameOverAngle_ = { 0,0,0 };
 	isGameOver_ = false;
+	gameOverTime_ = 0;
 }
 
 void FollowCamera::Update() {
@@ -64,6 +65,10 @@ void FollowCamera::Update() {
 
 	// カメラの更新
 	camera_->Update();
+
+	if (isGameOver_) {
+		gameOverTime_++;
+	}
 
 #ifdef _DEBUG
 	ImGui::Begin("FollowCamera");

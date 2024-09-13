@@ -17,13 +17,13 @@ void HeadPart::Initialize(CollisionManager* manager)
 	std::string groupName = "HeadPart";
 
 #ifdef _DEBUG
+
+#endif // _DEBUG
 	GlobalVariables* global = GlobalVariables::GetInstance();
 	global->CreateGroup(groupName);
 	Vector3 value = { 2.5f,2.5f,2.5f };
 	global->AddItem(groupName, "Scale", value);
 	global->AddItem(groupName, "SpeedThreshold", 0.005f);
-#endif // _DEBUG
-
 	object3D_->worldTransform.scale = global->GetVector3Value(groupName, "Scale");
 	SetOBBLength(object3D_->worldTransform.scale);
 	SetTag(partTag_);
@@ -87,7 +87,7 @@ void HeadPart::Update()
 void HeadPart::Draw()
 {
 	// 描画
-	if (object3D_->worldTransform.rotate.z != 0.0f || object3D_->worldTransform.rotate.x != 0.0f) {
+	if (object3D_->worldTransform.rotate.z != 0.0f || object3D_->worldTransform.rotate.x != 0.0f || player_->IsDead()) {
 		object3D_->Draw(texture_[1]);
 	}
 	else {

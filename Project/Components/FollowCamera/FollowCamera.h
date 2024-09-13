@@ -23,10 +23,12 @@ public:
 	/// <summary>
 	/// ゲームオーバ時のカメラ演出
 	/// </summary>
-	void GameOverAngle(const WorldTransform* worldTransform,Vector3 rotate) {
+	void GameOverAngle(const WorldTransform* worldTransform, Vector3 rotate) {
 		isGameOver_ = true;
 		gameOverAngle_ = rotate;
+		destinationAngle_ = Vector2{ gameOverAngle_.x * 2, gameOverAngle_.y * 2 };
 		camera_->worldTransform_.parent_ = worldTransform;
+		offset_ = { 0,0,-10 };
 	}
 
 #pragma region Setter
@@ -37,6 +39,14 @@ public:
 #pragma endregion
 
 #pragma region Getter
+	// ゲームオーバ演出中か
+	bool CheckGameOverEffect() {
+		if (gameOverTime_ <= 60) {
+			return true;
+		}
+		return false;
+	}
+
 	/// <summary>
 	/// カメラのアドレスを取得
 	/// </summary>
@@ -86,5 +96,6 @@ private:
 	Vector3 offset_ = { 0,0,-70 };
 
 	Vector3 gameOverAngle_;
+	int gameOverTime_;
 	bool isGameOver_;
 };

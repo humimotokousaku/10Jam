@@ -23,6 +23,7 @@ void TitleEffect::Initialize() {
 	modelManager_->LoadModel("Models/DarumaHead", "DarumaHead.obj");
 	modelManager_->LoadModel("Models/DarumaBody", "DarumaBody.obj");
 	modelManager_->LoadModel("Models/Floor", "Floor.obj");
+	modelManager_->LoadModel("Models/Skydome", "Skydome.obj");
 #pragma endregion
 
 	// カメラの作成
@@ -50,6 +51,14 @@ void TitleEffect::Initialize() {
 	terrain_->SetModel(modelManager_->FindModel("Models/Floor", "Floor.obj"));
 	collisionManager_->SetColliderList(terrain_.get());
 	terrain_->SetPosition(Vector3(0.0f, -20.0f, 0.0f));
+
+	// 天球
+	skydome_ = std::make_unique<Object3D>();
+	skydome_->Initialize();
+	skydome_->SetCamera(camera_.get());
+	skydome_->SetModel(modelManager_->FindModel("Models/Skydome", "Skydome.obj"));
+	skydome_->worldTransform.scale = { 100.0f, 100.0f, 100.0f };
+	skydome_->worldTransform.UpdateMatrix();
 
 	// UIのスプライトを作成
 	guideUI_[0] = std::make_unique<Sprite>();
@@ -107,6 +116,10 @@ void TitleEffect::Update() {
 	// 地面
 	terrain_->Update();
 
+	// 天球
+	skydome_->worldTransform.rotate.y += 0.001f;
+	skydome_->worldTransform.UpdateMatrix();
+
 	// カメラ
 	camera_->Update();
 
@@ -138,6 +151,8 @@ void TitleEffect::Update() {
 }
 
 void TitleEffect::Draw() {
+	// 天球
+	skydome_->Draw();
 	// 自機
 	player_->Draw();
 	// 地面

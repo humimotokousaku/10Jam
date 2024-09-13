@@ -47,6 +47,7 @@ public:
 		return false;
 	}
 
+#pragma region Getter
 	/// <summary>
 	/// カメラのアドレスを取得
 	/// </summary>

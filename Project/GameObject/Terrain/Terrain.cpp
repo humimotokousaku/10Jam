@@ -29,9 +29,9 @@ void Terrain::Update()
 	object3D_->worldTransform.UpdateMatrix();
 }
 
-void Terrain::Draw(uint32_t texture)
+void Terrain::Draw()
 {
-	object3D_->Draw(texture);
+	object3D_->Draw();
 }
 
 void Terrain::ImGuiDraw()

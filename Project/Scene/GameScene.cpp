@@ -25,6 +25,7 @@ void GameScene::Initialize() {
 	modelManager_->LoadModel("Models/SampleBlock", "cube.obj");
 	modelManager_->LoadModel("Models/DarumaHead", "DarumaHead.obj");
 	modelManager_->LoadModel("Models/DarumaBody", "DarumaBody.obj");
+	modelManager_->LoadModel("Models/Floor", "Floor.obj");
 	collisionManager_ = std::make_unique<CollisionManager>();
 
 	// 追従カメラ
@@ -52,7 +53,7 @@ void GameScene::Initialize() {
 	terrain_ = std::make_unique<Terrain>();
 	terrain_->Initialize();
 	terrain_->SetCamera(followCamera_->GetCamera());
-	terrain_->SetModel(modelManager_->FindModel("Models/SampleBlock", "cube.obj"));
+	terrain_->SetModel(modelManager_->FindModel("Models/Floor", "Floor.obj"));
 	collisionManager_->SetColliderList(terrain_.get());
 	terrain_->SetPosition(Vector3(0.0f, -20.0f, 0.0f));
 
@@ -142,7 +143,7 @@ void GameScene::Update() {
 
 void GameScene::Draw() {
 	player_->Draw();
-	terrain_->Draw(textureHandle_);
+	terrain_->Draw();
 
 	gameSystemManager_->Draw();
 }

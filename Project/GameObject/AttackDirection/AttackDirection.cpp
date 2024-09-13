@@ -10,6 +10,11 @@ void AttackDirection::Initialize() {
 	postEffectManager_ = PostEffectManager::GetInstance();
 	modelManager_ = ModelManager::GetInstance();
 	textureManager_ = TextureManager::GetInstance();
+	audio_ = Audio::GetInstance();
+
+	SE_[0] = audio_->SoundLoadWave("Music/SE/attack.wav");
+	SE_[1] = audio_->SoundLoadWave("Music/SE/afterImage.wav");
+	SE_[2] = audio_->SoundLoadWave("Music/SE/arrowPulsation.wav");
 
 	// 矢印テクスチャの読み込み
 	textureManager_->LoadTexture("Textures", "arrow.png");
@@ -34,9 +39,9 @@ void AttackDirection::Initialize() {
 	}
 
 	// 大きさ
-	afterImageAnim_[0].SetAnimData(&arrow_[1]->worldTransform.scale, Vector3{ 1,1,1 }, Vector3{ 1.5f,0.0f,1.5f }, 60, "s", Easings::EaseOutExpo);
+	afterImageAnim_[0].SetAnimData(&arrow_[1]->worldTransform.scale, Vector3{ 1,1,1 }, Vector3{ 1.5f,0.0f,1.5f }, 30, "s", Easings::EaseOutExpo);
 	// 透明度
-	afterImageAnim_[1].SetAnimData(arrow_[1]->GetColorP(), Vector4{ 1,1,1,1 }, Vector4{ 1.0f,1.0f,1.0f, 0.0f }, 60, "s", Easings::EaseOutExpo);
+	afterImageAnim_[1].SetAnimData(arrow_[1]->GetColorP(), Vector4{ 1,1,1,1 }, Vector4{ 1.0f,1.0f,1.0f, 0.0f }, 30, "s", Easings::EaseOutExpo);
 
 	// 30フレームごとに伸縮する
 	afterImageAnim_[2].SetAnimData(&arrow_[0]->worldTransform.scale, Vector3{ 1,1,1 }, Vector3{ 0.85f,0.0f,0.85f }, 5, "s", Easings::EaseInOutSine);
@@ -103,7 +108,7 @@ void AttackDirection::Update() {
 	worldTransform_.UpdateMatrix();
 
 #pragma region 3回伸縮する
-	if (isPulsation_) {	
+	if (isPulsation_) {
 		if (pulsationCount_ < 4) {
 			if (currentFrame_ >= 30) {
 				afterImageAnim_[2].ResetData();
@@ -123,10 +128,16 @@ void AttackDirection::Update() {
 
 					afterImageAnim_[0].SetIsStart(true);
 					afterImageAnim_[1].SetIsStart(true);
+					audio_->SoundPlayWave(SE_[1], false, 0.1f);
 				}
+				
+			}
+			// アニメーション開始時に音を鳴らす
+			// elseの影響で処理が1フレ遅れているので1フレの時に鳴らしている
+			else if (currentFrame_ == 1) {
+				audio_->SoundPlayWave(SE_[2], false, 0.4f);
 			}
 		}
-
 		// アニメーションの更新
 		for (int i = 2; i < afterImageAnim_.size(); i++) {
 			afterImageAnim_[i].Update();
@@ -144,6 +155,7 @@ void AttackDirection::Update() {
 
 		// 残像が透明になったら終了
 		if (afterImageAnim_[1].GetIsEnd()) {
+			audio_->SoundPlayWave(SE_[0], false, 0.5f);
 			isAfterImage_ = false;
 			for (int i = 0; i < afterImageAnim_.size(); i++) {
 				afterImageAnim_[i].ResetData();

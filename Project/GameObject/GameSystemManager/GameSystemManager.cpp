@@ -39,7 +39,7 @@ void GameSystemManager::Initialize(Player* player, Enemy* enemy)
 	// クリア時の数リセット
 	sClearPartCount = 0;
 
-	GameSoundManager::GetInstance()->LoadAudio("ArrowSE", "Music/fanfare.wav");
+	GameSoundManager::GetInstance()->LoadAudio("ArrowSE", "Music/SE/attack.wav");
 }
 
 void GameSystemManager::Update(bool isTutorial)
